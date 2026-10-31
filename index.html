@@ -523,7 +523,7 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 3.1 — tap to see update history">v3.1 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 3.2 — tap to see update history">v3.2 <span class="vdot">· Updates</span></button>
 
     <button id="settingsBtn" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
@@ -556,8 +556,9 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v3.1</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v3.2</b></p>
         <ul class="logList">
+          <li><span class="vtag">v3.2</span><span class="vtext"><b>Every knight looks different, every round.</b> Each time you face a knight — tournament or Practice, champion or not — he rides in a freshly rolled look: new shield colours and sigil, lance and pennon, caparison, horse coat, plume and banner colours, never the same two rounds in a row. His name, stats and ★ CHAMPION ★ marking are unchanged, and a LAN friend still wears his real gear.</span></li>
           <li><span class="vtag">v3.1</span><span class="vtext"><b>Knights and champions are now truly random.</b> The regular knights are shuffled for every new run, so each round's knights differ run to run — and there is no fixed champion order any more: every round's ★ CHAMPION ★ is drawn fresh from the champions you have not faced yet, so the fifth round is a surprise every time. Old saves are updated too — champions you already beat stay beaten, and everything still to come is randomised.</span></li>
           <li><span class="vtag major">v3.0</span><span class="vtext"><b>Major: the great graphics update.</b> A ⚙ Settings button in the top corner — on the title screen and mid-match — opens Graphics: Low, Medium and High that truly change the shadows, rendering resolution, crowd, scenery and light, plus a frame-rate slider — 30, 60 or 120 FPS, genuinely capped. Both apply at once and save on your device.</span></li>
           <li><span class="vtag">v2.11</span><span class="vtext"><b>Round 4 no longer ends the tournament — and champions now shuffle.</b> Beating any round's champion now carries you into the next round, all the way through the 60 knights; only the very last champion ends the tournament. And at the start of every run the ten champions are shuffled among the round-end fights — a different champion each time, never twice in one run, still marked ★ CHAMPION ★.</span></li>
@@ -955,6 +956,93 @@
     function newRunRandomise(){
       shuffleRegulars();
       resetChampionDraws();
+    }
+
+    /* ================= RANDOM LOOKS (v3.2) =================
+       v3.1 randomised WHICH knight you face; the knight himself
+       still rode in the colours written beside his name in the
+       roster, so he LOOKED the same every round. v3.2 fixes the
+       looks themselves: every time a knight is faced — every
+       tournament match intro and every Practice entry, regular or
+       ★ CHAMPION ★ — he is dressed in a freshly rolled look:
+       armour/surcoat and shield colours with a random sigil and
+       shield pattern, lance bands and pennon, caparison colours,
+       horse coat, helmet plume and the banner/flag colours flown
+       at his end of the lists. The roll is guaranteed different
+       from the previous facing's look (new main colour AND new
+       horse coat, and never the same full combination twice in a
+       row), drawn from wide palettes below. Only the paint moves:
+       name, title, stats, intro and the champ flag always stay
+       with the knight himself. The look is session-only — it is
+       never written into the save, so no saved look can carry
+       over and make a later round look the same — and within one
+       facing (intro, cinematic, every pass, remounts) it stays
+       exactly as rolled. LAN is untouched: a friend still rides
+       in his real gear (mountLanFoe), never a rolled look. */
+    var LOOK_MAINS = [0x8c2f26,0x274a73,0x3d6b35,0xc78f2a,0x5b3a8c,0x1f6f6b,0xc25e1e,0xb04a6b,0x1c1c20,0xd8d3c3,0x7a1f1f,0x232c4e,0x687f3c,0x9c352a,0x31456e,0x571209,0x2e6b34,0x8a9a5b,0x7fa8c9,0x14343e,0x704214,0xd9a441,0x4a2c5a,0x33506e,0xe8a020,0x17573a,0x6d1a12,0x5a6ea6,0x9c6b1e,0x2a4a2e];
+    var LOOK_ACCENTS = [0xd9a441,0xd8d3c3,0xe8dcc0,0xffffff,0x1c1c20,0x8c2f26,0x274a73,0xf2e3ac,0xc9cfda,0x7a1f1f,0xe8a020,0x3d6b35,0xb08d57,0xf0e6da,0x571209,0x2e2a26];
+    var LOOK_HORSES = [0x6b4a2f,0x1f1c1a,0x8a8d90,0xe3ddcf,0x4a3423,0x9a958c,0x7a4a26,0x5a4632,0x2e2a26,0xcbb489,0x8a7a5c,0x3c3226,0x74522f,0x6e6258,0xa0522d,0x4c351d];
+    var LOOK_PLUMES = [0xd9a441,0xe8e4da,0x8c2f26,0xe8a020,0xffffff,0x7fae4c,0xb04a6b,0x274a73,0xc8452f,0xf2e3ac,0x5b3a8c,0x1f6f6b,0x232c4e,0x3d6b35];
+    var LOOK_SIGILS = ['⚜','☀','☾','♜','♞','♟','★','✦','♦','♥','♠','♣','⚔','✚','❖','♛'];
+    var foeLook = null;      // the current facing's rolled look (paint fields only)
+    var foeLookIdx = -1;     // the foe slot foeLook was rolled for
+    var lastLookMain = -1, lastLookHorse = -1, lastLookSig = '';
+    function lookPick(arr, not){
+      var v = arr[(Math.random()*arr.length)|0], guard = 0;
+      while(not != null && v === not && guard++ < 40) v = arr[(Math.random()*arr.length)|0];
+      return v;
+    }
+    function makeRandomLook(){
+      var main = lookPick(LOOK_MAINS, lastLookMain);
+      var accent = lookPick(LOOK_ACCENTS, main);
+      var horse = lookPick(LOOK_HORSES, lastLookHorse);
+      var plume = lookPick(LOOK_PLUMES, main);
+      var swap = Math.random() < 0.4; // some knights ride cloth-first in their accent
+      return {
+        main: main, accent: accent, plume: plume, horse: horse,
+        letter: LOOK_SIGILS[(Math.random()*LOOK_SIGILS.length)|0],
+        pattern: (Math.random()*4)|0,
+        shieldMain: main, shieldAccent: accent,
+        capMain: swap ? accent : main, capAccent: swap ? main : accent,
+        lanceA: main, lanceB: accent, lancePen: lookPick(LOOK_PLUMES, main), lancePlain: false,
+        bannerMain: main, bannerAccent: accent
+      };
+    }
+    function lookSigOf(L){ return L.main + '|' + L.accent + '|' + L.horse + '|' + L.plume + '|' + L.letter + '|' + L.pattern + '|' + L.capMain; }
+    // Roll a fresh look for the foe in slot idx — called at every
+    // new facing (matchIntro, startPractice), never mid-match.
+    function rollFoeLook(idx){
+      if(!FOES[idx]) return null;
+      var look = makeRandomLook(), guard = 0;
+      while(guard++ < 30 && lookSigOf(look) === lastLookSig) look = makeRandomLook();
+      foeLook = look; foeLookIdx = idx;
+      lastLookMain = look.main; lastLookHorse = look.horse; lastLookSig = lookSigOf(look);
+      return look;
+    }
+    // The knight in slot idx wearing his current rolled look: his
+    // own name/title/stats/champ with the look's paint laid over.
+    // Rolls one on first sight of a slot, so no knight is ever
+    // mounted in his roster colours.
+    function effectiveFoe(idx){
+      var base = FOES[idx];
+      if(!base) return base;
+      if(foeLookIdx !== idx || !foeLook) rollFoeLook(idx);
+      var out = {}, k;
+      for(k in base) out[k] = base[k];
+      for(k in foeLook) out[k] = foeLook[k];
+      return out;
+    }
+    // His banner/flag colours fly at his end of the lists: the two
+    // pennant flags at the far end (z = -66) are repainted in the
+    // current look's banner colours (a LAN friend's fly his real
+    // house colours instead — see mountLanFoe).
+    function repaintFoeFlags(a, b){
+      if(typeof wavingFlags === 'undefined' || !wavingFlags) return;
+      for(var i = 0; i < wavingFlags.length; i++){
+        var f = wavingFlags[i];
+        if(f.parent && f.parent.position && f.parent.position.z === -66 && f.material && f.material.color)
+          f.material.color.setHex(f.parent.position.x < 0 ? a : b);
+      }
     }
     var MAX_PASSES = 5;
 
@@ -1546,11 +1634,18 @@
     MAT.sand.map = canvasTex(function(g,w,h){ g.fillStyle='#c9ab72'; g.fillRect(0,0,w,h); for(var i=0;i<2000;i++){ g.fillStyle='rgba('+(140+Math.random()*70|0)+','+(110+Math.random()*50|0)+','+(60+Math.random()*30|0)+',0.45)'; g.fillRect(Math.random()*w, Math.random()*h, 2, 2);} }, 256, 256);
     MAT.sand.map.wrapS = MAT.sand.map.wrapT = THREE.RepeatWrapping; MAT.sand.map.repeat.set(3, 40);
 
-    function heraldryTex(main, accent, letter){
+    function heraldryTex(main, accent, letter, pattern){
       function hex(n){ return '#'+('000000'+n.toString(16)).slice(-6); }
       return canvasTex(function(g,w,h){
         g.fillStyle=hex(main); g.fillRect(0,0,w,h);
-        g.fillStyle=hex(accent); g.fillRect(0, h*0.40, w, h*0.20);
+        g.fillStyle=hex(accent);
+        // Shield pattern (v3.2): a foe's rolled look picks one of
+        // four charges; the player's own shield keeps pattern 0,
+        // the band it has always borne.
+        if(pattern === 1){ g.fillRect(w*0.36, 0, w*0.28, h); }
+        else if(pattern === 2){ g.beginPath(); g.moveTo(0, h); g.lineTo(w, 0); g.lineTo(w, h*0.34); g.lineTo(0, h); g.closePath(); g.fill(); }
+        else if(pattern === 3){ g.fillRect(0, h*0.40, w, h*0.20); g.fillRect(w*0.38, 0, w*0.24, h); }
+        else { g.fillRect(0, h*0.40, w, h*0.20); }
         g.fillStyle='rgba(255,255,255,0.92)'; g.font='900 '+(w*0.44)+'px Georgia, serif';
         g.textAlign='center'; g.textBaseline='middle'; g.fillText(letter, w/2, h*0.30);
         g.strokeStyle='rgba(0,0,0,0.35)'; g.lineWidth=6; g.strokeRect(0,0,w,h);
@@ -2747,7 +2842,7 @@
       shShape.bezierCurveTo(-0.24, -0.12, -0.28, 0.10, -0.28, 0.39);
       var shieldBody = shadowed(new THREE.Mesh(new THREE.ExtrudeGeometry(shShape, { depth:0.045, bevelEnabled:true, bevelThickness:0.012, bevelSize:0.012, bevelSegments:1, curveSegments:10 }), steelD));
       shieldBody.rotation.y = Math.PI/2; shieldG2.add(shieldBody);
-      var shieldTexF = heraldryTex(shMain, shAccent, foe.letter || foe.name.replace('SIR ','').replace('THE ','').charAt(0));
+      var shieldTexF = heraldryTex(shMain, shAccent, foe.letter || foe.name.replace('SIR ','').replace('THE ','').charAt(0), foe.pattern || 0);
       shieldTexF.repeat.set(1/0.56, 1/0.78); shieldTexF.offset.set(0.5, 0.5);
       var shieldFace = new THREE.Mesh(new THREE.ShapeGeometry(shShape, 10), new THREE.MeshStandardMaterial({ map: shieldTexF, roughness:0.6 }));
       shieldFace.rotation.y = Math.PI/2; shieldFace.position.x = 0.059; shieldG2.add(shieldFace);
@@ -2810,9 +2905,13 @@
     var foeGroup = null;
     function mountFoe(idx){
       if(foeGroup){ scene.remove(foeGroup); }
-      foeGroup = buildKnight(FOES[idx]);
+      // v3.2: he is built wearing this facing's rolled look, never
+      // his fixed roster colours — intro, cinematic and match all
+      // build from this one mount, so they all show the same look.
+      foeGroup = buildKnight(effectiveFoe(idx));
       foeGroup.position.set(-1.8, 0, G.foeZ);
       scene.add(foeGroup);
+      if(foeLook) repaintFoeFlags(foeLook.bannerMain, foeLook.bannerAccent);
     }
 
     /* ---------- your knight, for the pre-match cinematic ----------
@@ -2996,7 +3095,7 @@
     var el = {};
     ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '3.1';
+    var CURRENT_VERSION = '3.2';
     function openLog(){ el.logWrap.classList.remove('hidden'); refreshPill(); }
     function closeLog(){ el.logWrap.classList.add('hidden'); refreshPill(); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
@@ -3507,7 +3606,7 @@
     el.joystick.addEventListener('contextmenu', function(e){ e.preventDefault(); });
 
     /* ================= GAME FLOW ================= */
-    function foeLetter(foe){ return foe.name.replace('SIR ','').replace('THE ','').charAt(0); }
+    function foeLetter(foe){ return foe.letter || foe.name.replace('SIR ','').replace('THE ','').charAt(0); }
     /* ---------- house picker (v1.17, one-page grid v2.5) ----------
        Shown on first entry, before the title card, and again from the
        title screen's CHANGE HOUSE button. All six premade houses fit
@@ -3733,7 +3832,8 @@
        tournament exactly where it was. */
     function startPractice(){
       if(drawChampionFor(G.foeIndex)) saveProgress();
-      var foe = FOES[G.foeIndex];
+      rollFoeLook(G.foeIndex); // v3.2: a fresh look for this Practice facing
+      var foe = effectiveFoe(G.foeIndex);
       G.practice = true;
       G.pass = 1; G.youScore = 0; G.foeScore = 0; G.youLances = 0; G.foeLances = 0;
       G.playerDown = false; G.foeDown = false; G.result = null;
@@ -3746,7 +3846,7 @@
       showCard(
         '<div class="kick">PRACTICE · NO STAKES</div>' +
         (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
-        '<div class="herald' + (foe.champ ? ' champHerald' : '') + '" style="background:#' + ('000000'+foe.main.toString(16)).slice(-6) + '"><span>' + foeLetter(foe) + '</span></div>' +
+        '<div class="herald' + (foe.champ ? ' champHerald' : '') + '" style="background:linear-gradient(180deg,' + hexCss(foe.main) + ' 0 58%,' + hexCss(foe.accent) + ' 58% 100%)"><span>' + foeLetter(foe) + '</span></div>' +
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
         '<p>Unlimited passes to work on your aim — same lance, same shield, same scoring: shield 1 · breast 2 · helm 3. Winning a pass pays 5 coin; no Renown, no ladder bonus, no tournament progress, and an unhorsing either way just means fresh lances for the next pass.</p>' +
         '<p class="small">Leave any time with END PRACTICE at the top right, or after any pass.</p>' +
@@ -3851,6 +3951,11 @@
       // v3.1: a round-end champion is drawn at the moment he is
       // reached — never dealt in advance for the whole run.
       if(drawChampionFor(G.foeIndex)) saveProgress();
+      // v3.2: and whoever was drawn is dressed in a fresh random
+      // look for this facing — rolled before the mount and the
+      // cinematic, so intro card, cinematic, HUD and the 3D knight
+      // in the match all wear the same new colours.
+      rollFoeLook(G.foeIndex);
       // Rotate: each new match moves on to the next arena in turn. The
       // first match after picking Rotate keeps the arena already on
       // show, so the order always starts at Classic Day.
@@ -3866,11 +3971,11 @@
       startCinematic(function(){ showMatchCard(); });
     }
     function showMatchCard(){
-      var foe = FOES[G.foeIndex];
+      var foe = effectiveFoe(G.foeIndex);
       showCard(
         '<div class="kick">' + ladderLabel(G.foeIndex).toUpperCase() + '</div>' +
         (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
-        '<div class="herald' + (foe.champ ? ' champHerald' : '') + '" style="background:#' + ('000000'+foe.main.toString(16)).slice(-6) + '"><span>' + foeLetter(foe) + '</span></div>' +
+        '<div class="herald' + (foe.champ ? ' champHerald' : '') + '" style="background:linear-gradient(180deg,' + hexCss(foe.main) + ' 0 58%,' + hexCss(foe.accent) + ' 58% 100%)"><span>' + foeLetter(foe) + '</span></div>' +
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
         (foe.champ ? '<p class="champNote">This is a <b>CHAMPION</b> — the last knight of Round ' + roundNo(G.foeIndex) + '. You beat four knights to reach him; beat him to clear the round. Champions ride faster, aim truer and hit harder than any knight before them.</p>' : '') +
         '<div class="foeLine">You ride for <b style="color:#ffe9a8">' + currentHouse().name + '</b> — ' + currentHouse().colName + ', sigil: ' + currentHouse().sigilName + '.</div>' +
@@ -5058,6 +5163,9 @@
       scene.add(foeGroup);
       if(foeGroup.userData.glow){ foeGroup.userData.glow.visible = true; if(foeGroup.userData.glow.material) foeGroup.userData.glow.material.opacity = 1; }
       if(foeGroup.userData.tipMark) foeGroup.userData.tipMark.visible = true;
+      // His end-of-lists flags fly his real house colours (v3.2) —
+      // a LAN friend is never dressed in a rolled look.
+      repaintFoeFlags(H.a, H.b);
       lanMountedGearSig = lanGearSig(gear);
       lanShowOppBanner();
     }
