@@ -273,15 +273,19 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 1.3 — tap to see update history">v1.3 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 1.7 — tap to see update history">v1.7 <span class="vdot">· Updates</span></button>
 
     <div id="logWrap" class="hidden" role="dialog" aria-modal="true" aria-labelledby="logTitle">
       <div class="card" id="logBox">
         <div style="font-family:'Palatino Linotype', Palatino, Georgia, serif;letter-spacing:.26em;font-size:12px;color:#cbbd97;text-align:center;">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v1.3</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v1.7</b></p>
         <ul class="logList">
+          <li><span class="vtag">v1.7</span><span class="vtext"><b>Horse's face widened.</b> The muzzle, cheeks and jaw are now full and properly proportioned — no more thin, pinched face — with eyes, nostrils and mouth spaced on the wider face, and the bridle, noseband and chanfron refitted to match.</span></li>
+          <li><span class="vtag">v1.6</span><span class="vtext"><b>Horse's head &amp; hips rebuilt.</b> The head is now one long tapered skull — defined cheeks and jaw, almond eyes, flared nostrils and a mouth line — with bridle and chanfron shaped to fit it, and the hips flow from the croup into real thigh muscle, so the hindquarters look right from the side and rear.</span></li>
+          <li><span class="vtag">v1.5</span><span class="vtext"><b>Horse body rebuilt.</b> The torso is now one shaped barrel — defined withers, a level back, a deep chest, a tucked belly and a sloping croup flowing into the hindquarters — no more sphere or box bulges from the side or rear.</span></li>
+          <li><span class="vtag">v1.4</span><span class="vtext"><b>Cinematic shows your real gear.</b> Your knight in the pre-match cinematic now carries the lance and shield you actually have equipped — bought lance colours on the shaft and pennon, plain wood for the Ashwood, and your own shield with its G.</span></li>
           <li><span class="vtag">v1.3</span><span class="vtext"><b>Caparison, leg &amp; app icon fixed.</b> The horse's side cloth is now one clean house colour with gold trim, matching your shield. The knight's armoured leg hangs properly down the flank — thigh, bent knee, shin and foot in the stirrup. And the knight-on-horseback icon now shows when you add the game to your Home Screen.</span></li>
           <li><span class="vtag">v1.2</span><span class="vtext"><b>Realistic knight &amp; horse.</b> The knight and horse are rebuilt with natural proportions from every side — shaped body and hindquarters, jointed legs, a flowing tail, full plate armour, a domed helm with a feather crest and a shaped heater shield — and the cinematic camera orbits wider, so the whole rider fits the frame.</span></li>
           <li><span class="vtag">v1.1</span><span class="vtext"><b>Progress saves.</b> Your coin purse, Renown trophies, every lance and shield you own, the ones you ride with, and your place in the tournament are now kept on this device. Close the game and reopen it — everything is right where you left it, and you return facing the knight you were up against.</span></li>
@@ -701,14 +705,69 @@
       var coat = M(colorHex, 0.72);
       var coatDark = M(new THREE.Color(colorHex).multiplyScalar(0.7).getHex(), 0.82);
       var dark = M(0x241a12, 0.9);
-      // Barrel, chest and croup: three blended volumes — deep at the
-      // chest, fullest mid-barrel, rounded (not bulging) over the
-      // hindquarters, so the body reads as a horse from the side, from
-      // the front and from directly behind.
-      var body = ell(0.46, 0.50, 0.95, coat, 24, 18); body.position.set(0, 1.45, -0.02); horse.add(body);
-      var chest = ell(0.42, 0.47, 0.44, coat); chest.position.set(0, 1.42, 0.72); horse.add(chest);
-      var croup = ell(0.40, 0.42, 0.44, coat); croup.position.set(0, 1.46, -0.70); horse.add(croup);
-      var belly = ell(0.42, 0.44, 0.80, coat); belly.position.set(0, 1.34, -0.05); horse.add(belly);
+      // Torso: ONE lofted barrel, built ring by ring along the spine.
+      // Each station fixes the back line (topY), the belly line (botY)
+      // and the half-width independently, so the shape carries a real
+      // horse's topline — a rise at the withers, a level back a rider
+      // can sit on, then a croup that slopes away and rounds into the
+      // hindquarters and the tail — over a deep chest and a belly that
+      // tucks up toward the hind flank. Length runs a touch over the
+      // height at the withers, as a war horse should. (The old torso
+      // was four overlapping spheres: the croup sphere read as a round
+      // balloon bulge from the side and rear, and the barrel sphere
+      // had no withers, no level back and no tuck at all.)
+      var TORSO = [
+        // [z, topY, botY, halfWidth] — rear to front
+        [-1.16, 1.50, 1.40, 0.05], [-1.10, 1.66, 1.20, 0.30],
+        [-1.00, 1.73, 1.09, 0.40], [-0.84, 1.80, 1.03, 0.435],
+        [-0.64, 1.85, 0.99, 0.450], [-0.40, 1.87, 0.95, 0.462],
+        [-0.12, 1.88, 0.93, 0.470], [ 0.16, 1.89, 0.92, 0.465],
+        [ 0.40, 1.91, 0.89, 0.452], [ 0.58, 1.95, 0.86, 0.435],
+        [ 0.74, 1.92, 0.86, 0.415], [ 0.90, 1.84, 0.92, 0.375],
+        [ 1.02, 1.73, 1.03, 0.300], [ 1.10, 1.60, 1.21, 0.160],
+        [ 1.14, 1.52, 1.38, 0.05]
+      ];
+      function torsoSection(z){
+        function sec(s){ return { cy:(s[1]+s[2])/2, ry:(s[1]-s[2])/2, hw:s[3] }; }
+        if(z <= TORSO[0][0]) return sec(TORSO[0]);
+        for(var ti=1; ti<TORSO.length; ti++){
+          if(z <= TORSO[ti][0]){
+            var a = TORSO[ti-1], b = TORSO[ti], f = (z - a[0]) / (b[0] - a[0]);
+            var top = a[1]+(b[1]-a[1])*f, bot = a[2]+(b[2]-a[2])*f;
+            return { cy:(top+bot)/2, ry:(top-bot)/2, hw:a[3]+(b[3]-a[3])*f };
+          }
+        }
+        return sec(TORSO[TORSO.length-1]);
+      }
+      function spow(v, p){ return (v < 0 ? -1 : 1) * Math.pow(Math.abs(v), p); }
+      var body = (function(){
+        var NA = 24, pos = [], idx = [];
+        for(var si=0; si<TORSO.length; si++){
+          var st = TORSO[si], cy = (st[1]+st[2])/2, ry = (st[1]-st[2])/2;
+          for(var ia=0; ia<NA; ia++){
+            var a = ia/NA * Math.PI*2;
+            // super-ellipse section: flatter across the back, fuller
+            // through the ribs — a barrel, not a round tube
+            pos.push(st[3] * spow(Math.sin(a), 0.9), cy + ry * spow(Math.cos(a), 0.8), st[0]);
+          }
+        }
+        for(var sj=0; sj<TORSO.length-1; sj++) for(var aj=0; aj<NA; aj++){
+          var r0 = sj*NA+aj, r1 = r0+NA, aN = (aj+1)%NA;
+          idx.push(r0, r1, sj*NA+aN, r1, (sj+1)*NA+aN, sj*NA+aN);
+        }
+        // end poles close the barrel at the dock and the chest
+        var rearC = pos.length/3;
+        pos.push(0, (TORSO[0][1]+TORSO[0][2])/2, TORSO[0][0]-0.03);
+        for(var ak=0; ak<NA; ak++) idx.push(rearC, ak, (ak+1)%NA);
+        var frontC = pos.length/3, lastRing = (TORSO.length-1)*NA;
+        pos.push(0, (TORSO[TORSO.length-1][1]+TORSO[TORSO.length-1][2])/2, TORSO[TORSO.length-1][0]+0.03);
+        for(var ak2=0; ak2<NA; ak2++) idx.push(frontC, lastRing+(ak2+1)%NA, lastRing+ak2);
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+        geo.setIndex(idx); geo.computeVertexNormals();
+        var m = new THREE.Mesh(geo, coat); m.castShadow = true; return m;
+      })();
+      horse.add(body);
       // Caparison: a draped cloth blanket in ONE house colour with gold
       // trim. It is lofted from cross-sections measured off the body, so
       // it hovers a finger's width off the coat everywhere and ends in
@@ -720,23 +779,14 @@
       if(caparisonMain != null){
         var clothMat = new THREE.MeshStandardMaterial({ color: caparisonMain, roughness:0.94, side: THREE.DoubleSide });
         var trimMat = new THREE.MeshStandardMaterial({ color: caparisonAccent, roughness:0.45, metalness:0.35, side: THREE.DoubleSide });
-        // cross-sections along the barrel, rear to front:
-        // [z, centreY, radiusX, radiusY] — body cross-section + margin
-        var clothSecs = [
-          [-1.02, 1.45, 0.330, 0.340], [-0.85, 1.45, 0.425, 0.445],
-          [-0.70, 1.45, 0.450, 0.475], [-0.40, 1.45, 0.470, 0.510],
-          [-0.10, 1.44, 0.505, 0.550], [ 0.20, 1.44, 0.500, 0.535],
-          [ 0.45, 1.44, 0.450, 0.485], [ 0.62, 1.43, 0.455, 0.500]
-        ];
+        // cross-sections follow the lofted torso itself — the same
+        // station table that shapes the barrel, read a finger's width
+        // proud — so the blanket hugs the withers, back and sloping
+        // croup of the new body with no poke-through anywhere:
+        // [z, centreY, radiusX, radiusY]
         function clothParams(z){
-          if(z <= clothSecs[0][0]) return clothSecs[0];
-          for(var ci=1; ci<clothSecs.length; ci++){
-            if(z <= clothSecs[ci][0]){
-              var a = clothSecs[ci-1], b = clothSecs[ci], f = (z - a[0]) / (b[0] - a[0]);
-              return [z, a[1]+(b[1]-a[1])*f, a[2]+(b[2]-a[2])*f, a[3]+(b[3]-a[3])*f];
-            }
-          }
-          return clothSecs[clothSecs.length-1];
+          var sec = torsoSection(z);
+          return [z, sec.cy, sec.hw + 0.03, sec.ry + 0.03];
         }
         // one patch of the blanket: z from z0..z1, drape angle a0..a1
         // (0 = over the spine, ±1.92 rad = the hem down each flank),
@@ -774,41 +824,176 @@
       var neck = limb(0.155, 0.30, 1.02, coat);
       neck.position.set(0, 0.34, 0.16); neck.rotation.x = 0.62; neckPivot.add(neck);
       var throat = ell(0.155, 0.34, 0.28, coat); throat.position.set(0, 0.28, 0.27); throat.rotation.x = 0.5; neckPivot.add(throat);
+      // jowl blend: one elongated mass filling the throatlatch, so the
+      // neck flows into the back of the jaw with no step or gap where
+      // the head joins — the old neck simply butted into a round skull.
+      var jowl = ell(0.168, 0.21, 0.235, coat); jowl.position.set(0, 0.55, 0.30); jowl.rotation.x = 0.45; neckPivot.add(jowl);
       // mane: a row of dark tufts down the crest of the neck
       for(var mi=0; mi<5; mi++){
         var tuftM = ell(0.045, 0.13, 0.10, dark);
         tuftM.position.set(0, 0.06 + mi*0.135, -0.05 + mi*0.075); tuftM.rotation.x = 0.62; neckPivot.add(tuftM);
       }
       var headG = new THREE.Group(); headG.position.set(0, 0.66, 0.44); neckPivot.add(headG);
-      var skull = ell(0.145, 0.175, 0.24, coat); skull.rotation.x = 0.45; headG.add(skull);
-      var face = limb(0.082, 0.14, 0.52, coat);
-      face.position.set(0, -0.12, 0.26); face.rotation.x = 2.15; headG.add(face);
-      var jaw = ell(0.11, 0.09, 0.20, coat); jaw.position.set(0, -0.20, 0.28); headG.add(jaw);
-      var muzzle = ell(0.105, 0.115, 0.15, coatDark); muzzle.position.set(0, -0.28, 0.50); muzzle.rotation.x = 0.5; headG.add(muzzle);
+      // Head: ONE lofted skull, ring by ring from the poll to the
+      // mouth, in the same station style as the torso. Each station
+      // fixes the centre height, half-width and depth independently,
+      // so the head is long and wedge-shaped — broad and full across
+      // the eyes, cheeks and jaw, then tapering steadily down the face
+      // bones to a broad, fleshy muzzle — instead of the old round
+      // skull ball with a cylinder face and a ball muzzle stuck on it.
+      // The half-widths keep a real horse's face ratios: roughly a
+      // third of the head's length across the eyes, holding most of
+      // that width through the cheeks before easing to the muzzle.
+      // [z, centreY, halfWidth, radiusY] — poll to muzzle
+      var HEAD = [
+        [-0.22, 0.10, 0.058, 0.068], [-0.16, 0.08, 0.138, 0.142],
+        [-0.06, 0.05, 0.180, 0.178], [ 0.06, 0.02, 0.185, 0.172],
+        [ 0.18,-0.04, 0.160, 0.148], [ 0.30,-0.11, 0.132, 0.124],
+        [ 0.42,-0.19, 0.108, 0.104], [ 0.52,-0.26, 0.102, 0.094],
+        [ 0.60,-0.30, 0.082, 0.074], [ 0.65,-0.315, 0.028, 0.030]
+      ];
+      (function(){
+        var NA = 20, pos = [], idx = [];
+        for(var si=0; si<HEAD.length; si++){
+          var st = HEAD[si];
+          for(var ia=0; ia<NA; ia++){
+            var a = ia/NA * Math.PI*2;
+            // slightly flattened crown and jaw line — a wedge, not a tube
+            pos.push(st[2] * spow(Math.sin(a), 0.85), st[1] + st[3] * spow(Math.cos(a), 0.85), st[0]);
+          }
+        }
+        for(var sj=0; sj<HEAD.length-1; sj++) for(var aj=0; aj<NA; aj++){
+          var r0 = sj*NA+aj, r1 = r0+NA, aN = (aj+1)%NA;
+          idx.push(r0, r1, sj*NA+aN, r1, (sj+1)*NA+aN, sj*NA+aN);
+        }
+        var rearC = pos.length/3;
+        pos.push(0, HEAD[0][1], HEAD[0][0]-0.02);
+        for(var ak=0; ak<NA; ak++) idx.push(rearC, ak, (ak+1)%NA);
+        var frontC = pos.length/3, lastRing = (HEAD.length-1)*NA;
+        pos.push(0, HEAD[HEAD.length-1][1], HEAD[HEAD.length-1][0]+0.02);
+        for(var ak2=0; ak2<NA; ak2++) idx.push(frontC, lastRing+(ak2+1)%NA, lastRing+ak2);
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+        geo.setIndex(idx); geo.computeVertexNormals();
+        var skullMesh = new THREE.Mesh(geo, coat); skullMesh.castShadow = true; headG.add(skullMesh);
+      })();
+      // cheek and jaw: elongated muscle masses laid along the loft —
+      // the masseter swells at the cheek and the jaw deepens under it,
+      // both stretched front-to-back so they read as anatomy, never
+      // as balls stuck on the sides.
       [-1, 1].forEach(function(s){
-        var nostril = new THREE.Mesh(new THREE.SphereGeometry(0.028, 6, 6), dark);
-        nostril.position.set(s*0.055, -0.30, 0.62); headG.add(nostril);
-        var eye = new THREE.Mesh(new THREE.SphereGeometry(0.034, 8, 6), dark);
-        eye.position.set(s*0.135, 0.05, 0.13); headG.add(eye);
-        var ear = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.24, 7), coat);
-        ear.position.set(s*0.095, 0.24, -0.06); ear.rotation.z = -s*0.18; ear.rotation.x = -0.15; ear.castShadow = true; headG.add(ear);
-        var cheekStrap = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.30, 0.05), MAT.leather);
-        cheekStrap.position.set(s*0.145, -0.02, 0.16); cheekStrap.rotation.x = 0.5; headG.add(cheekStrap);
+        var cheek = ell(0.055, 0.085, 0.135, coat);
+        cheek.position.set(s*0.148, -0.075, 0.13); cheek.rotation.x = 0.15; headG.add(cheek);
       });
-      var forelock = ell(0.05, 0.09, 0.09, dark); forelock.position.set(0, 0.20, -0.02); headG.add(forelock);
-      // steel chanfron plate down the face, with a short spike
-      var chanfron = ell(0.105, 0.26, 0.035, MAT.steel); chanfron.position.set(0, -0.10, 0.33); chanfron.rotation.x = 0.55; headG.add(chanfron);
-      var spike = new THREE.Mesh(new THREE.ConeGeometry(0.03, 0.16, 7), MAT.steel);
-      spike.position.set(0, 0.10, 0.30); spike.rotation.x = 0.9; headG.add(spike);
-      var noseband = new THREE.Mesh(new THREE.CylinderGeometry(0.125, 0.135, 0.045, 12), MAT.leather);
-      noseband.position.set(0, -0.24, 0.44); noseband.rotation.x = 1.1; headG.add(noseband);
+      var jaw = ell(0.125, 0.058, 0.24, coat); jaw.position.set(0, -0.158, 0.08); headG.add(jaw);
+      // darker muzzle skin over the tip of the loft, a grooved chin,
+      // and a mouth line cut around the underside of the muzzle —
+      // all widened with the loft so the muzzle reads full and soft,
+      // not pinched to a point
+      var muzzleCap = ell(0.104, 0.082, 0.092, coatDark); muzzleCap.position.set(0, -0.270, 0.53); headG.add(muzzleCap);
+      var chin = ell(0.060, 0.030, 0.064, coatDark); chin.position.set(0, -0.318, 0.545); headG.add(chin);
+      var mouth = new THREE.Mesh(new THREE.TorusGeometry(0.088, 0.008, 6, 18, Math.PI), dark);
+      mouth.position.set(0, -0.270, 0.55); mouth.rotation.z = Math.PI; headG.add(mouth);
+      // eyes: dark almonds set into the side of the cranium, each with
+      // a brow ridge above it and a catchlight in it — not beads
+      var eyeMat = new THREE.MeshStandardMaterial({ color:0x201409, roughness:0.18, metalness:0.1 });
+      var glintMat = new THREE.MeshBasicMaterial({ color:0xf4ecd8 });
+      [-1, 1].forEach(function(s){
+        var eye = ell(0.024, 0.032, 0.045, eyeMat);
+        eye.position.set(s*0.168, 0.055, 0.0); headG.add(eye);
+        var glint = new THREE.Mesh(new THREE.SphereGeometry(0.009, 6, 6), glintMat);
+        glint.position.set(s*0.186, 0.070, 0.018); headG.add(glint);
+        var brow = ell(0.020, 0.024, 0.070, coat);
+        brow.position.set(s*0.160, 0.118, 0.0); headG.add(brow);
+        // flared nostrils spread on the front corners of the wider muzzle
+        var nostril = ell(0.030, 0.018, 0.034, dark);
+        nostril.position.set(s*0.066, -0.258, 0.598); nostril.rotation.y = s*0.45; nostril.rotation.x = -0.3; headG.add(nostril);
+        // ears: flattened cones with a dark inner ear, splayed and
+        // tipped like a listening horse's — collected below so they
+        // can still flick on their own; set wider on the broader poll
+        var ear = new THREE.Mesh(new THREE.ConeGeometry(0.056, 0.26, 7), coat);
+        ear.scale.z = 0.6;
+        ear.position.set(s*0.104, 0.27, -0.115); ear.rotation.z = -s*0.20; ear.rotation.x = -0.12; ear.castShadow = true; headG.add(ear);
+        var innerEar = new THREE.Mesh(new THREE.ConeGeometry(0.032, 0.17, 6), dark);
+        innerEar.position.set(0, -0.03, 0.016); ear.add(innerEar);
+        // bridle cheekpieces in three short runs, each endpoint
+        // measured on the wider loft's surface, so the straps hug the
+        // taper from poll to cheek to bit instead of cutting through
+        // the cheek bulge or floating off a round skull
+        var pts = [[s*0.152, 0.14, -0.06],[s*0.184, 0.05, 0.04],[s*0.168, -0.03, 0.16],[s*0.104, -0.25, 0.485]];
+        for(var pi=0; pi<pts.length-1; pi++){
+          headG.add(segBetween(new THREE.Vector3(pts[pi][0], pts[pi][1], pts[pi][2]),
+                               new THREE.Vector3(pts[pi+1][0], pts[pi+1][1], pts[pi+1][2]), 0.016, 0.016, MAT.leather));
+        }
+        // bit ring at the corner of the mouth, out at the wider jaw
+        var bit = new THREE.Mesh(new THREE.TorusGeometry(0.028, 0.007, 6, 14), MAT.steel);
+        bit.position.set(s*0.102, -0.26, 0.50); bit.rotation.y = Math.PI/2; headG.add(bit);
+      });
+      var forelock = ell(0.068, 0.10, 0.095, dark); forelock.position.set(0, 0.20, -0.05); headG.add(forelock);
+      // browband ring around the cranium, sized off the wider loft section
+      var browband = new THREE.Mesh(new THREE.TorusGeometry(0.192, 0.013, 6, 22), MAT.leather);
+      browband.position.set(0, 0.042, -0.02); headG.add(browband);
+      // noseband ring around the muzzle, sized off the wider loft
+      // section there, so it sits on the fuller muzzle it belongs on
+      var noseband = new THREE.Mesh(new THREE.TorusGeometry(0.115, 0.015, 6, 20), MAT.leather);
+      noseband.position.set(0, -0.204, 0.44); headG.add(noseband);
+      // steel chanfron: a plate lofted down the centre of the face,
+      // widened station by station with the broader face bones, riding
+      // just on the loft's surface, and its edges curving down to meet
+      // them — shaped to this head, not a flat oval hovering in front of it
+      (function(){
+        var CF = [[-0.04, 0.228, 0.078],[0.06, 0.198, 0.088],[0.18, 0.112, 0.074],[0.30, 0.016, 0.060],[0.42, -0.084, 0.048]];
+        var across = [-1, -0.5, 0, 0.5, 1], pos = [], idx = [];
+        for(var ci=0; ci<CF.length; ci++){
+          for(var ai=0; ai<across.length; ai++){
+            var u = across[ai];
+            pos.push(u * CF[ci][2], CF[ci][1] - u*u*0.030, CF[ci][0]);
+          }
+        }
+        for(var cj=0; cj<CF.length-1; cj++) for(var aj2=0; aj2<across.length-1; aj2++){
+          var r0 = cj*across.length+aj2, r1 = r0+across.length;
+          idx.push(r0, r1, r0+1, r1, r1+1, r0+1);
+        }
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+        geo.setIndex(idx); geo.computeVertexNormals();
+        var steelDS = new THREE.MeshStandardMaterial({ color:0xb9bec6, roughness:0.28, metalness:0.95, side:THREE.DoubleSide });
+        var plate = new THREE.Mesh(geo, steelDS); plate.castShadow = true; headG.add(plate);
+      })();
+      var spike = new THREE.Mesh(new THREE.ConeGeometry(0.028, 0.15, 7), MAT.steel);
+      spike.position.set(0, 0.16, 0.02); spike.rotation.x = 0.9; headG.add(spike);
+      // Hindquarters: the hips are built onto the body, not the legs —
+      // three elongated muscle masses per side that carry the sloping
+      // croup of the torso down into the thigh. The haunch runs tall
+      // and long from the croup to the stifle line, the buttock rounds
+      // the rear below the dock, and a low hip point marks the hip
+      // joint over the top of the thigh. Every mass is stretched in
+      // height and length, never a sphere: from the side the hip is
+      // one flowing curve off the croup, and from the rear the two
+      // quarters round away from the tail with the dock between them.
+      // (The old hindquarter was one small round thigh blob per leg,
+      // hung on a leg pivot set too far forward under the barrel, so
+      // the hips read as a ball on a stick from behind.)
+      [-1, 1].forEach(function(s){
+        var haunch = ell(0.175, 0.40, 0.335, coat);
+        haunch.position.set(s*0.255, 1.17, -0.84); haunch.rotation.x = -0.14; horse.add(haunch);
+        var buttock = ell(0.155, 0.295, 0.20, coat);
+        buttock.position.set(s*0.235, 1.33, -1.00); buttock.rotation.x = -0.10; horse.add(buttock);
+        var hipPoint = ell(0.055, 0.085, 0.115, coat);
+        hipPoint.position.set(s*0.395, 1.52, -0.90); horse.add(hipPoint);
+      });
       // Legs: two segments each — upper leg and cannon joined at the
-      // knee or hock, with fetlock and hoof. Hind legs carry a real
-      // thigh mass, so from behind they are shaped, not sticks.
+      // knee or hock, with fetlock and hoof. The hind pivots sit back
+      // under the haunches (z -0.80), so the thigh hangs from the hip
+      // joint the haunch defines, and the hind leg carries a long
+      // thigh mass and a gaskin tapering to the hock.
       var legs = [];
-      [[-0.24, 0.66, false],[0.24, 0.66, false],[-0.25, -0.66, true],[0.25, -0.66, true]].forEach(function(p){
+      [[-0.24, 0.66, false],[0.24, 0.66, false],[-0.26, -0.80, true],[0.26, -0.80, true]].forEach(function(p){
         var pivot = new THREE.Group(); pivot.position.set(p[0], 1.24, p[1]);
-        if(p[2]){ var thighM = ell(0.155, 0.30, 0.21, coat); thighM.position.set(0, -0.16, -0.03); pivot.add(thighM); }
+        if(p[2]){
+          var thighM = ell(0.135, 0.335, 0.205, coat); thighM.position.set(0, -0.19, -0.04); thighM.rotation.x = 0.10; pivot.add(thighM);
+          var gaskin = ell(0.085, 0.16, 0.11, coat); gaskin.position.set(0, -0.47, 0.05); pivot.add(gaskin);
+        }
         else { var shM = ell(0.12, 0.24, 0.15, coat); shM.position.set(0, -0.12, 0.02); pivot.add(shM); }
         var upper = limb(p[2] ? 0.075 : 0.085, p[2] ? 0.055 : 0.06, 0.58, coat); upper.position.y = -0.30; pivot.add(upper);
         var joint = new THREE.Group(); joint.position.y = -0.58; joint.rotation.x = p[2] ? 0.30 : -0.06; pivot.add(joint);
@@ -820,7 +1005,7 @@
       });
       // Tail: four tapering, tufted segments on their own pivot at the
       // dock, so it hangs thick and flowing and can bend as it swishes.
-      var tailPivot = new THREE.Group(); tailPivot.position.set(0, 1.74, -1.05); horse.add(tailPivot);
+      var tailPivot = new THREE.Group(); tailPivot.position.set(0, 1.71, -1.04); horse.add(tailPivot);
       var tailSegs = []; var tailParent = tailPivot;
       var tailLen = [0.34, 0.32, 0.30, 0.28];
       for(var ts=0; ts<4; ts++){
@@ -837,7 +1022,7 @@
       horse.userData.legs = legs; horse.userData.neck = neckPivot;
       horse.userData.tailPivot = tailPivot; horse.userData.tailSegs = tailSegs;
       horse.userData.headG = headG; horse.userData.ears = ears; horse.userData.body = body;
-      horse.userData.bodyBaseY = 0.50;
+      horse.userData.bodyBaseY = 1; // the lofted torso is built at full size; breathing scales it around 1
       horse.userData.phase = Math.random()*10;
       horse.userData.stompT = 0.8 + Math.random()*1.8; horse.userData.stompPhase = -1; horse.userData.stompLeg = 0;
       horse.userData.earT = 1 + Math.random()*3; horse.userData.earFlick = -1; horse.userData.earIdx = 0;
@@ -962,7 +1147,7 @@
       shShape.bezierCurveTo(-0.24, -0.12, -0.28, 0.10, -0.28, 0.39);
       var shieldBody = shadowed(new THREE.Mesh(new THREE.ExtrudeGeometry(shShape, { depth:0.045, bevelEnabled:true, bevelThickness:0.012, bevelSize:0.012, bevelSegments:1, curveSegments:10 }), steelD));
       shieldBody.rotation.y = Math.PI/2; shieldG2.add(shieldBody);
-      var shieldTexF = heraldryTex(foe.main, foe.accent, foe.name.replace('SIR ','').replace('THE ','').charAt(0));
+      var shieldTexF = heraldryTex(foe.main, foe.accent, foe.letter || foe.name.replace('SIR ','').replace('THE ','').charAt(0));
       shieldTexF.repeat.set(1/0.56, 1/0.78); shieldTexF.offset.set(0.5, 0.5);
       var shieldFace = new THREE.Mesh(new THREE.ShapeGeometry(shShape, 10), new THREE.MeshStandardMaterial({ map: shieldTexF, roughness:0.6 }));
       shieldFace.rotation.y = Math.PI/2; shieldFace.position.x = 0.059; shieldG2.add(shieldFace);
@@ -1038,13 +1223,26 @@
     function mountPlayerCine(){
       if(playerCineGroup){ scene.remove(playerCineGroup); }
       var S = shieldById(G.shieldSkin), L = lanceById(G.lanceSkin);
-      var you = { name:'YOU', main:S.a, accent:S.b, plume:0xd9a441, horse:0x74522f, speed:0, sigma:0, headAim:0 };
+      var you = { name:'YOU', letter:'G', main:S.a, accent:S.b, plume:0xd9a441, horse:0x74522f, speed:0, sigma:0, headAim:0 };
       playerCineGroup = buildKnight(you);
-      // repaint his lance with your lance colourway
+      // Dress him in exactly the gear you have equipped — the same
+      // colourways the first-person rig wears. buildKnight() paints any
+      // knight's lance in his shield colours (right for a foe, whose
+      // lance matches his shield), so the shaft is repainted here with
+      // YOUR lance colourway — and for the plain Ashwood that means
+      // plain wood, not a banded shaft in house colours. The pennon
+      // takes your lance's pennon colour too, glow included, instead of
+      // the shield accent buildKnight() gave it. The shield itself is
+      // already right: buildKnight() bore it in your equipped shield
+      // colours, with your own 'G' from the letter passed above.
       try{
         var fl = playerCineGroup.userData.foeLance;
-        if(fl && fl.children[0] && L.id !== 'ash') fl.children[0].material = new THREE.MeshStandardMaterial({ map: lanceTex(L.a, L.b), roughness:0.55 });
-        if(fl && playerCineGroup.userData.pennon) playerCineGroup.userData.pennon.material.color.setHex(L.pen);
+        if(fl && fl.children[0]){
+          if(L.id === 'ash') fl.children[0].material = new THREE.MeshStandardMaterial({ color:0x6e4f2c, roughness:0.65 });
+          else fl.children[0].material = new THREE.MeshStandardMaterial({ map: lanceTex(L.a, L.b), roughness:0.55 });
+        }
+        var pen2 = playerCineGroup.userData.pennon;
+        if(pen2){ pen2.material.color.setHex(L.pen); if(pen2.material.emissive) pen2.material.emissive.setHex(L.pen); }
       }catch(e){}
       playerCineGroup.position.set(CINE_POS.x, 0, CINE_POS.z);
       playerCineGroup.rotation.y = Math.PI; // face down the lists, toward your foe
@@ -1059,9 +1257,9 @@
       var coat = M(0x74522f, 0.75), dark = M(0x241a12, 0.9);
       var neck = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.3, 0.85, 10), coat));
       neck.position.set(0, -0.18, -0.2); neck.rotation.x = 0.85; fpHorse.add(neck);
-      var head = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.27, 0.32, 0.5), coat));
+      var head = ell(0.135, 0.16, 0.26, coat);
       head.position.set(0, -0.36, -0.48); head.rotation.x = 0.55; fpHorse.add(head);
-      var muzzle = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.19, 0.2, 0.3), coat));
+      var muzzle = ell(0.095, 0.10, 0.16, coat);
       muzzle.position.set(0, -0.48, -0.66); muzzle.rotation.x = 0.55; fpHorse.add(muzzle);
       var strap = new THREE.Mesh(new THREE.BoxGeometry(0.29, 0.05, 0.06), MAT.leather);
       strap.position.set(0, -0.4, -0.58); strap.rotation.x = 0.55; fpHorse.add(strap);
@@ -1185,7 +1383,7 @@
     var el = {};
     ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','coinNum','shopWrap','shopList','shieldShopList','shopCoins','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '1.3';
+    var CURRENT_VERSION = '1.7';
     function openLog(){ el.logWrap.classList.remove('hidden'); }
     function closeLog(){ el.logWrap.classList.add('hidden'); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
