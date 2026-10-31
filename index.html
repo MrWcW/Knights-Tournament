@@ -523,7 +523,7 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 3.0 — tap to see update history">v3.0 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 3.1 — tap to see update history">v3.1 <span class="vdot">· Updates</span></button>
 
     <button id="settingsBtn" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
@@ -556,8 +556,9 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v3.0</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v3.1</b></p>
         <ul class="logList">
+          <li><span class="vtag">v3.1</span><span class="vtext"><b>Knights and champions are now truly random.</b> The regular knights are shuffled for every new run, so each round's knights differ run to run — and there is no fixed champion order any more: every round's ★ CHAMPION ★ is drawn fresh from the champions you have not faced yet, so the fifth round is a surprise every time. Old saves are updated too — champions you already beat stay beaten, and everything still to come is randomised.</span></li>
           <li><span class="vtag major">v3.0</span><span class="vtext"><b>Major: the great graphics update.</b> A ⚙ Settings button in the top corner — on the title screen and mid-match — opens Graphics: Low, Medium and High that truly change the shadows, rendering resolution, crowd, scenery and light, plus a frame-rate slider — 30, 60 or 120 FPS, genuinely capped. Both apply at once and save on your device.</span></li>
           <li><span class="vtag">v2.11</span><span class="vtext"><b>Round 4 no longer ends the tournament — and champions now shuffle.</b> Beating any round's champion now carries you into the next round, all the way through the 60 knights; only the very last champion ends the tournament. And at the start of every run the ten champions are shuffled among the round-end fights — a different champion each time, never twice in one run, still marked ★ CHAMPION ★.</span></li>
           <li><span class="vtag">v2.10</span><span class="vtext"><b>Sixty knights, ten champions.</b> PLAY setup now fits on one screen with no scrolling. The tournament grows to 60 knights in 12 rounds of 5 — 50 new knights — and every round ends with a ★ CHAMPION ★, marked in gold on his intro card, in the HUD and on the win and defeat cards. Sir Jaren the Slim, Sir Mic the Fih and Sir Dingus the Tall ride as champions.</span></li>
@@ -737,10 +738,12 @@
          than anyone in his round, and marked in gold everywhere he
          appears: intro card, HUD and the win and defeat cards. Sir
          Jaren the Slim and Sir Mic the Fih are the first two
-         champions. Since v2.11 the ten champions are shuffled
-         among the ten round-end slots at the start of every run
-         (see the champion shuffle below), so no champion owns a
-         fixed round. Stats keep climbing
+         champions. Since v3.1 no champion owns a fixed round:
+         each round-end draws a random champion from the pool when
+         the player reaches it (see the random-knights block below),
+         and the regular knights are shuffled every run too. The
+         authored order here is only the home roster the pools are
+         built from. Stats keep climbing
          round by round, so the last rounds ride harder than the
          Champion's Ladder ever did. */
       // Round 3
@@ -814,67 +817,144 @@
       if(isChamp(idx)) return '★ CHAMPION ★ · Round ' + roundNo(idx) + ' · Final Match';
       return 'Round ' + roundNo(idx) + ' · Match ' + (idx % 5 + 1) + ' of 5';
     }
-    /* ================= CHAMPION SHUFFLE (v2.11) =================
-       The ten flagged champions used to sit in a fixed order —
-       Jaren always closed Round 3, Mic Round 4, Dingus Round 5,
-       and so on. They no longer do. At the start of every
-       tournament run the ten champions are shuffled among the ten
-       round-end slots (the 5th fight of Rounds 3–12, indices 14,
-       19, 24, …, 59): the whole champion — name, title, colours,
-       horse, stats, intro and his champ flag — moves to his drawn
-       slot, so every existing display (gold CHAMPION banner on the
-       intro card, the HUD badge, the win and defeat lines) marks
-       whoever was drawn, with no display code changed. The draw is
-       a full permutation of the pool: no champion repeats until
-       all ten have ridden, and the drawn order is never the old
-       fixed order and never the previous run's order. The regular
-       knights of every round never move, and the first two
-       ladders (Black Knight, Golden Knight) are not in the pool.
-       The order is saved with the rest of the progress, so a run
-       keeps the same champions across closes and reopens, and a
-       fresh shuffle is drawn when a new run starts (JOUST AGAIN).
-       An old v2.10 save with no saved order keeps the fixed order
-       for the rest of a run already past its first champion, so a
-       champion already beaten in that run can never reappear. */
+    /* ================= TRULY RANDOM KNIGHTS (v3.1) =================
+       Why v2.11 still looked fixed: it shuffled only the ten
+       champions, only when JOUST AGAIN started a fresh run, and any
+       save already carrying an order kept that order for the whole
+       run — while the forty regular knights of Rounds 3–12 were
+       never shuffled at all. So most rounds showed the same knight
+       every time, and a continuing save kept the same champion at
+       every round-end. v3.1 fixes all three:
+       (1) REGULARS: the forty regular knights of the expanded lists
+           (Rounds 3–12, every non-champion slot) are shuffled among
+           the regular slots at the start of every new run, so the
+           knights faced in each round differ from run to run. The
+           first two ladders (foes 0–9, ending in the Black Knight
+           and the Golden Knight) keep their authored order.
+       (2) CHAMPIONS: there is no champion order for a run at all
+           any more. Each round-end slot draws its champion at the
+           moment the player reaches it — a random pick from the
+           champions not yet drawn in this run — so no champion
+           repeats until all ten have ridden, and the champion on
+           any fifth round is a fresh surprise every run. Once
+           drawn, that slot's champion stays drawn (a rematch after
+           a loss faces the same champion) until he is beaten.
+       (3) OLD SAVES: a pre-v3.1 save is migrated on load (see the
+           settle code after loadProgress): champions already beaten
+           in the run stay beaten, the old fixed order is thrown
+           away for every round still to come, and the regular
+           knights still to be faced are shuffled among the
+           remaining regular slots.
+       The whole knight — name, title, colours, horse, stats, intro
+       and champ flag — moves with the shuffle/draw, so every
+       existing display (gold CHAMPION banner on the intro card,
+       the HUD badge, the win and defeat lines) marks whoever was
+       drawn, with no display code changed. */
     var CHAMP_SLOTS = [];
     var CHAMP_POOL = [];
+    var REG_SLOTS = [];
+    var REG_POOL = [];
     for(var csi = 0; csi < FOES.length; csi++){
       if(FOES[csi].champ){ CHAMP_SLOTS.push(csi); CHAMP_POOL.push(FOES[csi]); }
+      else if(csi >= 10){ REG_SLOTS.push(csi); REG_POOL.push(FOES[csi]); }
     }
-    var champOrder = null; // champOrder[slotPosition] = index into CHAMP_POOL
-    function validChampOrder(o){
-      if(!o || Object.prototype.toString.call(o) !== '[object Array]' || o.length !== CHAMP_POOL.length) return false;
+    function isArr(v){ return Object.prototype.toString.call(v) === '[object Array]'; }
+    function validPerm(o, n){
+      if(!isArr(o) || o.length !== n) return false;
       var seen = {};
       for(var i = 0; i < o.length; i++){
-        if(typeof o[i] !== 'number' || Math.floor(o[i]) !== o[i] || o[i] < 0 || o[i] >= CHAMP_POOL.length || seen[o[i]]) return false;
+        if(typeof o[i] !== 'number' || Math.floor(o[i]) !== o[i] || o[i] < 0 || o[i] >= n || seen[o[i]]) return false;
         seen[o[i]] = true;
       }
       return true;
     }
-    function champOrderIs(o, other){
+    function permIs(o, other){
       if(!o || !other || o.length !== other.length) return false;
       for(var i = 0; i < o.length; i++) if(o[i] !== other[i]) return false;
       return true;
     }
-    function identityChampOrder(){
+    function identityPerm(n){
       var o = [];
-      for(var i = 0; i < CHAMP_POOL.length; i++) o.push(i);
+      for(var i = 0; i < n; i++) o.push(i);
       return o;
     }
-    function applyChampOrder(){
-      if(!validChampOrder(champOrder)) return;
-      for(var i = 0; i < CHAMP_SLOTS.length; i++) FOES[CHAMP_SLOTS[i]] = CHAMP_POOL[champOrder[i]];
-    }
-    function shuffleChampions(){
-      var n = CHAMP_POOL.length, o = identityChampOrder(), prev = champOrder, fixed = identityChampOrder(), guard = 0;
+    function shuffledPerm(n, avoid){
+      var o = identityPerm(n), guard = 0;
       do {
         for(var j = n - 1; j > 0; j--){
           var k = Math.floor(Math.random() * (j + 1)), t = o[j]; o[j] = o[k]; o[k] = t;
         }
         guard++;
-      } while(n > 1 && guard < 60 && (champOrderIs(o, fixed) || (prev && champOrderIs(o, prev))));
-      champOrder = o;
-      applyChampOrder();
+      } while(n > 1 && guard < 60 && (permIs(o, identityPerm(n)) || (avoid && permIs(o, avoid))));
+      return o;
+    }
+    /* ---- regulars: one saved shuffled order per run ---- */
+    var regOrder = null; // regOrder[slotPosition] = index into REG_POOL
+    function validRegOrder(o){ return validPerm(o, REG_POOL.length); }
+    function applyRegOrder(){
+      if(!validRegOrder(regOrder)) return;
+      for(var i = 0; i < REG_SLOTS.length; i++) FOES[REG_SLOTS[i]] = REG_POOL[regOrder[i]];
+    }
+    function shuffleRegulars(){
+      regOrder = shuffledPerm(REG_POOL.length, regOrder);
+      applyRegOrder();
+    }
+    /* ---- champions: drawn one at a time, as each round-end is reached ---- */
+    var champDrawn = null; // champDrawn[slotPosition] = index into CHAMP_POOL, or null while undrawn
+    var champAvoid = null; // migrated runs only: the old fixed order, so a slot's fresh draw never simply repeats the champion it used to hold
+    function emptyChampDrawn(){
+      var d = [];
+      for(var i = 0; i < CHAMP_SLOTS.length; i++) d.push(null);
+      return d;
+    }
+    function validChampDrawn(d){
+      if(!isArr(d) || d.length !== CHAMP_SLOTS.length) return false;
+      var seen = {};
+      for(var i = 0; i < d.length; i++){
+        if(d[i] === null) continue;
+        if(typeof d[i] !== 'number' || Math.floor(d[i]) !== d[i] || d[i] < 0 || d[i] >= CHAMP_POOL.length || seen[d[i]]) return false;
+        seen[d[i]] = true;
+      }
+      return true;
+    }
+    function applyChampDrawn(){
+      if(!validChampDrawn(champDrawn)) return;
+      for(var i = 0; i < CHAMP_SLOTS.length; i++)
+        if(champDrawn[i] !== null) FOES[CHAMP_SLOTS[i]] = CHAMP_POOL[champDrawn[i]];
+    }
+    // Draw this round-end's champion now, if he has not been drawn
+    // yet: a random champion from those not yet drawn this run (the
+    // pool refills only once every champion has ridden — with ten
+    // slots and ten champions that cannot happen mid-run). Returns
+    // true when a fresh draw was made.
+    function drawChampionFor(idx){
+      var pos = CHAMP_SLOTS.indexOf(idx);
+      if(pos < 0) return false;
+      if(!validChampDrawn(champDrawn)) champDrawn = emptyChampDrawn();
+      if(champDrawn[pos] !== null){ FOES[idx] = CHAMP_POOL[champDrawn[pos]]; return false; }
+      var used = {}, i;
+      for(i = 0; i < champDrawn.length; i++) if(champDrawn[i] !== null) used[champDrawn[i]] = true;
+      var free = [];
+      for(i = 0; i < CHAMP_POOL.length; i++) if(!used[i]) free.push(i);
+      if(!free.length){ champDrawn = emptyChampDrawn(); free = identityPerm(CHAMP_POOL.length); }
+      var pick = free[Math.floor(Math.random() * free.length)];
+      // On a migrated run, never let a slot's first fresh draw
+      // simply repeat the champion that slot held under the old
+      // fixed order, when anyone else is still free.
+      if(champAvoid && free.length > 1 && pick === champAvoid[pos])
+        pick = free[(free.indexOf(pick) + 1) % free.length];
+      champDrawn[pos] = pick;
+      FOES[idx] = CHAMP_POOL[pick];
+      return true;
+    }
+    function resetChampionDraws(){
+      champDrawn = emptyChampDrawn();
+      champAvoid = null;
+    }
+    // A new tournament run: fresh regular shuffle, fresh champion pool.
+    function newRunRandomise(){
+      shuffleRegulars();
+      resetChampionDraws();
     }
     var MAX_PASSES = 5;
 
@@ -1245,7 +1325,9 @@
           titleOwned: G.titleOwned,
           titleOn: G.titleOn,
           foeIndex: G.foeIndex,
-          champOrder: champOrder,
+          regOrder: regOrder,
+          champDrawn: champDrawn,
+          champAvoid: champAvoid,
           secondUnlocked: G.secondUnlocked,
           arena: G.arena,
           arenaIdx: G.arenaIdx,
@@ -1258,7 +1340,10 @@
       } catch(e){ /* a failed save never interrupts play */ }
     }
     var hadSave = false;
-    var savedChampOrder = null; // this run's shuffled champion order, if the save carries one (v2.11)
+    var savedChampOrder = null; // pre-v3.1 saves only: the old whole-run champion order, read solely to migrate it away
+    var savedRegOrder = null;   // v3.1: this run's shuffled regular-knight order
+    var savedChampDrawn = null; // v3.1: the champions drawn so far this run
+    var savedChampAvoid = null; // v3.1: a migrated run's old order, kept so fresh draws avoid repeating it
     function loadProgress(){
       if(!storeOK) return;
       var raw = null;
@@ -1309,10 +1394,16 @@
       if(typeof s.plumeSkin === 'string' && G.ownedPlumes[s.plumeSkin]) G.plumeSkin = plumeById(s.plumeSkin).id;
       if(typeof s.foeIndex === 'number' && isFinite(s.foeIndex))
         G.foeIndex = Math.max(0, Math.min(FOES.length - 1, Math.floor(s.foeIndex)));
-      // The shuffled champion order (v2.11) validates as a true
-      // permutation of the champion pool; anything else is ignored
-      // and a fresh order is settled after loading, below.
-      if(validChampOrder(s.champOrder)) savedChampOrder = s.champOrder.slice();
+      // Randomisation state (v3.1): a v3.1 save carries the run's
+      // shuffled regular order and the champions drawn so far, each
+      // validated before it is trusted. A pre-v3.1 save carries only
+      // the old whole-run champion order (v2.11); it is read here
+      // solely so the settle code below can migrate it away — it is
+      // never kept as an order to play through.
+      if(validPerm(s.champOrder, CHAMP_POOL.length)) savedChampOrder = s.champOrder.slice();
+      if(validRegOrder(s.regOrder)) savedRegOrder = s.regOrder.slice();
+      if(validChampDrawn(s.champDrawn)) savedChampDrawn = s.champDrawn.slice();
+      if(validPerm(s.champAvoid, CHAMP_POOL.length)) savedChampAvoid = s.champAvoid.slice();
       if(s.secondUnlocked === true || G.foeIndex >= FIRST_LADDER) G.secondUnlocked = true;
       // Arena pick is scenery preference only; an unknown id (or an old
       // save with no arena field at all) falls back to the original.
@@ -1336,16 +1427,50 @@
       G.houseChosen = s.houseChosen === true;
     }
     loadProgress();
-    // Settle this run's champion order (v2.11): restore the saved
-    // shuffle so a run in progress keeps its champions across
-    // reopens; keep the old fixed order only for the remainder of
-    // a pre-v2.11 run already past its first champion (so a beaten
-    // champion cannot reappear in that run); otherwise — a new
-    // player, or a run not yet at its first champion — draw a
-    // fresh shuffle for the run that is starting.
-    if(savedChampOrder){ champOrder = savedChampOrder; applyChampOrder(); }
-    else if(hadSave && CHAMP_SLOTS.length && G.foeIndex > CHAMP_SLOTS[0]){ champOrder = identityChampOrder(); applyChampOrder(); }
-    else shuffleChampions();
+    // Settle this run's random knights (v3.1):
+    // — a v3.1 save restores its shuffled regulars and its drawn
+    //   champions exactly, so a run in progress keeps its knights
+    //   across closes and reopens, while champions still to come
+    //   are drawn fresh when their round-end is reached;
+    // — a pre-v3.1 save is migrated: champions at slots already
+    //   passed are recorded as drawn under the order that save was
+    //   playing (so a champion already beaten can never be drawn
+    //   again this run), that old order is kept only as an "avoid"
+    //   list so no slot's fresh draw simply repeats the champion
+    //   it used to hold, and the regular knights still to be faced
+    //   are shuffled among the remaining regular slots — knights
+    //   already beaten stay where they fell. Coins, Renown, owned
+    //   gear, house, difficulty, arena and foeIndex are untouched,
+    //   and the migrated state is saved straight away;
+    // — a brand-new player gets a fresh regular shuffle and an
+    //   empty champion pool.
+    if(savedRegOrder && savedChampDrawn){
+      regOrder = savedRegOrder; applyRegOrder();
+      champDrawn = savedChampDrawn; champAvoid = savedChampAvoid; applyChampDrawn();
+    } else if(hadSave){
+      var oldOrder = savedChampOrder || identityPerm(CHAMP_POOL.length);
+      champDrawn = emptyChampDrawn();
+      for(var mp = 0; mp < CHAMP_SLOTS.length; mp++)
+        if(CHAMP_SLOTS[mp] < G.foeIndex) champDrawn[mp] = oldOrder[mp];
+      champAvoid = oldOrder.slice();
+      applyChampDrawn();
+      regOrder = identityPerm(REG_POOL.length);
+      var remPos = [], remPool = [], rp;
+      for(rp = 0; rp < REG_SLOTS.length; rp++)
+        if(REG_SLOTS[rp] >= G.foeIndex){ remPos.push(rp); remPool.push(rp); }
+      if(remPool.length > 1){
+        var remOrder = shuffledPerm(remPool.length, null);
+        for(rp = 0; rp < remPos.length; rp++) regOrder[remPos[rp]] = remPool[remOrder[rp]];
+      }
+      applyRegOrder();
+      saveProgress();
+    } else {
+      newRunRandomise();
+    }
+    // If the knight on show right now ends a round, draw his
+    // champion now, so the title screen, Practice and the match
+    // intro all show the same drawn champion.
+    if(drawChampionFor(G.foeIndex)) saveProgress();
     // Belt and braces: whatever the last thing that changed was, it is
     // on record by the time the page goes away.
     window.addEventListener('beforeunload', saveProgress);
@@ -2871,7 +2996,7 @@
     var el = {};
     ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '3.0';
+    var CURRENT_VERSION = '3.1';
     function openLog(){ el.logWrap.classList.remove('hidden'); refreshPill(); }
     function closeLog(){ el.logWrap.classList.add('hidden'); refreshPill(); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
@@ -3607,6 +3732,7 @@
        G.foeIndex is untouched, ENTER THE LISTS then resumes the
        tournament exactly where it was. */
     function startPractice(){
+      if(drawChampionFor(G.foeIndex)) saveProgress();
       var foe = FOES[G.foeIndex];
       G.practice = true;
       G.pass = 1; G.youScore = 0; G.foeScore = 0; G.youLances = 0; G.foeLances = 0;
@@ -3722,6 +3848,9 @@
     if(el.cineWrap) el.cineWrap.addEventListener('pointerdown', function(){ /* overlay is pointer-events:none except the button */ });
     function matchIntro(){
       G.practice = false;
+      // v3.1: a round-end champion is drawn at the moment he is
+      // reached — never dealt in advance for the whole run.
+      if(drawChampionFor(G.foeIndex)) saveProgress();
       // Rotate: each new match moves on to the next arena in turn. The
       // first match after picking Rotate keeps the arena already on
       // show, so the order always starts at Classic Day.
@@ -4208,7 +4337,7 @@
           '<button class="btn" id="againBtn" type="button">JOUST AGAIN</button>' +
           '<button class="btn ghost" data-exitmenu type="button">EXIT TO MENU</button>');
       }
-      document.getElementById('againBtn').addEventListener('click', function(){ audio(); lastLadderBonus = null; G.foeIndex = 0; shuffleChampions(); saveProgress(); matchIntro(); });
+      document.getElementById('againBtn').addEventListener('click', function(){ audio(); lastLadderBonus = null; G.foeIndex = 0; newRunRandomise(); saveProgress(); matchIntro(); });
     }
 
     /* ================= LAN 1v1 (v2.0 · 6-digit rooms + full gear sync v2.1) =================
