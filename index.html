@@ -523,7 +523,7 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 3.2 — tap to see update history">v3.2 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 3.4 — tap to see update history">v3.4 <span class="vdot">· Updates</span></button>
 
     <button id="settingsBtn" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
@@ -556,8 +556,10 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v3.2</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v3.4</b></p>
         <ul class="logList">
+          <li><span class="vtag">v3.4</span><span class="vtext"><b>Random from the very first knight.</b> All regular knights — the first ladders included — are shuffled for every run, so no run opens with the same knight again. Champions still close each round, drawn fresh with no repeats, and a save still on its first knight is reshuffled in place — purse, Renown, gear and progress untouched.</span></li>
+          <li><span class="vtag">v3.3</span><span class="vtext"><b>Knights you can tell apart at a glance.</b> Every foe's whole kit is re-rolled each round — armour finish (bright, blackened, gold or blued steel), helm crest (fan, crest-strip, horns, wings, ball or bare spike), shield shape and pattern, caparison cut, lance banding, and a horse of a different coat, mane and build — guaranteed to differ from the last knight in at least five ways, in bold colours that are never dark-on-dark. Name, stats and ★ CHAMPION ★ marking unchanged, and a LAN friend still wears his real gear.</span></li>
           <li><span class="vtag">v3.2</span><span class="vtext"><b>Every knight looks different, every round.</b> Each time you face a knight — tournament or Practice, champion or not — he rides in a freshly rolled look: new shield colours and sigil, lance and pennon, caparison, horse coat, plume and banner colours, never the same two rounds in a row. His name, stats and ★ CHAMPION ★ marking are unchanged, and a LAN friend still wears his real gear.</span></li>
           <li><span class="vtag">v3.1</span><span class="vtext"><b>Knights and champions are now truly random.</b> The regular knights are shuffled for every new run, so each round's knights differ run to run — and there is no fixed champion order any more: every round's ★ CHAMPION ★ is drawn fresh from the champions you have not faced yet, so the fifth round is a surprise every time. Old saves are updated too — champions you already beat stay beaten, and everything still to come is randomised.</span></li>
           <li><span class="vtag major">v3.0</span><span class="vtext"><b>Major: the great graphics update.</b> A ⚙ Settings button in the top corner — on the title screen and mid-match — opens Graphics: Low, Medium and High that truly change the shadows, rendering resolution, crowd, scenery and light, plus a frame-rate slider — 30, 60 or 120 FPS, genuinely capped. Both apply at once and save on your device.</span></li>
@@ -716,11 +718,11 @@
 
     /* ================= DATA ================= */
     var FOES = [
-      { name:'SIR BORS',    title:'the Green Knight',  main:0x3d6b35, accent:0xd8d3c3, plume:0xe8e4da, horse:0x6b4a2f, speed:10.5, sigma:0.46, headAim:0.10 },
-      { name:'SIR KAY',     title:'the Bold',          main:0x8c2f26, accent:0xd9a441, plume:0xd9a441, horse:0x4a3423, speed:11.5, sigma:0.38, headAim:0.16 },
-      { name:'SIR PERCIVAL',title:'the Pure',          main:0xd8d3c3, accent:0x8c2f26, plume:0x8c2f26, horse:0x8a8d90, speed:12.0, sigma:0.30, headAim:0.22 },
-      { name:'SIR GAWAIN',  title:'the Sun Knight',    main:0xc78f2a, accent:0x274a73, plume:0xf2e3ac, horse:0x2e2a26, speed:12.8, sigma:0.24, headAim:0.30 },
-      { name:'THE BLACK KNIGHT', title:'Champion of the Lists', main:0x1c1c20, accent:0x7a1f1f, plume:0x7a1f1f, horse:0x1f1c1a, speed:13.6, sigma:0.17, headAim:0.40 },
+      { name:'SIR BORS',    title:'the Green Knight',  main:0x3d6b35, accent:0xd8d3c3, plume:0xe8e4da, horse:0x6b4a2f, speed:10.5, sigma:0.46, headAim:0.10, intro:'A young knight, more heart than craft. His lance wanders — a fine first lesson.' },
+      { name:'SIR KAY',     title:'the Bold',          main:0x8c2f26, accent:0xd9a441, plume:0xd9a441, horse:0x4a3423, speed:11.5, sigma:0.38, headAim:0.16, intro:'Kay rides hard and aims for the body. Brace your shield and pick your spot.' },
+      { name:'SIR PERCIVAL',title:'the Pure',          main:0xd8d3c3, accent:0x8c2f26, plume:0x8c2f26, horse:0x8a8d90, speed:12.0, sigma:0.30, headAim:0.22, intro:'Percival\'s seat is steady and his point honest. He will punish a lazy aim.' },
+      { name:'SIR GAWAIN',  title:'the Sun Knight',    main:0xc78f2a, accent:0x274a73, plume:0xf2e3ac, horse:0x2e2a26, speed:12.8, sigma:0.24, headAim:0.30, intro:'Gawain grows stronger as he rides. Expect speed, and a lance that hunts your helm.' },
+      { name:'THE BLACK KNIGHT', title:'Champion of the Lists', main:0x1c1c20, accent:0x7a1f1f, plume:0x7a1f1f, horse:0x1f1c1a, speed:13.6, sigma:0.17, headAim:0.40, intro:'No herald announces him. No quarter is given. Unhorse him, or be carried from the field — and the Champion\'s Ladder opens beyond him.' },
       /* Champion's Ladder — the second tournament, opened by beating
          the Black Knight. Same rules throughout (best of five passes,
          sudden-death tiebreak, shield 1 · breast 2 · helm 3, unhorsing
@@ -728,11 +730,11 @@
          (much smaller sigma, far more helm shots), read your shield
          sooner and more surely, and hit harder — see pickFoeAim, the
          shield-guess and aim-tracking code, and unhorseChance. */
-      { name:'SIR LANCELOT', title:'the Unmatched',     main:0x274a73, accent:0xd8d3c3, plume:0xd8d3c3, horse:0x9a958c, speed:14.0, sigma:0.14, headAim:0.44 },
-      { name:'SIR TRISTAN',  title:'the Swift',         main:0x1f6f6b, accent:0xd9a441, plume:0xd9a441, horse:0x5a4632, speed:14.3, sigma:0.12, headAim:0.48 },
-      { name:'SIR LAMORAK',  title:'the Mighty',        main:0xc25e1e, accent:0x3a2415, plume:0x3a2415, horse:0x3a2c22, speed:14.6, sigma:0.10, headAim:0.52 },
-      { name:'SIR PALAMEDES',title:'the Relentless',    main:0x5b3a8c, accent:0xd9a441, plume:0xd9a441, horse:0x24202a, speed:14.9, sigma:0.08, headAim:0.56 },
-      { name:'THE GOLDEN KNIGHT', title:'Champion of Champions', main:0xd9a441, accent:0x7a1f1f, plume:0x7a1f1f, horse:0xe3ddcf, speed:15.3, sigma:0.06, headAim:0.60 },
+      { name:'SIR LANCELOT', title:'the Unmatched',     main:0x274a73, accent:0xd8d3c3, plume:0xd8d3c3, horse:0x9a958c, speed:14.0, sigma:0.14, headAim:0.44, intro:'The Champion\'s Ladder begins. Lancelot has never been beaten cleanly: his shield finds your mark early, and his point barely wanders.' },
+      { name:'SIR TRISTAN',  title:'the Swift',         main:0x1f6f6b, accent:0xd9a441, plume:0xd9a441, horse:0x5a4632, speed:14.3, sigma:0.12, headAim:0.48, intro:'Tristan rides faster still and hunts the helm. Change your guard late, or he will already be covering it — and striking through yours.' },
+      { name:'SIR LAMORAK',  title:'the Mighty',        main:0xc25e1e, accent:0x3a2415, plume:0x3a2415, horse:0x3a2c22, speed:14.6, sigma:0.10, headAim:0.52, intro:'Lamorak hits like a falling tree. Even a scoring blow from him can put you in the sand, so a blocked pass is a won pass.' },
+      { name:'SIR PALAMEDES',title:'the Relentless',    main:0x5b3a8c, accent:0xd9a441, plume:0xd9a441, horse:0x24202a, speed:14.9, sigma:0.08, headAim:0.56, intro:'Palamades never hurries and never misses by much. His shield settles on your aim almost at once — strike where you were not aiming a heartbeat ago.' },
+      { name:'THE GOLDEN KNIGHT', title:'Champion of Champions', main:0xd9a441, accent:0x7a1f1f, plume:0x7a1f1f, horse:0xe3ddcf, speed:15.3, sigma:0.06, headAim:0.60, intro:'Clad all in gold, the last champion of the second ladder. Fastest, truest and hardest-hitting of them all. Beat him, and both wreaths are yours.' },
       /* The expanded lists (v2.10): fifty new knights in ten rounds
          of five. Each round runs four regular knights and ends with
          a CHAMPION (champ:true) — faster, truer and harder-hitting
@@ -818,7 +820,7 @@
       if(isChamp(idx)) return '★ CHAMPION ★ · Round ' + roundNo(idx) + ' · Final Match';
       return 'Round ' + roundNo(idx) + ' · Match ' + (idx % 5 + 1) + ' of 5';
     }
-    /* ================= TRULY RANDOM KNIGHTS (v3.1) =================
+    /* ================= TRULY RANDOM KNIGHTS (v3.1 · v3.4) =================
        Why v2.11 still looked fixed: it shuffled only the ten
        champions, only when JOUST AGAIN started a fresh run, and any
        save already carrying an order kept that order for the whole
@@ -826,12 +828,16 @@
        never shuffled at all. So most rounds showed the same knight
        every time, and a continuing save kept the same champion at
        every round-end. v3.1 fixes all three:
-       (1) REGULARS: the forty regular knights of the expanded lists
-           (Rounds 3–12, every non-champion slot) are shuffled among
-           the regular slots at the start of every new run, so the
-           knights faced in each round differ from run to run. The
-           first two ladders (foes 0–9, ending in the Black Knight
-           and the Golden Knight) keep their authored order.
+       (1) REGULARS: every regular knight — all fifty non-champion
+           knights, the first two ladders included (v3.4; v3.1
+           shuffled only the forty of Rounds 3–12 and left the
+           ladders fixed, so every run still opened with Sir Bors) —
+           is shuffled among the regular slots at the start of every
+           new run, so the knights faced in each round differ from
+           run to run, the very first one included: the shuffle
+           never deals Sir Bors (the old fixed opener) into the
+           first slot, and never repeats the previous run's first
+           knight there either.
        (2) CHAMPIONS: there is no champion order for a run at all
            any more. Each round-end slot draws its champion at the
            moment the player reaches it — a random pick from the
@@ -857,8 +863,12 @@
     var REG_POOL = [];
     for(var csi = 0; csi < FOES.length; csi++){
       if(FOES[csi].champ){ CHAMP_SLOTS.push(csi); CHAMP_POOL.push(FOES[csi]); }
-      else if(csi >= 10){ REG_SLOTS.push(csi); REG_POOL.push(FOES[csi]); }
+      else { REG_SLOTS.push(csi); REG_POOL.push(FOES[csi]); }
     }
+    // v3.1's regular pool held only the forty Rounds 3–12 regulars;
+    // v3.4's holds all fifty. A v3.1 save's order is validated
+    // against the old length so the settle code can convert it.
+    var OLD_REG_POOL = REG_POOL.length - 10;
     function isArr(v){ return Object.prototype.toString.call(v) === '[object Array]'; }
     function validPerm(o, n){
       if(!isArr(o) || o.length !== n) return false;
@@ -897,7 +907,19 @@
       for(var i = 0; i < REG_SLOTS.length; i++) FOES[REG_SLOTS[i]] = REG_POOL[regOrder[i]];
     }
     function shuffleRegulars(){
+      var prevFirst = regOrder ? regOrder[0] : -1;
       regOrder = shuffledPerm(REG_POOL.length, regOrder);
+      // The start of the run (v3.4): the first slot never holds
+      // Sir Bors (pool 0 — the knight every run used to open with)
+      // and never repeats the previous run's opening knight, so
+      // no two runs ever begin with the same knight by default.
+      if(regOrder.length > 1 && (regOrder[0] === 0 || regOrder[0] === prevFirst)){
+        for(var fi = 1; fi < regOrder.length; fi++){
+          if(regOrder[fi] !== 0 && regOrder[fi] !== prevFirst){
+            var ft = regOrder[0]; regOrder[0] = regOrder[fi]; regOrder[fi] = ft; break;
+          }
+        }
+      }
       applyRegOrder();
     }
     /* ---- champions: drawn one at a time, as each round-end is reached ---- */
@@ -958,57 +980,120 @@
       resetChampionDraws();
     }
 
-    /* ================= RANDOM LOOKS (v3.2) =================
-       v3.1 randomised WHICH knight you face; the knight himself
-       still rode in the colours written beside his name in the
-       roster, so he LOOKED the same every round. v3.2 fixes the
-       looks themselves: every time a knight is faced — every
-       tournament match intro and every Practice entry, regular or
-       ★ CHAMPION ★ — he is dressed in a freshly rolled look:
-       armour/surcoat and shield colours with a random sigil and
-       shield pattern, lance bands and pennon, caparison colours,
-       horse coat, helmet plume and the banner/flag colours flown
-       at his end of the lists. The roll is guaranteed different
-       from the previous facing's look (new main colour AND new
-       horse coat, and never the same full combination twice in a
-       row), drawn from wide palettes below. Only the paint moves:
-       name, title, stats, intro and the champ flag always stay
-       with the knight himself. The look is session-only — it is
-       never written into the save, so no saved look can carry
-       over and make a later round look the same — and within one
-       facing (intro, cinematic, every pass, remounts) it stays
-       exactly as rolled. LAN is untouched: a friend still rides
-       in his real gear (mountLanFoe), never a rolled look. */
-    var LOOK_MAINS = [0x8c2f26,0x274a73,0x3d6b35,0xc78f2a,0x5b3a8c,0x1f6f6b,0xc25e1e,0xb04a6b,0x1c1c20,0xd8d3c3,0x7a1f1f,0x232c4e,0x687f3c,0x9c352a,0x31456e,0x571209,0x2e6b34,0x8a9a5b,0x7fa8c9,0x14343e,0x704214,0xd9a441,0x4a2c5a,0x33506e,0xe8a020,0x17573a,0x6d1a12,0x5a6ea6,0x9c6b1e,0x2a4a2e];
-    var LOOK_ACCENTS = [0xd9a441,0xd8d3c3,0xe8dcc0,0xffffff,0x1c1c20,0x8c2f26,0x274a73,0xf2e3ac,0xc9cfda,0x7a1f1f,0xe8a020,0x3d6b35,0xb08d57,0xf0e6da,0x571209,0x2e2a26];
-    var LOOK_HORSES = [0x6b4a2f,0x1f1c1a,0x8a8d90,0xe3ddcf,0x4a3423,0x9a958c,0x7a4a26,0x5a4632,0x2e2a26,0xcbb489,0x8a7a5c,0x3c3226,0x74522f,0x6e6258,0xa0522d,0x4c351d];
-    var LOOK_PLUMES = [0xd9a441,0xe8e4da,0x8c2f26,0xe8a020,0xffffff,0x7fae4c,0xb04a6b,0x274a73,0xc8452f,0xf2e3ac,0x5b3a8c,0x1f6f6b,0x232c4e,0x3d6b35];
+    /* ================= RANDOM LOOKS (v3.3) =================
+       v3.1 randomised WHICH knight you face; v3.2 randomised his
+       paint — but the paint sat on the same steel, the same helm
+       crest, the same shield shape and the same horse every time,
+       and two rolls could land on near-identical dark colours, so
+       from the saddle the knights still read as one knight. v3.3
+       rebuilds the roll so a facing can never be mistaken for the
+       last one. The new look is guaranteed to differ from the
+       previous facing in at least five obvious traits:
+       (1) main colour from the far side of the colour wheel —
+       never another dark-on-dark near-match — with an accent
+       that truly contrasts it, (2) armour finish: bright steel,
+       blackened steel, gilded gold or blued steel, (3) helm
+       crest: feather fan, tall crest-strip, horns, wings, crest
+       ball or a bare spiked helm, at a rolled size, (4) shield
+       shape — heater, kite, round or tower — under one of six
+       patterns, (5) the horse: a coat from a different shade
+       family, a mane and tail colour unlike the last horse's,
+       and a different build — light, standard or heavy — with
+       the caparison cut plain, halved, banded or quartered and
+       the lance re-banded broad, standard or fine. Sigil, plume
+       colour and rider build roll fresh too. The roll happens
+       at every facing — tournament match intro and Practice,
+       regular or ★ CHAMPION ★ — before the mount and the
+       cinematic, so the intro card, cinematic, HUD and the
+       in-match 3D knight all wear the one rolled look. Only the
+       look moves: name, title, stats and the champ flag always
+       stay with the knight himself. The look is session-only —
+       never written into the save — so no saved look can carry
+       over and make a later round look the same. LAN is
+       untouched: a friend still rides in his real gear
+       (mountLanFoe), never a rolled look. */
+    var LOOK_MAINS = [0xc22318,0xe06414,0xeaa90c,0x7cb518,0x1e9e4a,0x0d8a5f,0x0d8a99,0x1a78d7,0x2b3fb8,0x6d28c9,0xa02ac0,0xb02a7e,0xc21847,0xeae4d6,0x9aa2ae,0x22222a];
+    var LOOK_ACCENTS = [0xf0b41c,0xf5efe2,0x17171c,0xc9cfda,0xead9ae,0xd42a1e,0x1a56c9,0x1f9e4d,0x6d28c9,0xe06414,0x0d8a99,0xb02a7e,0x7cb518];
+    var LOOK_HORSES = [0x1d1a17,0x3a2415,0x6e3b1e,0x9c4d1c,0xb86428,0xd9b26c,0xeadfc4,0xd8d3c8,0x8f9296,0x7a4a3c,0xa8895a,0x54382a];
+    var LOOK_MANES = [0x17120e,0x3a2415,0x7c3c1a,0x9c4520,0xdcbc72,0xefe8d8,0x9a958c,0xcac2b2];
+    var LOOK_PLUMES = [0xe0301e,0xf07d18,0xf2b21c,0x39b54a,0x12a594,0x1a9ad7,0x2b4fd8,0x7d3ff2,0xd6339e,0xf5efe2,0x17171c,0xffd94d];
     var LOOK_SIGILS = ['⚜','☀','☾','♜','♞','♟','★','✦','♦','♥','♠','♣','⚔','✚','❖','♛'];
-    var foeLook = null;      // the current facing's rolled look (paint fields only)
+    var LOOK_BULKS = [0.94, 1.0, 1.09];   // horse build: light, standard, heavy
+    var LOOK_LENS = [0.97, 1.0, 1.05];    // horse length: short, standard, long
+    var LOOK_BUILDS = [0.94, 1.0, 1.08];  // rider build: slim, standard, broad
+    var LOOK_BANDS = [4, 8, 12];          // lance banding: broad, standard, fine
+    var foeLook = null;      // the current facing's rolled look
     var foeLookIdx = -1;     // the foe slot foeLook was rolled for
-    var lastLookMain = -1, lastLookHorse = -1, lastLookSig = '';
+    var lastLook = null;     // the previous facing's look — the new one must plainly differ from it
+    var lastLookSig = '';
     function lookPick(arr, not){
       var v = arr[(Math.random()*arr.length)|0], guard = 0;
       while(not != null && v === not && guard++ < 40) v = arr[(Math.random()*arr.length)|0];
       return v;
     }
+    // Pick from arr until ok(v) holds; if the palette holds no
+    // qualifying value at all, settle for the first that qualifies
+    // in palette order, so a roll can never hang.
+    function lookPickUnless(arr, ok){
+      var v = arr[(Math.random()*arr.length)|0], guard = 0;
+      while(!ok(v) && guard++ < 60) v = arr[(Math.random()*arr.length)|0];
+      if(!ok(v)){ for(var i=0;i<arr.length;i++){ if(ok(arr[i])){ v = arr[i]; break; } } }
+      return v;
+    }
+    function hexToHsl(hex){
+      var r = ((hex>>16)&255)/255, g = ((hex>>8)&255)/255, b = (hex&255)/255;
+      var mx = Math.max(r,g,b), mn = Math.min(r,g,b), l = (mx+mn)/2, h = 0, s = 0, d = mx-mn;
+      if(d){ s = l > 0.5 ? d/(2-mx-mn) : d/(mx+mn);
+        if(mx===r) h = ((g-b)/d + (g<b?6:0)); else if(mx===g) h = (b-r)/d + 2; else h = (r-g)/d + 4; h *= 60; }
+      return { h:h, s:s, l:l };
+    }
+    function hueDist(a, b){ var d = Math.abs(a-b) % 360; return d > 180 ? 360-d : d; }
+    // Two colours read as plainly different when their hues sit
+    // far apart, or — for near-neutral colours, where hue means
+    // little — when one is clearly lighter than the other.
+    function colourFar(a, b, minHue, minLight){
+      var A = hexToHsl(a), B = hexToHsl(b);
+      if(A.s < 0.15 || B.s < 0.15) return Math.abs(A.l - B.l) >= minLight;
+      return hueDist(A.h, B.h) >= minHue || Math.abs(A.l - B.l) >= minLight + 0.18;
+    }
+    // An accent rides ON the main colour (shield, cloth, bands),
+    // so it must contrast it: clearly lighter or darker, or a
+    // hue from the far side of the wheel.
+    function colourContrasts(a, b){
+      var A = hexToHsl(a), B = hexToHsl(b);
+      return Math.abs(A.l - B.l) >= 0.26 || hueDist(A.h, B.h) >= 100;
+    }
     function makeRandomLook(){
-      var main = lookPick(LOOK_MAINS, lastLookMain);
-      var accent = lookPick(LOOK_ACCENTS, main);
-      var horse = lookPick(LOOK_HORSES, lastLookHorse);
-      var plume = lookPick(LOOK_PLUMES, main);
+      var P = lastLook;
+      var main = P ? lookPickUnless(LOOK_MAINS, function(v){ return colourFar(v, P.main, 45, 0.22); })
+                   : LOOK_MAINS[(Math.random()*LOOK_MAINS.length)|0];
+      var accent = lookPickUnless(LOOK_ACCENTS, function(v){ return v !== main && colourContrasts(v, main); });
+      var horse = P ? lookPickUnless(LOOK_HORSES, function(v){ return colourFar(v, P.horse, 20, 0.16); })
+                    : LOOK_HORSES[(Math.random()*LOOK_HORSES.length)|0];
+      var mane = lookPickUnless(LOOK_MANES, function(v){ return (!P || v !== P.mane) && colourFar(v, horse, 15, 0.10); });
+      var plume = lookPick(LOOK_PLUMES, P ? P.plume : null);
       var swap = Math.random() < 0.4; // some knights ride cloth-first in their accent
+      var shieldSwap = Math.random() < 0.35; // some bear the accent as their shield field
       return {
-        main: main, accent: accent, plume: plume, horse: horse,
-        letter: LOOK_SIGILS[(Math.random()*LOOK_SIGILS.length)|0],
-        pattern: (Math.random()*4)|0,
-        shieldMain: main, shieldAccent: accent,
+        main: main, accent: accent, plume: plume, horse: horse, mane: mane,
+        letter: lookPick(LOOK_SIGILS, P ? P.letter : null),
+        pattern: P ? lookPick([0,1,2,3,4,5], P.pattern) : (Math.random()*6)|0,
+        steelFinish: P ? lookPick([0,1,2,3], P.steelFinish) : (Math.random()*4)|0,
+        crest: P ? lookPick([0,1,2,3,4,5], P.crest) : (Math.random()*6)|0,
+        crestScale: 0.9 + Math.random()*0.55,
+        shieldShape: P ? lookPick([0,1,2,3], P.shieldShape) : (Math.random()*4)|0,
+        capPattern: P ? lookPick([0,1,2,3], P.capPattern) : (Math.random()*4)|0,
+        horseBulk: P ? lookPick(LOOK_BULKS, P.horseBulk) : LOOK_BULKS[(Math.random()*3)|0],
+        horseLen: LOOK_LENS[(Math.random()*3)|0],
+        build: P ? lookPick(LOOK_BUILDS, P.build) : LOOK_BUILDS[(Math.random()*3)|0],
+        lanceBands: LOOK_BANDS[(Math.random()*3)|0],
+        shieldMain: shieldSwap ? accent : main, shieldAccent: shieldSwap ? main : accent,
         capMain: swap ? accent : main, capAccent: swap ? main : accent,
         lanceA: main, lanceB: accent, lancePen: lookPick(LOOK_PLUMES, main), lancePlain: false,
         bannerMain: main, bannerAccent: accent
       };
     }
-    function lookSigOf(L){ return L.main + '|' + L.accent + '|' + L.horse + '|' + L.plume + '|' + L.letter + '|' + L.pattern + '|' + L.capMain; }
+    function lookSigOf(L){ return [L.main,L.accent,L.horse,L.mane,L.plume,L.letter,L.pattern,L.steelFinish,L.crest,L.shieldShape,L.capPattern,L.horseBulk,L.build,L.capMain].join('|'); }
     // Roll a fresh look for the foe in slot idx — called at every
     // new facing (matchIntro, startPractice), never mid-match.
     function rollFoeLook(idx){
@@ -1016,7 +1101,7 @@
       var look = makeRandomLook(), guard = 0;
       while(guard++ < 30 && lookSigOf(look) === lastLookSig) look = makeRandomLook();
       foeLook = look; foeLookIdx = idx;
-      lastLookMain = look.main; lastLookHorse = look.horse; lastLookSig = lookSigOf(look);
+      lastLook = look; lastLookSig = lookSigOf(look);
       return look;
     }
     // The knight in slot idx wearing his current rolled look: his
@@ -1429,7 +1514,8 @@
     }
     var hadSave = false;
     var savedChampOrder = null; // pre-v3.1 saves only: the old whole-run champion order, read solely to migrate it away
-    var savedRegOrder = null;   // v3.1: this run's shuffled regular-knight order
+    var savedRegOrder = null;   // v3.4: this run's shuffled regular-knight order (all fifty regulars)
+    var savedRegOrderOld = null; // v3.1: an order over the old forty Rounds 3–12 regulars only, read solely to convert it
     var savedChampDrawn = null; // v3.1: the champions drawn so far this run
     var savedChampAvoid = null; // v3.1: a migrated run's old order, kept so fresh draws avoid repeating it
     function loadProgress(){
@@ -1490,6 +1576,7 @@
       // never kept as an order to play through.
       if(validPerm(s.champOrder, CHAMP_POOL.length)) savedChampOrder = s.champOrder.slice();
       if(validRegOrder(s.regOrder)) savedRegOrder = s.regOrder.slice();
+      else if(validPerm(s.regOrder, OLD_REG_POOL)) savedRegOrderOld = s.regOrder.slice();
       if(validChampDrawn(s.champDrawn)) savedChampDrawn = s.champDrawn.slice();
       if(validPerm(s.champAvoid, CHAMP_POOL.length)) savedChampAvoid = s.champAvoid.slice();
       if(s.secondUnlocked === true || G.foeIndex >= FIRST_LADDER) G.secondUnlocked = true;
@@ -1515,42 +1602,70 @@
       G.houseChosen = s.houseChosen === true;
     }
     loadProgress();
-    // Settle this run's random knights (v3.1):
-    // — a v3.1 save restores its shuffled regulars and its drawn
-    //   champions exactly, so a run in progress keeps its knights
-    //   across closes and reopens, while champions still to come
-    //   are drawn fresh when their round-end is reached;
-    // — a pre-v3.1 save is migrated: champions at slots already
-    //   passed are recorded as drawn under the order that save was
-    //   playing (so a champion already beaten can never be drawn
-    //   again this run), that old order is kept only as an "avoid"
-    //   list so no slot's fresh draw simply repeats the champion
-    //   it used to hold, and the regular knights still to be faced
-    //   are shuffled among the remaining regular slots — knights
-    //   already beaten stay where they fell. Coins, Renown, owned
-    //   gear, house, difficulty, arena and foeIndex are untouched,
-    //   and the migrated state is saved straight away;
+    // Settle this run's random knights (v3.1 · v3.4):
+    // — a v3.4 save mid-run restores its shuffled regulars and its
+    //   drawn champions exactly, so a run in progress keeps its
+    //   knights across closes and reopens, while champions still
+    //   to come are drawn fresh when their round-end is reached;
+    // — a save still at the very start of a run (foeIndex 0, no
+    //   knight beaten yet) is reshuffled on load (v3.4): its whole
+    //   regular order is dealt again — never opening with Sir Bors
+    //   or with the knight the save last had first — and its
+    //   champion pool starts empty, as a fresh run's does. Coins,
+    //   Renown, owned gear, house, difficulty, arena and progress
+    //   are untouched, and the reshuffle is saved straight away;
+    // — an older save mid-run (pre-v3.1, or a v3.1 save whose
+    //   regular order covered only Rounds 3–12) is migrated:
+    //   champions already beaten stay beaten (a v3.1 save's drawn
+    //   champions are restored as drawn; a pre-v3.1 save's passed
+    //   champions are recorded under the order it was playing,
+    //   kept only as an "avoid" list so no slot's fresh draw
+    //   simply repeats the champion it used to hold), the regular
+    //   knights already beaten stay where they fell, and the
+    //   regulars still to be faced — the first ladders' included —
+    //   are shuffled among the remaining regular slots;
     // — a brand-new player gets a fresh regular shuffle and an
     //   empty champion pool.
-    if(savedRegOrder && savedChampDrawn){
+    if(hadSave && G.foeIndex === 0){
+      if(savedRegOrder) regOrder = savedRegOrder; // kept only so the reshuffle avoids its opening knight
+      shuffleRegulars();
+      resetChampionDraws();
+      saveProgress();
+    } else if(savedRegOrder && savedChampDrawn){
       regOrder = savedRegOrder; applyRegOrder();
       champDrawn = savedChampDrawn; champAvoid = savedChampAvoid; applyChampDrawn();
     } else if(hadSave){
-      var oldOrder = savedChampOrder || identityPerm(CHAMP_POOL.length);
-      champDrawn = emptyChampDrawn();
-      for(var mp = 0; mp < CHAMP_SLOTS.length; mp++)
-        if(CHAMP_SLOTS[mp] < G.foeIndex) champDrawn[mp] = oldOrder[mp];
-      champAvoid = oldOrder.slice();
-      applyChampDrawn();
-      regOrder = identityPerm(REG_POOL.length);
-      var remPos = [], remPool = [], rp;
-      for(rp = 0; rp < REG_SLOTS.length; rp++)
-        if(REG_SLOTS[rp] >= G.foeIndex){ remPos.push(rp); remPool.push(rp); }
-      if(remPool.length > 1){
-        var remOrder = shuffledPerm(remPool.length, null);
-        for(rp = 0; rp < remPos.length; rp++) regOrder[remPos[rp]] = remPool[remOrder[rp]];
+      if(savedChampDrawn){
+        champDrawn = savedChampDrawn; champAvoid = savedChampAvoid; applyChampDrawn();
+      } else {
+        var oldOrder = savedChampOrder || identityPerm(CHAMP_POOL.length);
+        champDrawn = emptyChampDrawn();
+        for(var mp = 0; mp < CHAMP_SLOTS.length; mp++)
+          if(CHAMP_SLOTS[mp] < G.foeIndex) champDrawn[mp] = oldOrder[mp];
+        champAvoid = oldOrder.slice();
+        applyChampDrawn();
       }
-      applyRegOrder();
+      if(savedRegOrder){
+        regOrder = savedRegOrder; applyRegOrder();
+      } else {
+        // Convert the arrangement the save was playing into the
+        // full fifty-knight pool: a v3.1 order placed its forty
+        // regulars among the Rounds 3–12 slots (positions and pool
+        // indices both shift by the ten first-ladder regulars now
+        // included); an older save played the authored order.
+        var conv = identityPerm(REG_POOL.length), cj;
+        if(savedRegOrderOld)
+          for(cj = 0; cj < savedRegOrderOld.length; cj++) conv[cj + 10] = savedRegOrderOld[cj] + 10;
+        regOrder = conv;
+        var remPos = [], remOcc = [], rp;
+        for(rp = 0; rp < REG_SLOTS.length; rp++)
+          if(REG_SLOTS[rp] >= G.foeIndex){ remPos.push(rp); remOcc.push(conv[rp]); }
+        if(remOcc.length > 1){
+          var remOrder = shuffledPerm(remOcc.length, null);
+          for(rp = 0; rp < remPos.length; rp++) regOrder[remPos[rp]] = remOcc[remOrder[rp]];
+        }
+        applyRegOrder();
+      }
       saveProgress();
     } else {
       newRunRandomise();
@@ -1639,25 +1754,30 @@
       return canvasTex(function(g,w,h){
         g.fillStyle=hex(main); g.fillRect(0,0,w,h);
         g.fillStyle=hex(accent);
-        // Shield pattern (v3.2): a foe's rolled look picks one of
-        // four charges; the player's own shield keeps pattern 0,
-        // the band it has always borne.
+        // Shield pattern (v3.3): a foe's rolled look picks one of
+        // six charges — band, pale, bend, cross, quartered or
+        // saltire; the player's own shield keeps pattern 0, the
+        // band it has always borne.
         if(pattern === 1){ g.fillRect(w*0.36, 0, w*0.28, h); }
         else if(pattern === 2){ g.beginPath(); g.moveTo(0, h); g.lineTo(w, 0); g.lineTo(w, h*0.34); g.lineTo(0, h); g.closePath(); g.fill(); }
         else if(pattern === 3){ g.fillRect(0, h*0.40, w, h*0.20); g.fillRect(w*0.38, 0, w*0.24, h); }
+        else if(pattern === 4){ g.fillRect(w/2, 0, w/2, h/2); g.fillRect(0, h/2, w/2, h/2); }
+        else if(pattern === 5){ g.strokeStyle=hex(accent); g.lineWidth=w*0.20; g.beginPath(); g.moveTo(-4,-4); g.lineTo(w+4,h+4); g.moveTo(w+4,-4); g.lineTo(-4,h+4); g.stroke(); }
         else { g.fillRect(0, h*0.40, w, h*0.20); }
         g.fillStyle='rgba(255,255,255,0.92)'; g.font='900 '+(w*0.44)+'px Georgia, serif';
         g.textAlign='center'; g.textBaseline='middle'; g.fillText(letter, w/2, h*0.30);
         g.strokeStyle='rgba(0,0,0,0.35)'; g.lineWidth=6; g.strokeRect(0,0,w,h);
       }, 128, 160);
     }
-    function lanceTex(main, accent){
+    function lanceTex(main, accent, nb){
       function hex(n){ return '#'+('000000'+n.toString(16)).slice(-6); }
       // Painted bands along the shaft: his colours alternating with pale
       // ash, so the lance stays legible against sky, stands and sand alike.
+      // A rolled foe's banding rolls broad, standard or fine (v3.3);
+      // no count means the standard eight your own lances wear.
       return canvasTex(function(g,w,h){
         var seq = [hex(main), '#e8dcc0', hex(accent), '#e8dcc0'];
-        var bands = 8;
+        var bands = nb || 8;
         for(var i=0;i<bands;i++){ g.fillStyle = seq[i % seq.length]; g.fillRect(0, Math.floor(i*h/bands), w, Math.ceil(h/bands) + 1); }
         g.fillStyle='rgba(255,255,255,0.10)'; g.fillRect(0, 0, w*0.3, h);
       }, 64, 256);
@@ -2326,11 +2446,15 @@
       m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
       return m;
     }
-    function buildHorse(colorHex, caparisonMain, caparisonAccent){
+    function buildHorse(colorHex, caparisonMain, caparisonAccent, opts){
       var horse = new THREE.Group();
       var coat = M(colorHex, 0.72);
       var coatDark = M(new THREE.Color(colorHex).multiplyScalar(0.7).getHex(), 0.82);
       var dark = M(0x241a12, 0.9);
+      // Mane, tail and forelock hair (v3.3): a rolled foe's horse
+      // wears its own rolled hair colour; no opts (your horse, a
+      // LAN friend's) means the dark hair every horse has worn.
+      var maneM = M(opts && opts.mane != null ? opts.mane : 0x241a12, 0.9);
       // Torso: ONE lofted barrel, built ring by ring along the spine.
       // Each station fixes the back line (topY), the belly line (botY)
       // and the half-width independently, so the shape carries a real
@@ -2437,7 +2561,23 @@
           return mesh;
         }
         var HEM = 1.92;
-        horse.add(clothPatch(-1.02, 0.62, -HEM, HEM, 0, clothMat, 16, 26));            // the blanket itself
+        // Caparison cut (v3.3): a rolled foe's cloth is cut to a
+        // pattern — plain, halved, banded or quartered along its
+        // length, the second colour woven from his accent. Your
+        // own horse (and a LAN friend's) keeps the plain cut it
+        // has always worn: no pattern field, no second cloth.
+        var capPat = opts && opts.capPattern != null ? opts.capPattern : 0;
+        if(capPat === 1 || capPat === 2 || capPat === 3){
+          var clothMat2 = new THREE.MeshStandardMaterial({ color: caparisonAccent, roughness:0.94, side: THREE.DoubleSide });
+          horse.userData.clothMat2 = clothMat2;
+          var capBands = capPat === 1 ? [[-1.02,-0.20,clothMat],[-0.20,0.62,clothMat2]]
+                       : capPat === 2 ? [[-1.02,-0.48,clothMat],[-0.48,0.07,clothMat2],[0.07,0.62,clothMat]]
+                       : [[-1.02,-0.61,clothMat],[-0.61,-0.20,clothMat2],[-0.20,0.21,clothMat],[0.21,0.62,clothMat2]];
+          for(var cbi=0; cbi<capBands.length; cbi++)
+            horse.add(clothPatch(capBands[cbi][0], capBands[cbi][1], -HEM, HEM, 0, capBands[cbi][2], 8, 26));
+        } else {
+          horse.add(clothPatch(-1.02, 0.62, -HEM, HEM, 0, clothMat, 16, 26));            // the blanket itself
+        }
         horse.add(clothPatch(-1.02, 0.62, HEM-0.13, HEM+0.03, 0.005, trimMat, 16, 2));  // gold hem, near flank
         horse.add(clothPatch(-1.02, 0.62, -HEM-0.03, -HEM+0.13, 0.005, trimMat, 16, 2)); // gold hem, far flank
         horse.add(clothPatch(-1.05, -0.995, -HEM-0.03, HEM+0.03, 0.005, trimMat, 1, 26)); // gold rear edging
@@ -2508,7 +2648,7 @@
       // along the lofted crest line from the withers to the poll
       var MANE = [[0.02, -0.355], [0.235, -0.240], [0.43, -0.145], [0.595, -0.070], [0.72, -0.015]];
       for(var mi=0; mi<MANE.length; mi++){
-        var tuftM = ell(0.045, 0.13, 0.10, dark);
+        var tuftM = ell(0.045, 0.13, 0.10, maneM);
         tuftM.position.set(0, MANE[mi][0], MANE[mi][1]); tuftM.rotation.x = 0.35; neckPivot.add(tuftM);
       }
       var headG = new THREE.Group(); headG.position.set(0, 0.66, 0.44); headG.rotation.x = -0.08; neckPivot.add(headG);
@@ -2612,7 +2752,7 @@
         var bit = new THREE.Mesh(new THREE.TorusGeometry(0.028, 0.007, 6, 14), MAT.steel);
         bit.position.set(s*0.094, -0.245, 0.495); bit.rotation.y = Math.PI/2; headG.add(bit);
       });
-      var forelock = ell(0.068, 0.10, 0.095, dark); forelock.position.set(0, 0.20, -0.05); headG.add(forelock);
+      var forelock = ell(0.068, 0.10, 0.095, maneM); forelock.position.set(0, 0.20, -0.05); headG.add(forelock);
       // browband ring around the cranium, sized off the new loft section
       var browband = new THREE.Mesh(new THREE.TorusGeometry(0.192, 0.013, 6, 22), MAT.leather);
       browband.position.set(0, 0.045, -0.02); headG.add(browband);
@@ -2640,7 +2780,7 @@
         var geo = new THREE.BufferGeometry();
         geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
         geo.setIndex(idx); geo.computeVertexNormals();
-        var steelDS = new THREE.MeshStandardMaterial({ color:0xb9bec6, roughness:0.28, metalness:0.95, side:THREE.DoubleSide });
+        var steelDS = new THREE.MeshStandardMaterial({ color:(opts && opts.steelHex != null ? opts.steelHex : 0xb9bec6), roughness:0.28, metalness:0.95, side:THREE.DoubleSide });
         var plate = new THREE.Mesh(geo, steelDS); plate.castShadow = true; headG.add(plate);
       })();
       var spike = new THREE.Mesh(new THREE.ConeGeometry(0.028, 0.15, 7), MAT.steel);
@@ -2693,9 +2833,9 @@
       var tailLen = [0.34, 0.32, 0.30, 0.28];
       for(var ts=0; ts<4; ts++){
         var segPivot = new THREE.Group(); segPivot.position.set(0, ts===0 ? 0 : -tailLen[ts-1], ts===0 ? 0 : -0.02); tailParent.add(segPivot);
-        var seg = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.052 - ts*0.006, 0.068 - ts*0.007, tailLen[ts], 8), dark));
+        var seg = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.052 - ts*0.006, 0.068 - ts*0.007, tailLen[ts], 8), maneM));
         seg.position.y = -tailLen[ts]/2; segPivot.add(seg);
-        var tuft = ell(0.05, tailLen[ts]*0.52, 0.08, dark); tuft.position.y = -tailLen[ts]/2; segPivot.add(tuft);
+        var tuft = ell(0.05, tailLen[ts]*0.52, 0.08, maneM); tuft.position.y = -tailLen[ts]/2; segPivot.add(tuft);
         tailSegs.push(segPivot); tailParent = segPivot;
       }
       tailPivot.rotation.x = 0.42;
@@ -2710,15 +2850,31 @@
       horse.userData.stompT = 0.8 + Math.random()*1.8; horse.userData.stompPhase = -1; horse.userData.stompLeg = 0;
       horse.userData.earT = 1 + Math.random()*3; horse.userData.earFlick = -1; horse.userData.earIdx = 0;
       horse.userData.headTossT = 2.5 + Math.random()*4; horse.userData.headToss = -1;
+      // Build (v3.3): a rolled foe's horse is framed light,
+      // standard or heavy and a touch shorter or longer in the
+      // body. Only the horse's own frame scales — the rider, the
+      // seat height and the judging are exactly as they were.
+      if(opts){ var hb = opts.bulk || 1, hl = opts.len || 1; if(hb !== 1 || hl !== 1) horse.scale.set(hb, 1, hl); }
       return horse;
     }
 
+    /* Armour finishes (v3.3): a rolled foe's plate wears one of
+       four finishes — [bright plate, dark companion, roughness]:
+       bright steel, blackened steel, gilded gold, blued steel.
+       No finish field (you, a LAN friend) means bright steel,
+       the finish every knight has worn until now. */
+    var STEEL_FINS = [ [0xb9bec6, 0x74787f, 0.28], [0x35373d, 0x1e1f24, 0.42], [0xd9a441, 0x99702c, 0.30], [0x7186ab, 0x46587a, 0.32] ];
     function buildKnight(foe){
       var root = new THREE.Group();
-      var horse = buildHorse(foe.horse, foe.capMain != null ? foe.capMain : foe.main, foe.capAccent != null ? foe.capAccent : foe.accent);
+      var fin = STEEL_FINS[foe.steelFinish|0] || STEEL_FINS[0];
+      var horse = buildHorse(foe.horse, foe.capMain != null ? foe.capMain : foe.main, foe.capAccent != null ? foe.capAccent : foe.accent,
+        { mane: foe.mane, capPattern: foe.capPattern, bulk: foe.horseBulk, len: foe.horseLen, steelHex: fin[0] });
       root.add(horse);
       var rider = new THREE.Group(); rider.position.set(0, 1.86, -0.05); root.add(rider);
-      var steel = MAT.steel, steelD = MAT.steelDark;
+      // Rider build (v3.3): slim, standard or broad through the
+      // shoulders and chest — height, seat and judging untouched.
+      if(foe.build && foe.build !== 1) rider.scale.set(foe.build, 1, foe.build);
+      var steel = M(fin[0], fin[2], 0.95), steelD = M(fin[1], Math.min(0.6, fin[2] + 0.12), 0.9);
       var darkM = M(0x0a0a0a, 1);
       // Paint channels (v2.1): a knight's shield, lance and cloth can
       // each wear different colours — an AI foe's all match (his main /
@@ -2771,15 +2927,56 @@
         hole.position.set(bh[0], bh[1], bh[2]); helmG.add(hole);
       });
       var plumeG = new THREE.Group(); plumeG.position.set(0, 0.20, -0.02); helmG.add(plumeG);
-      var crestBase = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.045, 0.10, 8), MAT.gold); crestBase.position.y = 0.02; plumeG.add(crestBase);
       var plumeMat = M(foe.plume, 0.85);
-      for(var pi=0; pi<5; pi++){
-        var feather = ell(0.035, 0.17 - Math.abs(pi-2)*0.02, 0.075, plumeMat);
-        var pa = (pi-2)*0.30;
-        feather.position.set(Math.sin(pa)*0.05, 0.13, -Math.abs(pi-2)*0.035 - 0.02);
-        feather.rotation.x = -0.55 - Math.abs(pi-2)*0.08; feather.rotation.z = -pa*0.7;
-        plumeG.add(feather);
+      // Helm crest (v3.3): a rolled foe wears one of six crests —
+      // the feather fan every knight used to wear, a tall
+      // crest-strip, sweeping horns, wings, a crest ball, or a
+      // bare helm with a single spike — at a rolled size, so his
+      // silhouette changes with his colours. No crest field
+      // (you, a LAN friend) means the fan, exactly as before.
+      var crestStyle = foe.crest|0;
+      if(crestStyle === 5){
+        var spike2 = new THREE.Mesh(new THREE.ConeGeometry(0.035, 0.22, 8), steel);
+        spike2.position.y = 0.10; plumeG.add(spike2);
+      } else {
+        var crestBase = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.045, 0.10, 8), MAT.gold); crestBase.position.y = 0.02; plumeG.add(crestBase);
+        if(crestStyle === 1){
+          // crest-strip: a stiff mohawk of blades, tall amidships
+          for(var ci=0; ci<7; ci++){
+            var chh = 0.34 - Math.abs(ci-3)*0.03;
+            var blade = ell(0.018, chh/2, 0.055, plumeMat);
+            blade.position.set(0, chh/2 + 0.02, 0.13 - ci*0.05);
+            blade.rotation.x = -0.10 - ci*0.03;
+            plumeG.add(blade);
+          }
+        } else if(crestStyle === 2){
+          // horns: pale, sweeping out and back from the helm
+          var hornMat = M(0xe6d9bd, 0.55);
+          [-1, 1].forEach(function(s){
+            var horn = shadowed(new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.44, 8), hornMat));
+            horn.position.set(s*0.17, 0.15, -0.02); horn.rotation.z = -s*1.02; horn.rotation.x = -0.22; plumeG.add(horn);
+          });
+        } else if(crestStyle === 3){
+          // wings: a swept wing either side of a small fan
+          [-1, 1].forEach(function(s){
+            var wing = ell(0.02, 0.15, 0.30, plumeMat);
+            wing.position.set(s*0.16, 0.13, -0.07); wing.rotation.z = -s*0.55; wing.rotation.y = s*0.35; plumeG.add(wing);
+          });
+          var cf = ell(0.032, 0.15, 0.06, plumeMat); cf.position.set(0, 0.12, 0.0); plumeG.add(cf);
+        } else if(crestStyle === 4){
+          // crest ball: one round pom of feathers
+          var cball = ell(0.088, 0.098, 0.088, plumeMat); cball.position.y = 0.13; plumeG.add(cball);
+        } else {
+          for(var pi=0; pi<5; pi++){
+            var feather = ell(0.035, 0.17 - Math.abs(pi-2)*0.02, 0.075, plumeMat);
+            var pa = (pi-2)*0.30;
+            feather.position.set(Math.sin(pa)*0.05, 0.13, -Math.abs(pi-2)*0.035 - 0.02);
+            feather.rotation.x = -0.55 - Math.abs(pi-2)*0.08; feather.rotation.z = -pa*0.7;
+            plumeG.add(feather);
+          }
+        }
       }
+      if(foe.crestScale && foe.crestScale !== 1) plumeG.scale.setScalar(foe.crestScale);
       // pauldrons: rounded shoulder armour on both sides
       [-1, 1].forEach(function(s){
         var pauldron = ell(0.115, 0.105, 0.115, steel); pauldron.position.set(s*0.26, 0.62, 0.04); rider.add(pauldron);
@@ -2836,14 +3033,33 @@
       // heater shield: a shaped, bevelled shield — flat top, sides
       // curving to a point — with his heraldry on the face and a boss
       var shieldG2 = new THREE.Group(); shieldG2.position.set(0.30, -0.05, 0.02); shieldG2.rotation.y = -0.35; shieldPivot.add(shieldG2);
+      // Shield shape (v3.3): a rolled foe bears one of four
+      // shapes — heater, kite, round or tower — so the guard he
+      // rides behind reads differently down the lists. No shape
+      // field (you, a LAN friend) means the heater shield every
+      // knight has borne until now.
+      var shStyle = foe.shieldShape|0;
       var shShape = new THREE.Shape();
-      shShape.moveTo(-0.28, 0.39); shShape.lineTo(0.28, 0.39);
-      shShape.bezierCurveTo(0.28, 0.10, 0.24, -0.12, 0, -0.39);
-      shShape.bezierCurveTo(-0.24, -0.12, -0.28, 0.10, -0.28, 0.39);
+      if(shStyle === 1){ // kite: narrow, with a long point
+        shShape.moveTo(-0.22, 0.34); shShape.lineTo(0.22, 0.34);
+        shShape.bezierCurveTo(0.22, 0.02, 0.16, -0.28, 0, -0.52);
+        shShape.bezierCurveTo(-0.16, -0.28, -0.22, 0.02, -0.22, 0.34);
+      } else if(shStyle === 2){ // round
+        shShape.absarc(0, 0, 0.35, 0, Math.PI*2, false);
+      } else if(shStyle === 3){ // tower: tall and square-shouldered, a shallow point
+        shShape.moveTo(-0.26, 0.42); shShape.lineTo(0.26, 0.42); shShape.lineTo(0.26, -0.30);
+        shShape.quadraticCurveTo(0.26, -0.44, 0, -0.46);
+        shShape.quadraticCurveTo(-0.26, -0.44, -0.26, -0.30); shShape.closePath();
+      } else { // heater: flat top, sides curving to a point
+        shShape.moveTo(-0.28, 0.39); shShape.lineTo(0.28, 0.39);
+        shShape.bezierCurveTo(0.28, 0.10, 0.24, -0.12, 0, -0.39);
+        shShape.bezierCurveTo(-0.24, -0.12, -0.28, 0.10, -0.28, 0.39);
+      }
       var shieldBody = shadowed(new THREE.Mesh(new THREE.ExtrudeGeometry(shShape, { depth:0.045, bevelEnabled:true, bevelThickness:0.012, bevelSize:0.012, bevelSegments:1, curveSegments:10 }), steelD));
       shieldBody.rotation.y = Math.PI/2; shieldG2.add(shieldBody);
       var shieldTexF = heraldryTex(shMain, shAccent, foe.letter || foe.name.replace('SIR ','').replace('THE ','').charAt(0), foe.pattern || 0);
-      shieldTexF.repeat.set(1/0.56, 1/0.78); shieldTexF.offset.set(0.5, 0.5);
+      var shDim = [[0.56,0.78,0],[0.44,0.86,-0.09],[0.70,0.70,0],[0.52,0.88,-0.02]][shStyle];
+      shieldTexF.repeat.set(1/shDim[0], 1/shDim[1]); shieldTexF.offset.set(0.5, 0.5 - shDim[2]/shDim[1]);
       var shieldFace = new THREE.Mesh(new THREE.ShapeGeometry(shShape, 10), new THREE.MeshStandardMaterial({ map: shieldTexF, roughness:0.6 }));
       shieldFace.rotation.y = Math.PI/2; shieldFace.position.x = 0.059; shieldG2.add(shieldFace);
       var boss = ell(0.035, 0.07, 0.07, MAT.gold); boss.position.set(0.065, 0.02, 0); shieldG2.add(boss);
@@ -2873,7 +3089,7 @@
       // so the parts that face you carry the visibility now.
       var shaft = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.098, 7.1, 10), lnPlain
         ? new THREE.MeshStandardMaterial({ color:0x6e4f2c, roughness:0.65 })
-        : new THREE.MeshStandardMaterial({ map: lanceTex(lnA, lnB), roughness:0.55 })));
+        : new THREE.MeshStandardMaterial({ map: lanceTex(lnA, lnB, foe.lanceBands || 8), roughness:0.55 })));
       shaft.rotation.x = Math.PI/2; shaft.position.set(0, 0, 3.25); foeLance.add(shaft);
       var collar = new THREE.Mesh(new THREE.CylinderGeometry(0.102, 0.102, 0.36, 10), new THREE.MeshStandardMaterial({ color:0xe8dcc0, roughness:0.6 }));
       collar.rotation.x = Math.PI/2; collar.position.set(0, 0, 6.55); foeLance.add(collar);
@@ -2905,7 +3121,7 @@
     var foeGroup = null;
     function mountFoe(idx){
       if(foeGroup){ scene.remove(foeGroup); }
-      // v3.2: he is built wearing this facing's rolled look, never
+      // v3.3: he is built wearing this facing's rolled look, never
       // his fixed roster colours — intro, cinematic and match all
       // build from this one mount, so they all show the same look.
       foeGroup = buildKnight(effectiveFoe(idx));
@@ -3095,7 +3311,7 @@
     var el = {};
     ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '3.2';
+    var CURRENT_VERSION = '3.4';
     function openLog(){ el.logWrap.classList.remove('hidden'); refreshPill(); }
     function closeLog(){ el.logWrap.classList.add('hidden'); refreshPill(); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
@@ -3607,6 +3823,25 @@
 
     /* ================= GAME FLOW ================= */
     function foeLetter(foe){ return foe.letter || foe.name.replace('SIR ','').replace('THE ','').charAt(0); }
+    // The foe's herald on his intro cards (v3.3): drawn in his
+    // rolled shield shape, pattern and shield colours — the same
+    // shield the 3D knight carries into the lists — so the card
+    // shows the look he actually rides in, not two flat colours.
+    function foeHeraldHtml(foe){
+      var m = hexCss(foe.shieldMain != null ? foe.shieldMain : foe.main);
+      var a = hexCss(foe.shieldAccent != null ? foe.shieldAccent : foe.accent);
+      var bg;
+      switch(foe.pattern|0){
+        case 1: bg = 'linear-gradient(90deg,' + m + ' 0 36%,' + a + ' 36% 64%,' + m + ' 64% 100%)'; break;
+        case 2: bg = 'linear-gradient(135deg,' + m + ' 0 62%,' + a + ' 62% 100%)'; break;
+        case 3: bg = 'linear-gradient(90deg, transparent 0 38%,' + a + ' 38% 62%, transparent 62% 100%), linear-gradient(180deg, transparent 0 40%,' + a + ' 40% 60%, transparent 60% 100%), ' + m; break;
+        case 4: bg = 'conic-gradient(from 0deg at 50% 50%,' + a + ' 0 25%,' + m + ' 0 50%,' + a + ' 0 75%,' + m + ' 0 100%)'; break;
+        case 5: bg = 'linear-gradient(45deg, transparent 0 42%,' + a + ' 42% 58%, transparent 58% 100%), linear-gradient(-45deg, transparent 0 42%,' + a + ' 42% 58%, transparent 58% 100%), ' + m; break;
+        default: bg = 'linear-gradient(180deg,' + m + ' 0 40%,' + a + ' 40% 60%,' + m + ' 60% 100%)';
+      }
+      var clip = ['polygon(0 0,100% 0,100% 64%,50% 100%,0 64%)','polygon(0 0,100% 0,100% 52%,50% 100%,0 52%)','circle(50% at 50% 50%)','polygon(0 0,100% 0,100% 86%,50% 100%,0 86%)'][foe.shieldShape|0] || 'polygon(0 0,100% 0,100% 64%,50% 100%,0 64%)';
+      return '<div class="herald' + (foe.champ ? ' champHerald' : '') + '" style="background:' + bg + ';clip-path:' + clip + '"><span>' + foeLetter(foe) + '</span></div>';
+    }
     /* ---------- house picker (v1.17, one-page grid v2.5) ----------
        Shown on first entry, before the title card, and again from the
        title screen's CHANGE HOUSE button. All six premade houses fit
@@ -3832,7 +4067,7 @@
        tournament exactly where it was. */
     function startPractice(){
       if(drawChampionFor(G.foeIndex)) saveProgress();
-      rollFoeLook(G.foeIndex); // v3.2: a fresh look for this Practice facing
+      rollFoeLook(G.foeIndex); // v3.3: a fresh look for this Practice facing
       var foe = effectiveFoe(G.foeIndex);
       G.practice = true;
       G.pass = 1; G.youScore = 0; G.foeScore = 0; G.youLances = 0; G.foeLances = 0;
@@ -3846,7 +4081,7 @@
       showCard(
         '<div class="kick">PRACTICE · NO STAKES</div>' +
         (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
-        '<div class="herald' + (foe.champ ? ' champHerald' : '') + '" style="background:linear-gradient(180deg,' + hexCss(foe.main) + ' 0 58%,' + hexCss(foe.accent) + ' 58% 100%)"><span>' + foeLetter(foe) + '</span></div>' +
+        foeHeraldHtml(foe) +
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
         '<p>Unlimited passes to work on your aim — same lance, same shield, same scoring: shield 1 · breast 2 · helm 3. Winning a pass pays 5 coin; no Renown, no ladder bonus, no tournament progress, and an unhorsing either way just means fresh lances for the next pass.</p>' +
         '<p class="small">Leave any time with END PRACTICE at the top right, or after any pass.</p>' +
@@ -3951,10 +4186,10 @@
       // v3.1: a round-end champion is drawn at the moment he is
       // reached — never dealt in advance for the whole run.
       if(drawChampionFor(G.foeIndex)) saveProgress();
-      // v3.2: and whoever was drawn is dressed in a fresh random
+      // v3.3: and whoever was drawn is dressed in a fresh random
       // look for this facing — rolled before the mount and the
       // cinematic, so intro card, cinematic, HUD and the 3D knight
-      // in the match all wear the same new colours.
+      // in the match all wear the same new kit.
       rollFoeLook(G.foeIndex);
       // Rotate: each new match moves on to the next arena in turn. The
       // first match after picking Rotate keeps the arena already on
@@ -3975,7 +4210,7 @@
       showCard(
         '<div class="kick">' + ladderLabel(G.foeIndex).toUpperCase() + '</div>' +
         (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
-        '<div class="herald' + (foe.champ ? ' champHerald' : '') + '" style="background:linear-gradient(180deg,' + hexCss(foe.main) + ' 0 58%,' + hexCss(foe.accent) + ' 58% 100%)"><span>' + foeLetter(foe) + '</span></div>' +
+        foeHeraldHtml(foe) +
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
         (foe.champ ? '<p class="champNote">This is a <b>CHAMPION</b> — the last knight of Round ' + roundNo(G.foeIndex) + '. You beat four knights to reach him; beat him to clear the round. Champions ride faster, aim truer and hit harder than any knight before them.</p>' : '') +
         '<div class="foeLine">You ride for <b style="color:#ffe9a8">' + currentHouse().name + '</b> — ' + currentHouse().colName + ', sigil: ' + currentHouse().sigilName + '.</div>' +
@@ -3998,7 +4233,7 @@
         'Lamorak hits like a falling tree. Even a scoring blow from him can put you in the sand, so a blocked pass is a won pass.',
         'Palamades never hurries and never misses by much. His shield settles on your aim almost at once — strike where you were not aiming a heartbeat ago.',
         'Clad all in gold, the last champion of the second ladder. Fastest, truest and hardest-hitting of them all. Beat him, and both wreaths are yours.'
-      ][i];
+      ][i] || 'A knight of the lists — lance couched, shield raised, and no quarter asked. Ride well.';
     }
     function resetPositions(){
       G.playerZ = 56; G.foeZ = -56; G.speed = 0; G.camFall = 0;
@@ -4339,7 +4574,12 @@
         // him (v2.11: beating Round 4's champion at index 19, or any
         // other round's champion, must continue the tournament).
         var last = G.foeIndex >= FOES.length - 1;
-        var isBlackKnight = G.foeIndex === FIRST_LADDER - 1;
+        // Since v3.4 any knight can ride in any regular slot, so
+        // the Black Knight honours follow the knight himself, not
+        // the fifth slot; the ladder-end bonus below stays with
+        // the slot, as it always has.
+        var isBlackKnight = foe.name === 'THE BLACK KNIGHT';
+        var isFirstLadderEnd = G.foeIndex === FIRST_LADDER - 1;
         var isChamp = !!foe.champ;
         // Every round of five ends with a champion-class foe (the
         // Black Knight, the Golden Knight, then a flagged CHAMPION),
@@ -4355,13 +4595,13 @@
         var purse = diffWin.winPay;
         var ladderDone = isSetEnd;
         var ladderBonus = ladderDone ? diffWin.ladderBonus : 0;
-        lastLadderBonus = ladderDone ? { amount:ladderBonus, diffName:diffWin.name, ladderName:(isBlackKnight ? 'the first ladder' : G.foeIndex < 10 ? 'the Champion\'s Ladder' : 'Round ' + roundNo(G.foeIndex)) } : null;
+        lastLadderBonus = ladderDone ? { amount:ladderBonus, diffName:diffWin.name, ladderName:(isFirstLadderEnd ? 'the first ladder' : G.foeIndex < 10 ? 'the Champion\'s Ladder' : 'Round ' + roundNo(G.foeIndex)) } : null;
         G.coins += purse + ladderBonus; refreshHUD(); saveProgress();
         var bonusLine = ladderDone ? '<p style="color:#ffe9a8;font-size:17px;"><b>LADDER COMPLETE!</b> Bonus +' + ladderBonus + ' coin on ' + diffWin.name + ' — beating all 5 knights of ' + lastLadderBonus.ladderName + '. It is in your purse: you hold ' + G.coins + ' coin.</p>' : '';
         var winText = last ? 'The Last Champion\'s helm is carried from the lists, and the wreath of the whole tournament is yours.'
           : isBlackKnight ? 'The Black Knight is beaten — and beyond him the gates open on the Champion\'s Ladder: five harder knights who read your shield faster, strike truer and hit harder.'
           : isChamp ? 'The CHAMPION yields the field — Round ' + roundNo(G.foeIndex) + ' is cleared, and the next round\'s knights are already arming.'
-          : G.foeIndex === 9 ? 'The Golden Knight is beaten — but the lists go on: ten more rounds of knights wait beyond him, and every round ends with a champion.'
+          : foe.name === 'THE GOLDEN KNIGHT' ? 'The Golden Knight is beaten — but the lists go on: ten more rounds of knights wait beyond him, and every round ends with a champion.'
           : 'The crowd roars your name.';
         showCard(
           '<div class="kick">' + (r.foeDown ? 'BY UNHORSING' : 'ON POINTS') + (isBlackKnight ? ' · CHAMPION\'S LADDER OPEN' : '') + (isChamp ? ' · ★ CHAMPION BEATEN ★' : '') + '</div>' +
@@ -4431,7 +4671,7 @@
         var secondWins = G.foeIndex - FIRST_LADDER;
         showCard('<div class="kick">THE CHAMPION\'S LADDER ENDS</div>' +
           '<h1 style="font-size:32px;">A VALIANT SHOWING</h1><div class="rule"></div>' +
-          '<p>You cleared the first ladder and bested ' + secondWins + (secondWins === 1 ? ' knight' : ' knights') + ' of the Champion\'s Ladder before falling. The Black Knight is beaten — the Golden Knight still waits at the top.</p>' +
+          '<p>You cleared the first ladder and bested ' + secondWins + (secondWins === 1 ? ' knight' : ' knights') + ' of the Champion\'s Ladder before falling. The last knight of the second ladder still waits at the top.</p>' +
           '<button class="btn" id="againBtn" type="button">JOUST AGAIN</button>' +
           '<button class="btn ghost" data-exitmenu type="button">EXIT TO MENU</button>');
       } else {
