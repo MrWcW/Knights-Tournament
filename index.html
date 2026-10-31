@@ -70,6 +70,13 @@
       #speedBar{ height:9px; margin-top:5px; background:#241b0e; border:1px solid rgba(217,164,65,.35); position:relative; overflow:hidden; }
       #speedFill{ position:absolute; inset:0; width:30%; background:linear-gradient(90deg,#7fae4c,#d9a441 70%,#c8452f); transform-origin:left; }
       #aimHint{ position:absolute; left:50%; transform:translateX(-50%); bottom:calc(48px + env(safe-area-inset-bottom)); font-size:14.5px; color:rgba(232,220,192,.85); text-shadow:0 1px 4px #000; letter-spacing:.03em; text-align:center; white-space:nowrap; }
+      /* practice exit — pinned under the tournament plate, in reach at
+         any moment of a practice pass without crowding the controls */
+      #practiceExitBtn{ pointer-events:auto; position:absolute; top:calc(74px + env(safe-area-inset-top)); right:10px;
+        background:var(--plate); border:1px solid var(--gold); color:#fff7dd; font-family:"Palatino Linotype", Palatino, Georgia, serif;
+        font-weight:900; font-size:13.5px; letter-spacing:.1em; padding:10px 16px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.55); white-space:nowrap; }
+      #practiceExitBtn.hidden{ display:none; }
+      #practiceExitBtn:active{ transform:translateY(1px); }
       /* shield slider — one vertical slider at bottom left, in place of
          the old button stack: drag the shield up, middle or down */
       #shieldSlider{ pointer-events:auto; position:absolute; left:12px; bottom:calc(12px + env(safe-area-inset-bottom)); width:104px; padding:9px 8px 8px;
@@ -174,6 +181,19 @@
       .shopList .sname{ flex:1 1 auto; font-size:15px; line-height:1.3; color:#ddd0ab; }
       .shopList .sname b{ color:#ffe9a8; }
       .shopList .sname .stag{ display:block; font-size:12px; letter-spacing:.1em; color:#b7a67f; text-transform:uppercase; }
+      .shopList .swatch.bannerSw{ width:30px; height:36px; border:none; box-shadow:inset 0 0 0 2px rgba(217,164,65,.75);
+        background:linear-gradient(180deg,#8c2f26 0 55%,#7a1f1f 55% 100%); clip-path:polygon(0 0,100% 0,100% 100%,50% 76%,0 100%); }
+      .shopList .swatch.titleSw{ width:30px; height:36px; display:flex; align-items:center; justify-content:center;
+        background:linear-gradient(180deg,#3a2c14,#241a0c); border:1px solid rgba(217,164,65,.55); box-shadow:none;
+        color:#ffe9a8; font-size:16px; line-height:1; }
+      .shopList .swatch.caparisonSw{ width:38px; height:30px; border:none; box-shadow:inset 0 0 0 2px rgba(217,164,65,.55);
+        clip-path:polygon(0 0,100% 0,92% 100%,8% 100%); }
+      .shopList .swatch.horseSw{ width:38px; height:30px; border-radius:45% 45% 40% 40%; }
+      .shopList .swatch.plumeSw{ width:30px; height:36px; border:none; box-shadow:none; border-radius:50% 50% 46% 46%/62% 62% 38% 38%; }
+      /* champion honours on the title card */
+      .champTitle{ font-family:"Palatino Linotype", Palatino, Georgia, serif; font-weight:900; letter-spacing:.22em;
+        font-size:15px; color:#ffe9a8; margin:0 0 4px; text-shadow:0 1px 3px rgba(0,0,0,.65); }
+      .champBannerBox{ margin:2px auto 6px; line-height:0; }
       .btn.small{ font-size:13.5px; padding:8px 16px; margin-top:0; letter-spacing:.05em; }
       .btn[disabled]{ opacity:.42; cursor:default; }
       .btn[disabled]:hover{ background:linear-gradient(180deg,#8a6a35,#5f471e); }
@@ -194,6 +214,33 @@
         #aimHint{ display:none; }
         .card{ padding:18px 16px 16px; }
       }
+      /* ---------- Arena picker (title screen) ---------- */
+      .arenaPicker{ display:flex; flex-wrap:wrap; gap:7px; justify-content:center; margin:8px 0 2px; }
+      .arenaBtn{ pointer-events:auto; background:rgba(20,16,10,.55); border:1px solid #6d5a33; color:#cbbd97;
+        font-family:"Palatino Linotype", Palatino, Georgia, serif; font-weight:700; font-size:13.5px; letter-spacing:.05em;
+        padding:8px 13px; cursor:pointer; }
+      .arenaBtn:active{ transform:translateY(1px); }
+      .arenaBtn.on{ background:linear-gradient(180deg,#8a6a35,#5f471e); border-color:var(--gold); color:#fff7dd;
+        box-shadow:0 2px 10px rgba(0,0,0,.5); }
+      #arenaDesc, #difficultyDesc{ min-height:20px; }
+      /* ---------- House picker ---------- */
+      .houseGrid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+      @media (max-width:560px){ .houseGrid{ grid-template-columns:1fr; } }
+      .houseCard{ border:1px solid #6d5a33; background:rgba(20,16,10,.55); padding:14px 12px 12px; text-align:center; }
+      .houseCard .hShield{ width:62px; height:74px; margin:0 auto; clip-path:polygon(0 0,100% 0,100% 62%,50% 100%,0 62%);
+        display:flex; align-items:center; justify-content:center; box-shadow:inset 0 0 0 2px rgba(0,0,0,.35); }
+      .houseCard .hShield span{ font-family:"Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:29px; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.75); }
+      .houseCard .hFlag{ position:relative; height:38px; width:88%; margin:10px auto 2px; }
+      .houseCard .hFlag i{ position:absolute; left:0; top:0; bottom:0; width:3px; background:#5f471e; display:block; }
+      .houseCard .hFlag .cloth{ position:absolute; left:3px; right:0; top:2px; height:29px; display:flex; align-items:center; justify-content:center;
+        font-size:16px; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.7); border:1px solid rgba(0,0,0,.5); }
+      .houseCard .hName{ font-family:"Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:17.5px; color:#ffe9a8; margin-top:8px; }
+      .houseCard .hMotto{ font-size:14px; font-style:italic; color:#ddd0ab; margin-top:2px; }
+      .houseCard .hCols{ font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#b7a67f; margin-top:4px; }
+      .houseCard .btn{ margin-top:10px; }
+      .houseBannerBox{ margin:4px auto 2px; line-height:0; }
+      .houseLine{ font-family:"Palatino Linotype", Palatino, Georgia, serif; font-weight:900; letter-spacing:.18em; font-size:14.5px; color:#ffe9a8; margin-top:2px; }
+      .houseSub{ font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:#b7a67f; margin-top:2px; }
       /* ---------- Pre-match cinematic ---------- */
       #cineWrap{ position:fixed; inset:0; z-index:20; pointer-events:none; }
       #cineWrap.hidden{ display:none; }
@@ -232,6 +279,8 @@
         <div class="t">Tournament</div>
         <div id="tourShields"><i></i><i></i><i></i><i></i><i></i></div>
       </div>
+
+      <button id="practiceExitBtn" class="hidden" type="button" aria-label="End practice and return to the title screen">✕ END PRACTICE</button>
 
       <div id="trackPlate" class="plate">
         <div class="t">The Lists</div>
@@ -277,7 +326,7 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 1.9 — tap to see update history">v1.9 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 1.17 — tap to see update history">v1.17 <span class="vdot">· Updates</span></button>
 
     <div id="logWrap" class="hidden" role="dialog" aria-modal="true" aria-labelledby="logTitle">
       <button id="logXBtn" type="button" aria-label="Close update history">✕</button>
@@ -285,8 +334,16 @@
         <div style="font-family:'Palatino Linotype', Palatino, Georgia, serif;letter-spacing:.26em;font-size:12px;color:#cbbd97;text-align:center;">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v1.9</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v1.17</b></p>
         <ul class="logList">
+          <li><span class="vtag">v1.17</span><span class="vtext"><b>Choose your house.</b> On your first visit you pick from six premade houses — each with its own name, banner, shield colours and sigil — flown on your flag, shield, caparison and banner, and named on the title screen and in match intros. Your house is saved on your device and can be changed any time from the title screen.</span></li>
+          <li><span class="vtag">v1.16</span><span class="vtext"><b>Coin pay by difficulty + ladder bonus.</b> Every match win now pays 20 coin on Easy, 25 on Normal and 30 on Hard — and beating all 5 knights in a ladder pays a bonus on top: 250 on Easy, 500 on Normal, 750 on Hard, shown on the ladder completion card and saved with your purse. Practice pays too: 5 coin for winning a practice pass, at any difficulty — but never a ladder bonus.</span></li>
+          <li><span class="vtag">v1.15</span><span class="vtext"><b>More Armoury paint.</b> The Armoury now sells matching caparison colours, horse colours and helmet plumes in the same colour sets as the lances and shields — bought with coin, paint only, and everything you own saves on your device.</span></li>
+          <li><span class="vtag">v1.14</span><span class="vtext"><b>Renown trophies now spend.</b> Trophies unlock champion lance &amp; shield colours, a champion banner flown over the lists, and the Champion of the Lists title on the title screen — paint and honours only, same scoring and rules. Your trophy total shows in the Armoury, and everything you unlock saves on your device.</span></li>
+          <li><span class="vtag">v1.13</span><span class="vtext"><b>Difficulty choice.</b> Pick Easy, Normal or Hard on the title screen — easier foes read your shield less often, aim wider and hit softer; harder foes read it faster, strike truer and hit harder. Same scoring and rules, and your pick is remembered.</span></li>
+          <li><span class="vtag">v1.12</span><span class="vtext"><b>Champion's Ladder.</b> Beat the Black Knight to open a harder second ladder of five new knights — they read your shield faster, strike truer and hit harder, under the same rules.</span></li>
+          <li><span class="vtag">v1.11</span><span class="vtext"><b>Arena variety.</b> Pick an arena on the title screen — Classic Day (the original), Dusk with a low sun and lit torches, or Festival with a pale castle, blue roofs and a livelier crowd — or choose Rotate for a new look each match.</span></li>
+          <li><span class="vtag">v1.10</span><span class="vtext"><b>Practice mode.</b> The PRACTICE button on the title screen starts unlimited passes against the knight you face — same aim, shield and scoring, but no coin, no Renown and no tournament at stake, and an unhorsing never ends it. END PRACTICE returns to the title, and the tournament resumes exactly where it was.</span></li>
           <li><span class="vtag">v1.9</span><span class="vtext"><b>Horse's head &amp; neck fixed in profile.</b> The head is properly proportioned now — full poll, forehead, jaw and a blunt fleshy muzzle, no long thin droop — carried on a naturally arched neck that tapers cleanly into a defined throatlatch, with bridle, chanfron and ears refitted.</span></li>
           <li><span class="vtag">v1.8</span><span class="vtext"><b>Update log closes again.</b> A big ✕ button now sits at the top corner of this log, always in reach, and the list scrolls properly under your finger on touch screens — no more getting stuck in it.</span></li>
           <li><span class="vtag">v1.7</span><span class="vtext"><b>Horse's face widened.</b> The muzzle, cheeks and jaw are now full and properly proportioned — no more thin, pinched face — with eyes, nostrils and mouth spaced on the wider face, and the bridle, noseband and chanfron refitted to match.</span></li>
@@ -319,13 +376,26 @@
     <div id="shopWrap" class="hidden" role="dialog" aria-modal="true" aria-labelledby="shopTitle">
       <div class="card" id="shopBox">
         <div style="font-family:'Palatino Linotype', Palatino, Georgia, serif;letter-spacing:.26em;font-size:12px;color:#cbbd97;text-align:center;">THE ARMOURY</div>
-        <h2 id="shopTitle">Lances &amp; Shields</h2>
+        <h2 id="shopTitle">Lances, Shields &amp; Paint</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Colours only — every lance has the same reach, and every shield guards and blocks the same.<br />Your purse: <b id="shopCoins" style="color:#ffe9a8;">0</b> coin · winning matches pays coin</p>
+        <p class="small" style="text-align:center;">Colours only — every lance has the same reach, every shield guards and blocks the same, and the caparison, horse and plume paint changes nothing but the look.<br />Your purse: <b id="shopCoins" style="color:#ffe9a8;">0</b> coin · winning matches pays coin</p>
+        <p class="small" style="text-align:center;">Your Renown: <b id="shopTrophies" style="color:#ffe9a8;">0</b> trophies · win matches to earn trophies, spend them on the champion colours and honours below — paint and pageantry only</p>
         <div class="shopSection">LANCES</div>
         <ul class="shopList" id="shopList"></ul>
         <div class="shopSection">SHIELDS</div>
         <ul class="shopList" id="shieldShopList"></ul>
+        <div class="shopSection">CAPARISONS · HORSE CLOTHS</div>
+        <ul class="shopList" id="caparisonShopList"></ul>
+        <div class="shopSection">HORSE COLOURS</div>
+        <ul class="shopList" id="horseShopList"></ul>
+        <div class="shopSection">HELMET PLUMES</div>
+        <ul class="shopList" id="plumeShopList"></ul>
+        <div class="shopSection">RENOWN LANCES · TROPHY UNLOCKS</div>
+        <ul class="shopList" id="renownLanceList"></ul>
+        <div class="shopSection">RENOWN SHIELDS · TROPHY UNLOCKS</div>
+        <ul class="shopList" id="renownShieldList"></ul>
+        <div class="shopSection">CHAMPION HONOURS</div>
+        <ul class="shopList" id="honourList"></ul>
         <div class="btnRow"><button class="btn" id="shopCloseBtn" type="button">CLOSE</button></div>
       </div>
     </div>
@@ -374,9 +444,110 @@
       { name:'SIR KAY',     title:'the Bold',          main:0x8c2f26, accent:0xd9a441, plume:0xd9a441, horse:0x4a3423, speed:11.5, sigma:0.38, headAim:0.16 },
       { name:'SIR PERCIVAL',title:'the Pure',          main:0xd8d3c3, accent:0x8c2f26, plume:0x8c2f26, horse:0x8a8d90, speed:12.0, sigma:0.30, headAim:0.22 },
       { name:'SIR GAWAIN',  title:'the Sun Knight',    main:0xc78f2a, accent:0x274a73, plume:0xf2e3ac, horse:0x2e2a26, speed:12.8, sigma:0.24, headAim:0.30 },
-      { name:'THE BLACK KNIGHT', title:'Champion of the Lists', main:0x1c1c20, accent:0x7a1f1f, plume:0x7a1f1f, horse:0x1f1c1a, speed:13.6, sigma:0.17, headAim:0.40 }
+      { name:'THE BLACK KNIGHT', title:'Champion of the Lists', main:0x1c1c20, accent:0x7a1f1f, plume:0x7a1f1f, horse:0x1f1c1a, speed:13.6, sigma:0.17, headAim:0.40 },
+      /* Champion's Ladder — the second tournament, opened by beating
+         the Black Knight. Same rules throughout (best of five passes,
+         sudden-death tiebreak, shield 1 · breast 2 · helm 3, unhorsing
+         ends a match), but these five ride faster, aim far truer
+         (much smaller sigma, far more helm shots), read your shield
+         sooner and more surely, and hit harder — see pickFoeAim, the
+         shield-guess and aim-tracking code, and unhorseChance. */
+      { name:'SIR LANCELOT', title:'the Unmatched',     main:0x274a73, accent:0xd8d3c3, plume:0xd8d3c3, horse:0x9a958c, speed:14.0, sigma:0.14, headAim:0.44 },
+      { name:'SIR TRISTAN',  title:'the Swift',         main:0x1f6f6b, accent:0xd9a441, plume:0xd9a441, horse:0x5a4632, speed:14.3, sigma:0.12, headAim:0.48 },
+      { name:'SIR LAMORAK',  title:'the Mighty',        main:0xc25e1e, accent:0x3a2415, plume:0x3a2415, horse:0x3a2c22, speed:14.6, sigma:0.10, headAim:0.52 },
+      { name:'SIR PALAMEDES',title:'the Relentless',    main:0x5b3a8c, accent:0xd9a441, plume:0xd9a441, horse:0x24202a, speed:14.9, sigma:0.08, headAim:0.56 },
+      { name:'THE GOLDEN KNIGHT', title:'Champion of Champions', main:0xd9a441, accent:0x7a1f1f, plume:0x7a1f1f, horse:0xe3ddcf, speed:15.3, sigma:0.06, headAim:0.60 }
     ];
+    var FIRST_LADDER = 5; // foes 0–4 are the original ladder; 5–9 the Champion's Ladder
+    function ladderPos(idx){ return idx < FIRST_LADDER ? idx : idx - FIRST_LADDER; }
+    function ladderLabel(idx){ return idx < FIRST_LADDER ? 'Match ' + (idx + 1) + ' of 5' : 'Champion\'s Ladder · Match ' + (idx - FIRST_LADDER + 1) + ' of 5'; }
     var MAX_PASSES = 5;
+
+    /* Arena looks: pure scenery — sky, light, fog, castle stone and
+       roofs, stand canopies, torches, festival dressing and how lively
+       the crowd is. Nothing here touches aim, scoring, controls, the
+       horse, the knight, the shop or the tournament. 'classic' holds
+       exactly the values the game shipped with, so the original arena
+       is unchanged. The title screen also offers 'rotate', which is a
+       picker choice rather than a look of its own: a new arena each
+       match, in the order below. */
+    var ARENAS = [
+      { id:'classic', name:'Classic Day',
+        desc:'The original lists — bright midday, grey stone castle, red-and-cream canopies.',
+        skyTop:0x5f97c8, skyMid:0xa8c4de, skyBot:0xe6ddc4, fog:0xa8c4de,
+        hemiSky:0xcfe4ff, hemiGround:0x5d5136, hemiInt:0.75,
+        sunColor:0xfff1d6, sunInt:1.55, sunPos:[38,52,20],
+        fillColor:0xbdd3ee, fillInt:0.35, exposure:1.12,
+        stone:0x8d8d94, stoneDark:0x63636b, roof:0x5a4632,
+        grass:0x5d7038, sand:0xc9ab72, cloud:0xf6f9fc,
+        stripeA:'#a02c22', stripeB:'#e8dcc0',
+        crowd:'calm', torches:false, festival:false },
+      { id:'dusk', name:'Dusk',
+        desc:'A low orange sun, long shadows and lit torches along the lists.',
+        skyTop:0x35406e, skyMid:0xd97a3d, skyBot:0xf2c184, fog:0xcf9464,
+        hemiSky:0xffc79a, hemiGround:0x4a3520, hemiInt:0.5,
+        sunColor:0xff9a4a, sunInt:1.35, sunPos:[-34,13,26],
+        fillColor:0x8a7ab8, fillInt:0.22, exposure:1.04,
+        stone:0x6f6a72, stoneDark:0x4c4850, roof:0x3c2e20,
+        grass:0x46582e, sand:0xb08a58, cloud:0xf7b98c,
+        stripeA:'#7e2a20', stripeB:'#cbb489',
+        crowd:'calm', torches:true, festival:false },
+      { id:'festival', name:'Festival',
+        desc:'A pale stone castle with blue roofs, bunting overhead, blue-and-gold canopies — and a crowd that bounces, waves and will not sit down.',
+        skyTop:0x4f8fd0, skyMid:0xaed2ee, skyBot:0xf0e6c8, fog:0xbcd6ea,
+        hemiSky:0xd8ecff, hemiGround:0x6a5c3c, hemiInt:0.82,
+        sunColor:0xfff3da, sunInt:1.6, sunPos:[30,56,-14],
+        fillColor:0xcfe0f2, fillInt:0.38, exposure:1.14,
+        stone:0xcabfa4, stoneDark:0xa3937a, roof:0x274a73,
+        grass:0x687f3c, sand:0xd8ba7e, cloud:0xffffff,
+        stripeA:'#274a73', stripeB:'#d9a441',
+        crowd:'lively', torches:false, festival:true }
+    ];
+    function arenaById(id){ for(var i=0;i<ARENAS.length;i++) if(ARENAS[i].id === id) return ARENAS[i]; return ARENAS[0]; }
+
+    /* Difficulty: foe behaviour only — never the controls, the scoring
+       (shield 1 · breast 2 · helm 3), the best-of-five passes, the
+       sudden-death tiebreak, the unhorsing rules themselves, the
+       ladders, the Renown payouts, the shop, Practice or the
+       arenas. It scales exactly three things about every foe, on both
+       ladders and in Practice alike:
+         · shield reading — how soon and how often he re-reads your
+           guard (guessIntervalMult stretches the wait between reads,
+           guessSkillAdd shifts how often the read is the true one);
+         · aim — how widely his chosen mark scatters (sigmaMult), how
+           often he hunts the helm (headAimShift) and how fast his
+           point settles on the mark as he charges (trackMult);
+         · hitting power — how likely a scoring strike of his is to
+           unhorse you (unhorseAdd; your own unhorsing power is never
+           touched).
+       'normal' is the game exactly as it has always played: every
+       multiplier is 1 and every shift is 0. */
+    /* Coin pay by difficulty (v1.16): every match win pays a flat
+       rate by the difficulty in effect when the match is won —
+       winPay on each row below: 20 Easy, 25 Normal, 30 Hard (this
+       replaces the old per-foe purse formula). On top of that,
+       beating all 5 knights of a ladder — the Black Knight on the
+       first ladder, the Golden Knight on the Champion's Ladder —
+       pays a one-time ladder completion bonus (ladderBonus: 250 /
+       500 / 750), scaled by the difficulty in effect at the moment
+       of completion. Both are awarded once, in the win branch of
+       passCard, added to the purse and saved with it. Practice has
+       its own smaller pay, in passCard's practice branch: a flat
+       5 coin per practice pass won (PRACTICE_WIN_PAY), the same at
+       every difficulty, and never a ladder bonus. */
+    var DIFFICULTIES = [
+      { id:'easy',   name:'Easy',
+        desc:'For learning the lists — foes read your shield less often, aim wider and hit softer. A win pays 20 coin; clearing a ladder pays a 250 coin bonus.',
+        sigmaMult:1.6, headAimShift:-0.05, trackMult:0.65, guessIntervalMult:1.7, guessSkillAdd:-0.22, unhorseAdd:-0.10, winPay:20, ladderBonus:250 },
+      { id:'normal', name:'Normal',
+        desc:'The lists as they have always been — foes read, aim and hit as before. A win pays 25 coin; clearing a ladder pays a 500 coin bonus.',
+        sigmaMult:1.0, headAimShift:0, trackMult:1.0, guessIntervalMult:1.0, guessSkillAdd:0, unhorseAdd:0, winPay:25, ladderBonus:500 },
+      { id:'hard',   name:'Hard',
+        desc:'For seasoned knights — foes read your shield faster and surer, strike truer and hit harder. A win pays 30 coin; clearing a ladder pays a 750 coin bonus.',
+        sigmaMult:0.6, headAimShift:0.06, trackMult:1.45, guessIntervalMult:0.55, guessSkillAdd:0.22, unhorseAdd:0.10, winPay:30, ladderBonus:750 }
+    ];
+    function difficultyById(id){ for(var i=0;i<DIFFICULTIES.length;i++) if(DIFFICULTIES[i].id === id) return DIFFICULTIES[i]; return DIFFICULTIES[1]; }
+    function currentDifficulty(){ return difficultyById(G.difficulty); }
 
     /* Lance colours for the shop: paint only — every lance is the same
        length, weight and scoring underneath. Prices are set so the first
@@ -395,14 +566,78 @@
       { id:'rose',    name:'Rose & Pearl',    a:0xb04a6b, b:0xf0e6da, pen:0xf0e6da, price:500 },
       { id:'gilded',  name:'Gilded Champion', a:0xd9a441, b:0x7a5a1e, pen:0xd9a441, price:650 }
     ];
-    function lanceById(id){ for(var i=0;i<LANCES.length;i++) if(LANCES[i].id === id) return LANCES[i]; return LANCES[0]; }
+    function lanceById(id){ for(var i=0;i<LANCES.length;i++) if(LANCES[i].id === id) return LANCES[i]; var rl = renownLanceById(id); return rl || LANCES[0]; }
 
     /* Shield colours for the shop: the same ten colourways as the lances,
        plus the house colours you start with. Paint only — every shield is
        the same size, guards the same marks and blocks exactly the same. */
     var SHIELDS = [ { id:'house', name:'House Blue & Gold', a:0x274a73, b:0xd9a441, price:0 } ];
     for(var si=0; si<LANCES.length; si++){ var SL = LANCES[si]; if(SL.id !== 'ash') SHIELDS.push({ id:SL.id, name:SL.name, a:SL.a, b:SL.b, price:SL.price }); }
-    function shieldById(id){ for(var i=0;i<SHIELDS.length;i++) if(SHIELDS[i].id === id) return SHIELDS[i]; return SHIELDS[0]; }
+    function shieldById(id){ for(var i=0;i<SHIELDS.length;i++) if(SHIELDS[i].id === id) return SHIELDS[i]; var rs = renownShieldById(id); return rs || SHIELDS[0]; }
+
+    /* Renown honours: special lance and shield colour sets bought with
+       Renown trophies instead of coin — paint only, exactly like the
+       coin colours: same reach, same guard, same scoring underneath.
+       Unlocking spends the trophies; the sets then live in their own
+       owned maps so the coin collection is untouched. */
+    var RENOWN_LANCES = [
+      { id:'sunburst', name:'Sunburst Champion', a:0xe8a020, b:0xf5eeda, pen:0xe8a020, trophies:3 },
+      { id:'midnight', name:'Midnight Champion', a:0x232c4e, b:0xc9cfda, pen:0xc9cfda, trophies:6 },
+      { id:'dragon',   name:'Dragon Champion',   a:0x17573a, b:0xd9a441, pen:0xd9a441, trophies:10 }
+    ];
+    function renownLanceById(id){ for(var i=0;i<RENOWN_LANCES.length;i++) if(RENOWN_LANCES[i].id === id) return RENOWN_LANCES[i]; return null; }
+    /* Matching shield colourways for the Renown lances, same trophy cost. */
+    var RENOWN_SHIELDS = [];
+    for(var ri=0; ri<RENOWN_LANCES.length; ri++){ var RL0 = RENOWN_LANCES[ri]; RENOWN_SHIELDS.push({ id:RL0.id, name:RL0.name, a:RL0.a, b:RL0.b, trophies:RL0.trophies }); }
+    function renownShieldById(id){ for(var i=0;i<RENOWN_SHIELDS.length;i++) if(RENOWN_SHIELDS[i].id === id) return RENOWN_SHIELDS[i]; return null; }
+
+    /* Caparison colours for the shop: the horse's cloth in the same
+       colour sets as the lances and shields, at the same coin prices —
+       the house cloth you start with, then one cloth per colourway.
+       Paint only: the cloth is the same drape on the same horse. */
+    var CAPARISONS = [ { id:'house', name:'House Blue & Gold', a:0x274a73, b:0xd9a441, price:0 } ];
+    for(var ci=0; ci<LANCES.length; ci++){ var CL = LANCES[ci]; if(CL.id !== 'ash') CAPARISONS.push({ id:CL.id, name:CL.name, a:CL.a, b:CL.b, price:CL.price }); }
+    function caparisonById(id){ for(var i=0;i<CAPARISONS.length;i++) if(CAPARISONS[i].id === id) return CAPARISONS[i]; return CAPARISONS[0]; }
+
+    /* Horse colours for the shop: a coat colour for every set above,
+       at the same coin prices — the bay you start with, then each
+       colourway's main colour as a coat (its darker shade is worked
+       out from it, exactly as the horse builder already does). Paint
+       only: same horse, same gallop, same everything underneath. */
+    var HORSESKINS = [ { id:'bay', name:'Bay', coat:0x74522f, price:0 } ];
+    for(var qi=0; qi<CAPARISONS.length; qi++){ var QC = CAPARISONS[qi]; if(QC.id !== 'house') HORSESKINS.push({ id:QC.id, name:QC.name, coat:QC.a, price:QC.price }); }
+    function horseSkinById(id){ for(var i=0;i<HORSESKINS.length;i++) if(HORSESKINS[i].id === id) return HORSESKINS[i]; return HORSESKINS[0]; }
+
+    /* Helmet plumes for the shop: a crest colour for every set above,
+       at the same coin prices — the gold crest you start with, then
+       each colourway's pennon colour for the feathers. Paint only:
+       the plume is pageantry, it guards nothing and scores nothing. */
+    var PLUMES = [ { id:'gold', name:'Gold', color:0xd9a441, price:0 } ];
+    for(var ui=0; ui<LANCES.length; ui++){ var UP = LANCES[ui]; if(UP.id !== 'ash' && UP.id !== 'gilded') PLUMES.push({ id:UP.id, name:UP.name, color:UP.pen, price:UP.price }); }
+    PLUMES.push({ id:'gilded', name:'Gilded Champion', color:0xd9a441, price:650 });
+    function plumeById(id){ for(var i=0;i<PLUMES.length;i++) if(PLUMES[i].id === id) return PLUMES[i]; return PLUMES[0]; }
+    /* The two honours: a champion banner flown over the lists and hung
+       on the title screen, and a champion title shown on the title
+       screen. Pure pageantry — neither touches a single rule. */
+    var BANNER_TROPHIES = 5, TITLE_TROPHIES = 8, CHAMPION_TITLE = 'CHAMPION OF THE LISTS';
+
+    /* Premade houses (v1.17): on first entry the player picks one, and
+       it sets their flag and banner, their shield colours and sigil,
+       and their caparison colours, and its name is shown on the title
+       screen and in match intros. Pure pageantry — no house touches
+       scoring, reach, guard or any rule. The first house is the
+       blue & gold with the G that the game has always flown, so an
+       old save with no house keeps exactly its current colours. */
+    var HOUSES = [
+      { id:'goldmane',  name:'House Goldmane',  a:0x274a73, b:0xd9a441, sigil:'G',  sigilName:'the Golden G', colName:'Deep Blue & Gold',  motto:'Steadfast and bright.' },
+      { id:'sunspire',  name:'House Sunspire',  a:0x8c2f26, b:0xe8a020, sigil:'☀', sigilName:'the Sun',      colName:'Crimson & Gold',    motto:'We rise with the sun.' },
+      { id:'nightmoor', name:'House Nightmoor', a:0x232c4e, b:0xc9cfda, sigil:'☾', sigilName:'the Moon',     colName:'Midnight & Silver', motto:'Quiet, and watching.' },
+      { id:'thornwall', name:'House Thornwall', a:0x2e6b34, b:0xe8dcc0, sigil:'♜', sigilName:'the Tower',    colName:'Emerald & Cream',   motto:'None shall pass.' },
+      { id:'ironhold',  name:'House Ironhold',  a:0x1c1c20, b:0x7a1f1f, sigil:'♞', sigilName:'the Knight',   colName:'Onyx & Blood',      motto:'Iron does not bend.' },
+      { id:'rosefield', name:'House Rosefield', a:0xb04a6b, b:0xf0e6da, sigil:'⚜', sigilName:'the Fleur',    colName:'Rose & Pearl',      motto:'Grace, then glory.' }
+    ];
+    function houseById(id){ for(var i=0;i<HOUSES.length;i++) if(HOUSES[i].id === id) return HOUSES[i]; return HOUSES[0]; }
+    function currentHouse(){ return houseById(G.house); }
 
     /* ================= STATE ================= */
     var G = {
@@ -411,11 +646,27 @@
       aimX:0, aimY:0, aimTX:0, aimTY:0, speed:0, chargeT:0, stateT:0,
       playerZ:56, foeZ:-56, foeAimX:0, foeAimY:0, foeTargetX:0, foeTargetY:2.05,
       result:null, shake:0, timeScale:1, slowT:0, hoofPhase:0, lastHoofStep:0,
-      playerDown:false, foeDown:false, camFall:0, started:false, shieldPos:'mid', shieldKnock:0, foeTargetZone:'chest', renown:0,
+      playerDown:false, foeDown:false, camFall:0, started:false, practice:false, shieldPos:'mid', shieldKnock:0, foeTargetZone:'chest', renown:0,
       coins:0, ownedLances:{ ash:true }, lanceSkin:'ash', ownedShields:{ house:true }, shieldSkin:'house',
-      foeShieldPos:'mid', foeShieldY:0, shieldGuessT:0,
-      cineT:0, cineDur:8.5
+      ownedCaparisons:{ house:true }, caparisonSkin:'house', ownedHorseSkins:{ bay:true }, horseSkin:'bay',
+      ownedPlumes:{ gold:true }, plumeSkin:'gold',
+      foeShieldPos:'mid', foeShieldY:0, shieldGuessT:0, secondUnlocked:false,
+      cineT:0, cineDur:8.5,
+      arena:'classic', arenaIdx:0, _arenaShown:false,
+      difficulty:'normal',
+      house:'goldmane', houseChosen:false,
+      ownedHonourLances:{}, ownedHonourShields:{},
+      bannerOwned:false, bannerOn:false, titleOwned:false, titleOn:false
     };
+    /* Session-only record of the ladder completion bonus just awarded
+       on a ladder-ending win, so the tournament end card can show the
+       same bonus line without awarding it a second time. Never saved:
+       the coin itself is already in the purse and saved with it. */
+    var lastLadderBonus = null; // { amount, diffName, ladderName }
+    /* Practice pay (v1.16): a flat 5 coin for winning a practice
+       pass, the same at every difficulty; no ladder bonus in
+       Practice, ever. */
+    var PRACTICE_WIN_PAY = 5;
 
     /* ================= SAVED PROGRESS =================
        The purse, the trophy count, the Armoury collection (owned and
@@ -443,15 +694,35 @@
           lanceSkin: G.lanceSkin,
           ownedShields: G.ownedShields,
           shieldSkin: G.shieldSkin,
-          foeIndex: G.foeIndex
+          ownedCaparisons: G.ownedCaparisons,
+          caparisonSkin: G.caparisonSkin,
+          ownedHorseSkins: G.ownedHorseSkins,
+          horseSkin: G.horseSkin,
+          ownedPlumes: G.ownedPlumes,
+          plumeSkin: G.plumeSkin,
+          ownedHonourLances: G.ownedHonourLances,
+          ownedHonourShields: G.ownedHonourShields,
+          bannerOwned: G.bannerOwned,
+          bannerOn: G.bannerOn,
+          titleOwned: G.titleOwned,
+          titleOn: G.titleOn,
+          foeIndex: G.foeIndex,
+          secondUnlocked: G.secondUnlocked,
+          arena: G.arena,
+          arenaIdx: G.arenaIdx,
+          difficulty: G.difficulty,
+          house: G.house,
+          houseChosen: G.houseChosen
         }));
       } catch(e){ /* a failed save never interrupts play */ }
     }
+    var hadSave = false;
     function loadProgress(){
       if(!storeOK) return;
       var raw = null;
       try { raw = window.localStorage.getItem(SAVE_KEY); } catch(e){ return; }
       if(!raw) return;
+      hadSave = true;
       var s = null;
       try { s = JSON.parse(raw); } catch(e){ return; }
       if(!s || typeof s !== 'object') return;
@@ -466,10 +737,51 @@
       if(s.ownedShields && typeof s.ownedShields === 'object'){
         for(var si2 = 0; si2 < SHIELDS.length; si2++) if(s.ownedShields[SHIELDS[si2].id]) G.ownedShields[SHIELDS[si2].id] = true;
       }
-      if(typeof s.lanceSkin === 'string' && G.ownedLances[s.lanceSkin]) G.lanceSkin = lanceById(s.lanceSkin).id;
-      if(typeof s.shieldSkin === 'string' && G.ownedShields[s.shieldSkin]) G.shieldSkin = shieldById(s.shieldSkin).id;
+      // The v1.15 paint validates the same way; old saves simply have
+      // none of it yet and keep the starting cloth, coat and crest.
+      if(s.ownedCaparisons && typeof s.ownedCaparisons === 'object'){
+        for(var ci2 = 0; ci2 < CAPARISONS.length; ci2++) if(s.ownedCaparisons[CAPARISONS[ci2].id]) G.ownedCaparisons[CAPARISONS[ci2].id] = true;
+      }
+      if(s.ownedHorseSkins && typeof s.ownedHorseSkins === 'object'){
+        for(var qi2 = 0; qi2 < HORSESKINS.length; qi2++) if(s.ownedHorseSkins[HORSESKINS[qi2].id]) G.ownedHorseSkins[HORSESKINS[qi2].id] = true;
+      }
+      if(s.ownedPlumes && typeof s.ownedPlumes === 'object'){
+        for(var ui2 = 0; ui2 < PLUMES.length; ui2++) if(s.ownedPlumes[PLUMES[ui2].id]) G.ownedPlumes[PLUMES[ui2].id] = true;
+      }
+      // Renown unlocks validate against their own catalogues, exactly
+      // like the coin collection; old saves simply have none yet.
+      if(s.ownedHonourLances && typeof s.ownedHonourLances === 'object'){
+        for(var hi = 0; hi < RENOWN_LANCES.length; hi++) if(s.ownedHonourLances[RENOWN_LANCES[hi].id]) G.ownedHonourLances[RENOWN_LANCES[hi].id] = true;
+      }
+      if(s.ownedHonourShields && typeof s.ownedHonourShields === 'object'){
+        for(var hj = 0; hj < RENOWN_SHIELDS.length; hj++) if(s.ownedHonourShields[RENOWN_SHIELDS[hj].id]) G.ownedHonourShields[RENOWN_SHIELDS[hj].id] = true;
+      }
+      G.bannerOwned = s.bannerOwned === true;
+      G.bannerOn = G.bannerOwned && s.bannerOn !== false;
+      G.titleOwned = s.titleOwned === true;
+      G.titleOn = G.titleOwned && s.titleOn !== false;
+      if(typeof s.lanceSkin === 'string' && (G.ownedLances[s.lanceSkin] || G.ownedHonourLances[s.lanceSkin])) G.lanceSkin = lanceById(s.lanceSkin).id;
+      if(typeof s.shieldSkin === 'string' && (G.ownedShields[s.shieldSkin] || G.ownedHonourShields[s.shieldSkin])) G.shieldSkin = shieldById(s.shieldSkin).id;
+      if(typeof s.caparisonSkin === 'string' && G.ownedCaparisons[s.caparisonSkin]) G.caparisonSkin = caparisonById(s.caparisonSkin).id;
+      if(typeof s.horseSkin === 'string' && G.ownedHorseSkins[s.horseSkin]) G.horseSkin = horseSkinById(s.horseSkin).id;
+      if(typeof s.plumeSkin === 'string' && G.ownedPlumes[s.plumeSkin]) G.plumeSkin = plumeById(s.plumeSkin).id;
       if(typeof s.foeIndex === 'number' && isFinite(s.foeIndex))
         G.foeIndex = Math.max(0, Math.min(FOES.length - 1, Math.floor(s.foeIndex)));
+      if(s.secondUnlocked === true || G.foeIndex >= FIRST_LADDER) G.secondUnlocked = true;
+      // Arena pick is scenery preference only; an unknown id (or an old
+      // save with no arena field at all) falls back to the original.
+      if(s.arena === 'rotate') G.arena = 'rotate';
+      else if(typeof s.arena === 'string') G.arena = arenaById(s.arena).id;
+      if(typeof s.arenaIdx === 'number' && isFinite(s.arenaIdx))
+        G.arenaIdx = Math.max(0, Math.min(ARENAS.length - 1, Math.floor(s.arenaIdx)));
+      // Difficulty pick is a preference only; an unknown id (or an old
+      // save with no difficulty field at all) falls back to Normal.
+      if(typeof s.difficulty === 'string') G.difficulty = difficultyById(s.difficulty).id;
+      // House pick (v1.17): a save that names a house restores it; an
+      // older save with no house field keeps the default Goldmane
+      // colours it has always flown, and is not asked to pick.
+      if(typeof s.house === 'string') G.house = houseById(s.house).id;
+      G.houseChosen = s.houseChosen === true;
     }
     loadProgress();
     // Belt and braces: whatever the last thing that changed was, it is
@@ -496,6 +808,7 @@
     scene.fog = new THREE.Fog(0xa8c4de, 110, 330);
 
     // sky dome gradient
+    var skyMat = null;
     (function(){
       var geo = new THREE.SphereGeometry(400, 24, 12);
       var mat = new THREE.ShaderMaterial({
@@ -504,6 +817,7 @@
         vertexShader:'varying vec3 vP; void main(){ vP=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
         fragmentShader:'uniform vec3 top; uniform vec3 mid; uniform vec3 bot; varying vec3 vP; void main(){ float h=normalize(vP).y; vec3 c = h>0.12 ? mix(mid, top, smoothstep(0.12,0.65,h)) : mix(bot, mid, smoothstep(-0.08,0.12,h)); gl_FragColor=vec4(c,1.0); }'
       });
+      skyMat = mat;
       scene.add(new THREE.Mesh(geo, mat));
     })();
 
@@ -595,12 +909,15 @@
     })();
 
     // grandstands
+    var standRoofMats = [];
+    var crowdSets = [];
     function buildStand(side){
       var g = new THREE.Group();
       var base = new THREE.Mesh(new THREE.BoxGeometry(5.8, 2.6, 130), MAT.woodDark); base.position.y = 1.3; base.castShadow = true; g.add(base);
       var step = new THREE.Mesh(new THREE.BoxGeometry(5.0, 0.9, 130), MAT.wood); step.position.set(-side*0.3, 3.0, 0); g.add(step);
       var bench = new THREE.Mesh(new THREE.BoxGeometry(6.1, 0.22, 130), MAT.wood); bench.position.y = 2.66; g.add(bench);
       var roofMat = new THREE.MeshStandardMaterial({ map: stripesTex('#a02c22', '#e8dcc0'), roughness:0.9 });
+      standRoofMats.push(roofMat);
       var roof = new THREE.Mesh(new THREE.BoxGeometry(7.0, 0.16, 132), roofMat);
       roof.rotation.z = side*0.16; roof.position.set(side*0.7, 6.3, 0); roof.castShadow = true; g.add(roof);
       for(var z=-64; z<=64; z+=16){
@@ -615,15 +932,19 @@
       var heads = new THREE.InstancedMesh(new THREE.SphereGeometry(0.14, 8, 6), new THREE.MeshStandardMaterial({ color:0xd9b48c, roughness:0.8 }), count);
       var dummy = new THREE.Object3D(); var col = new THREE.Color();
       var palette = [0xa02c22, 0x274a73, 0x3d6b35, 0xc78f2a, 0x6d4a7a, 0x8a6a4a, 0xd8d3c3, 0x54423a];
+      var bases = [];
       var idx = 0;
       for(var r=0;r<rows;r++) for(var i=0;i<per;i++){
         var x = side*(0.1 + r*0.72), y = 3.15 + r*0.52, z = -62 + i*(124/per) + (Math.random()-0.5)*1.4;
-        dummy.position.set(x, y, z); dummy.rotation.y = side>0 ? -Math.PI/2 : Math.PI/2; dummy.updateMatrix();
+        var ry = side>0 ? -Math.PI/2 : Math.PI/2;
+        dummy.position.set(x, y, z); dummy.rotation.y = ry; dummy.updateMatrix();
         bodies.setMatrixAt(idx, dummy.matrix); bodies.setColorAt(idx, col.setHex(palette[(Math.random()*palette.length)|0]));
         dummy.position.y = y + 0.48; dummy.updateMatrix(); heads.setMatrixAt(idx, dummy.matrix);
+        bases.push({ x:x, y:y, z:z, ry:ry, phase:Math.random()*6.28 });
         idx++;
       }
       bodies.instanceMatrix.needsUpdate = true; heads.instanceMatrix.needsUpdate = true;
+      crowdSets.push({ bodies:bodies, heads:heads, bases:bases });
       g.add(bodies, heads);
       g.position.x = side*13.5;
       worldGroup.add(g);
@@ -642,6 +963,140 @@
     pennantPole(-4.6, -66, 0xa02c22); pennantPole(2.8, -66, 0xd9a441); pennantPole(-4.6, 66, 0x274a73); pennantPole(2.8, 66, 0x3d6b35);
     pennantPole(-9, -30, 0xd9a441); pennantPole(7.2, 30, 0xa02c22); pennantPole(-9, 30, 0x274a73); pennantPole(7.2, -30, 0x3d6b35);
 
+    // your house banner cloth: your house colours, a bold accent band,
+    // your sigil large in the middle and your house name beneath it.
+    // Redrawn whenever the house changes (see applyHouse).
+    function houseBannerTexture(H){
+      function hex(n){ return '#'+('000000'+n.toString(16)).slice(-6); }
+      return canvasTex(function(g,w,h){
+        g.fillStyle = hex(H.a); g.fillRect(0,0,w,h);
+        g.fillStyle = hex(H.b); g.fillRect(0, h*0.40, w, h*0.20);
+        g.strokeStyle = hex(H.b); g.lineWidth = 8; g.strokeRect(10,10,w-20,h-20);
+        g.fillStyle = 'rgba(255,255,255,0.94)'; g.font = '900 92px Georgia, serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+        g.fillText(H.sigil, w/2, h*0.30);
+        g.fillStyle = '#ffe9a8'; g.font = '900 40px Georgia, serif';
+        g.fillText(H.name.toUpperCase(), w/2, h*0.80);
+      }, 512, 256);
+    }
+
+    // champion banner: a great banner strung over the lists on two tall
+    // poles, flown only while the player displays the honour unlocked
+    // with Renown trophies. Pure pageantry — it hangs well clear of the
+    // riders and never touches aim, scoring or the foe.
+    var championBanner = new THREE.Group();
+    var championBannerCloth = null;
+    (function(){
+      var bTex = canvasTex(function(g,w,h){
+        g.fillStyle='#7a1f1f'; g.fillRect(0,0,w,h);
+        g.fillStyle='#8c2f26'; g.fillRect(0,0,w,h*0.46);
+        g.strokeStyle='#d9a441'; g.lineWidth=8; g.strokeRect(10,10,w-20,h-20);
+        // gold trophy, drawn to match the one counted in the HUD
+        g.fillStyle='#e9c979';
+        g.beginPath();
+        g.moveTo(w/2-34, 44); g.lineTo(w/2+34, 44); g.lineTo(w/2+27, 84);
+        g.quadraticCurveTo(w/2, 102, w/2-27, 84); g.closePath(); g.fill();
+        g.strokeStyle='#e9c979'; g.lineWidth=7;
+        g.beginPath(); g.moveTo(w/2-32, 52); g.quadraticCurveTo(w/2-60, 58, w/2-28, 78); g.stroke();
+        g.beginPath(); g.moveTo(w/2+32, 52); g.quadraticCurveTo(w/2+60, 58, w/2+28, 78); g.stroke();
+        g.fillStyle='#d9a441'; g.fillRect(w/2-4, 100, 8, 15);
+        g.fillRect(w/2-20, 115, 40, 7);
+        g.fillStyle='#b9862f'; g.fillRect(w/2-28, 122, 56, 6);
+        g.fillStyle='#ffe9a8'; g.font='900 42px Georgia, serif'; g.textAlign='center'; g.textBaseline='middle';
+        g.fillText('C H A M P I O N', w/2, 196);
+      }, 512, 256);
+      var bar = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 11.6, 6), MAT.woodDark);
+      bar.rotation.z = Math.PI/2; bar.position.y = 8.36; bar.castShadow = true; championBanner.add(bar);
+      [-5.3, 5.3].forEach(function(x){
+        var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.10, 8.8, 6), MAT.woodDark);
+        pole.position.set(x, 4.4, 0); pole.castShadow = true; championBanner.add(pole);
+        var finial = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 6), MAT.gold);
+        finial.position.set(x, 8.92, 0); championBanner.add(finial);
+      });
+      var clothGeo = new THREE.PlaneGeometry(10.6, 2.1); clothGeo.translate(0, -1.05, 0);
+      championBannerCloth = new THREE.Mesh(clothGeo, new THREE.MeshStandardMaterial({ map:bTex, side:THREE.DoubleSide, roughness:0.9 }));
+      championBannerCloth.position.y = 8.32; championBannerCloth.castShadow = true;
+      championBanner.add(championBannerCloth);
+      championBanner.position.set(-0.9, 0, -30);
+      championBanner.visible = !!G.bannerOn;
+      worldGroup.add(championBanner);
+    })();
+
+    // your house banner: the same span of poles on your own half of
+    // the lists (z +38), hung with your house cloth — always flown,
+    // repainted by applyHouse() whenever you change house.
+    var houseBannerMat = new THREE.MeshStandardMaterial({ map: houseBannerTexture(currentHouse()), side:THREE.DoubleSide, roughness:0.9 });
+    var houseBannerCloth = null;
+    (function(){
+      var banner = new THREE.Group();
+      var bar = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 11.6, 6), MAT.woodDark);
+      bar.rotation.z = Math.PI/2; bar.position.y = 8.36; bar.castShadow = true; banner.add(bar);
+      [-5.3, 5.3].forEach(function(x){
+        var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.10, 8.8, 6), MAT.woodDark);
+        pole.position.set(x, 4.4, 0); pole.castShadow = true; banner.add(pole);
+        var finial = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 6), MAT.gold);
+        finial.position.set(x, 8.92, 0); banner.add(finial);
+      });
+      var clothGeo = new THREE.PlaneGeometry(10.6, 2.1); clothGeo.translate(0, -1.05, 0);
+      houseBannerCloth = new THREE.Mesh(clothGeo, houseBannerMat);
+      houseBannerCloth.position.y = 8.32; houseBannerCloth.castShadow = true;
+      banner.add(houseBannerCloth);
+      banner.position.set(-0.9, 0, 38);
+      worldGroup.add(banner);
+    })();
+
+    // dusk torches: braziers on posts along both sides of the lists,
+    // lit only in the Dusk arena. The flames are unlit-bright material
+    // (they read as fire at any exposure) and two warm point lights do
+    // the actual lighting work on the nearby sand and barrier.
+    var torchGroup = new THREE.Group(); var torchFlames = [];
+    (function(){
+      var flameMat = new THREE.MeshBasicMaterial({ color:0xffa63e });
+      var flameMatIn = new THREE.MeshBasicMaterial({ color:0xffe9a8 });
+      var bowlMat = M(0x2e2a26, 0.6, 0.6);
+      [-46,-28,-10,8,26,44].forEach(function(z, i){
+        [-3.6, 1.8].forEach(function(x){
+          var g = new THREE.Group();
+          var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.07, 2.3, 6), MAT.woodDark); pole.position.y = 1.15; pole.castShadow = true; g.add(pole);
+          var bowl = new THREE.Mesh(new THREE.CylinderGeometry(0.30, 0.14, 0.22, 8), bowlMat); bowl.position.y = 2.38; g.add(bowl);
+          var flame = new THREE.Mesh(new THREE.ConeGeometry(0.17, 0.62, 7), flameMat); flame.position.y = 2.78;
+          flame.userData.phase = Math.random()*6.28; g.add(flame); torchFlames.push(flame);
+          var inner = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.36, 7), flameMatIn); inner.position.y = 2.68;
+          inner.userData.phase = flame.userData.phase + 1.3; g.add(inner); torchFlames.push(inner);
+          g.position.set(x, 0, z); torchGroup.add(g);
+        });
+      });
+      var tl1 = new THREE.PointLight(0xff8a3a, 0.85, 26, 1.6); tl1.position.set(-1, 3.1, -18); torchGroup.add(tl1);
+      var tl2 = new THREE.PointLight(0xff8a3a, 0.85, 26, 1.6); tl2.position.set(-1, 3.1, 20); torchGroup.add(tl2);
+      torchGroup.visible = false; worldGroup.add(torchGroup);
+    })();
+
+    // festival dressing: bunting strung over the lists and a royal
+    // pavilion at the far end, shown only in the Festival arena.
+    var festivalGroup = new THREE.Group();
+    (function(){
+      var cols = [0xa02c22, 0xd9a441, 0x274a73, 0x3d6b35, 0xe8dcc0];
+      var ropeMat = M(0x3a2c1a, 0.9);
+      [-48, -24, 0, 24, 48].forEach(function(z, zi){
+        var rope = new THREE.Mesh(new THREE.BoxGeometry(23.5, 0.035, 0.035), ropeMat);
+        rope.position.set(0, 7.0, z); festivalGroup.add(rope);
+        for(var x = -11; x <= 11; x += 1.45){
+          var tri = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.55),
+            new THREE.MeshStandardMaterial({ color: cols[Math.abs(Math.round(x*10) + zi) % cols.length], side:THREE.DoubleSide, roughness:0.9 }));
+          tri.geometry.translate(0, -0.28, 0);
+          tri.position.set(x, 7.0, z); tri.userData.phase = Math.random()*6.28;
+          festivalGroup.add(tri); wavingFlags.push(tri);
+        }
+      });
+      // royal pavilion at the far end of the lists
+      var pav = new THREE.Group();
+      var tent = new THREE.Mesh(new THREE.BoxGeometry(8.5, 3.0, 5), M(0xe8dcc0, 0.95)); tent.position.y = 1.5; tent.castShadow = true; pav.add(tent);
+      var proofMat = new THREE.MeshStandardMaterial({ map: stripesTex('#274a73', '#d9a441'), roughness:0.9 });
+      var proof = new THREE.Mesh(new THREE.ConeGeometry(6.4, 3.0, 4), proofMat); proof.position.y = 4.5; proof.rotation.y = Math.PI/4; pav.add(proof);
+      var finial = new THREE.Mesh(new THREE.SphereGeometry(0.28, 8, 6), MAT.gold); finial.position.y = 6.2; pav.add(finial);
+      pav.position.set(-1, 0, -82); festivalGroup.add(pav);
+      festivalGroup.visible = false; worldGroup.add(festivalGroup);
+    })();
+
     // castle backdrop
     (function(){
       var c = new THREE.Group();
@@ -655,6 +1110,7 @@
     })();
     // trees + hills + clouds
     var clouds = [];
+    var cloudMat = null;
     (function(){
       var trunkG = new THREE.CylinderGeometry(0.22, 0.34, 2.2, 6), folG = new THREE.IcosahedronGeometry(1.9, 0);
       var folM = M(0x46622e, 1), folM2 = M(0x59773a, 1);
@@ -674,6 +1130,7 @@
         hill.scale.y = 0.32; hill.position.set(h[0], 0, h[1]); worldGroup.add(hill);
       });
       var cloudM = new THREE.MeshBasicMaterial({ color:0xf6f9fc, transparent:true, opacity:0.92, fog:true });
+      cloudMat = cloudM;
       for(var k=0;k<9;k++){
         var cl = new THREE.Group();
         for(var j=0;j<4;j++){ var s = new THREE.Mesh(new THREE.SphereGeometry(3+Math.random()*3.5, 10, 8), cloudM); s.position.set(j*3.4-5, Math.random()*0.8, Math.random()*2-1); s.scale.y = 0.45; cl.add(s); }
@@ -681,6 +1138,80 @@
         cl.userData.speed = 0.4 + Math.random()*0.5; worldGroup.add(cl); clouds.push(cl);
       }
     })();
+
+    /* ---------- arena switching ----------
+       applyArena restyles the world in place from the ARENAS table:
+       sky, fog, lights, exposure, castle stone/roofs (shared materials,
+       so both castles follow), stand canopy stripes, ground tints,
+       clouds, torch and festival visibility, and the crowd's rest pose.
+       The lively crowd is then animated per-frame from those rest poses
+       by animateCrowdLively; switching away always resets it first, so
+       no arena can leave the crowd mid-bounce. */
+    var stripeTexCache = {};
+    function currentArenaObj(){
+      if(G.arena === 'rotate') return ARENAS[G.arenaIdx % ARENAS.length];
+      return arenaById(G.arena);
+    }
+    var crowdDummy = new THREE.Object3D();
+    function resetCrowd(){
+      for(var s=0;s<crowdSets.length;s++){
+        var set = crowdSets[s];
+        for(var i=0;i<set.bases.length;i++){
+          var b = set.bases[i];
+          crowdDummy.position.set(b.x, b.y, b.z); crowdDummy.rotation.set(0, b.ry, 0); crowdDummy.updateMatrix();
+          set.bodies.setMatrixAt(i, crowdDummy.matrix);
+          crowdDummy.position.y = b.y + 0.48; crowdDummy.updateMatrix();
+          set.heads.setMatrixAt(i, crowdDummy.matrix);
+        }
+        set.bodies.instanceMatrix.needsUpdate = true; set.heads.instanceMatrix.needsUpdate = true;
+      }
+    }
+    function animateCrowdLively(t){
+      for(var s=0;s<crowdSets.length;s++){
+        var set = crowdSets[s];
+        for(var i=0;i<set.bases.length;i++){
+          var b = set.bases[i];
+          var bounce = Math.max(0, Math.sin(t*3.1 + b.phase)) * 0.13 + Math.max(0, Math.sin(t*5.3 + b.phase*1.7)) * 0.04;
+          crowdDummy.position.set(b.x, b.y + bounce, b.z);
+          crowdDummy.rotation.set(0, b.ry + Math.sin(t*2.2 + b.phase)*0.14, 0); crowdDummy.updateMatrix();
+          set.bodies.setMatrixAt(i, crowdDummy.matrix);
+          crowdDummy.position.y = b.y + 0.48 + bounce; crowdDummy.updateMatrix();
+          set.heads.setMatrixAt(i, crowdDummy.matrix);
+        }
+        set.bodies.instanceMatrix.needsUpdate = true; set.heads.instanceMatrix.needsUpdate = true;
+      }
+    }
+    function flickerTorches(t){
+      if(!torchGroup.visible) return;
+      for(var i=0;i<torchFlames.length;i++){
+        var f = torchFlames[i];
+        var s = 1 + Math.sin(t*11 + f.userData.phase)*0.16 + Math.sin(t*23 + f.userData.phase*2.1)*0.07;
+        f.scale.set(s, 1 + Math.sin(t*13 + f.userData.phase)*0.22, s);
+      }
+    }
+    function applyArena(){
+      var A = currentArenaObj();
+      if(skyMat){
+        skyMat.uniforms.top.value.setHex(A.skyTop);
+        skyMat.uniforms.mid.value.setHex(A.skyMid);
+        skyMat.uniforms.bot.value.setHex(A.skyBot);
+      }
+      scene.fog.color.setHex(A.fog);
+      hemi.color.setHex(A.hemiSky); hemi.groundColor.setHex(A.hemiGround); hemi.intensity = A.hemiInt;
+      sun.color.setHex(A.sunColor); sun.intensity = A.sunInt;
+      sun.position.set(A.sunPos[0], A.sunPos[1], A.sunPos[2]);
+      fill.color.setHex(A.fillColor); fill.intensity = A.fillInt;
+      renderer.toneMappingExposure = A.exposure;
+      MAT.stone.color.setHex(A.stone); MAT.stoneDark.color.setHex(A.stoneDark); MAT.roof.color.setHex(A.roof);
+      MAT.grass.color.setHex(A.grass); MAT.sand.color.setHex(A.sand);
+      if(cloudMat) cloudMat.color.setHex(A.cloud);
+      if(!stripeTexCache[A.id]) stripeTexCache[A.id] = stripesTex(A.stripeA, A.stripeB);
+      for(var i=0;i<standRoofMats.length;i++){ standRoofMats[i].map = stripeTexCache[A.id]; standRoofMats[i].needsUpdate = true; }
+      torchGroup.visible = !!A.torches;
+      festivalGroup.visible = !!A.festival;
+      resetCrowd();
+    }
+    applyArena();
 
     /* ---------- horse + knight builders ---------- */
     function shadowed(m){ m.castShadow = true; return m; }
@@ -824,7 +1355,11 @@
         horse.add(clothPatch(-1.05, -0.995, -HEM-0.03, HEM+0.03, 0.005, trimMat, 1, 26)); // gold rear edging
         horse.add(clothPatch(0.595, 0.65, -HEM-0.03, HEM+0.03, 0.005, trimMat, 1, 26));   // gold front edging
         horse.add(clothPatch(0.13, 0.23, -HEM-0.01, HEM+0.01, 0.007, MAT.leather, 1, 26)); // girth strap over the cloth
+        // Kept on the horse so the Armoury can repaint the cloth (and,
+        // below, the coat) on a horse that is already built.
+        horse.userData.clothMat = clothMat; horse.userData.trimMat = trimMat;
       }
+      horse.userData.coatMat = coat; horse.userData.coatDarkMat = coatDark;
       // Neck + head: an arched, lofted neck carrying a shaped head —
       // skull, tapering face, jaw, muzzle and nostrils.
       var neckPivot = new THREE.Group(); neckPivot.position.set(0, 1.66, 0.78); horse.add(neckPivot);
@@ -1092,7 +1627,7 @@
 
     function buildKnight(foe){
       var root = new THREE.Group();
-      var horse = buildHorse(foe.horse, foe.main, foe.accent);
+      var horse = buildHorse(foe.horse, foe.capMain != null ? foe.capMain : foe.main, foe.capAccent != null ? foe.capAccent : foe.accent);
       root.add(horse);
       var rider = new THREE.Group(); rider.position.set(0, 1.86, -0.05); root.add(rider);
       var steel = MAT.steel, steelD = MAT.steelDark;
@@ -1259,7 +1794,7 @@
       vamplate.rotation.x = -Math.PI/2; vamplate.position.set(0, 0, 0.32); foeLance.add(vamplate);
       var pennon = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 0.42), new THREE.MeshStandardMaterial({ color: foe.accent, emissive: foe.accent, emissiveIntensity:0.6, side:THREE.DoubleSide, roughness:0.9 }));
       pennon.geometry.translate(0.65, 0, 0); pennon.position.set(0, 0.12, 6.15); pennon.rotation.y = Math.PI/2; foeLance.add(pennon);
-      root.userData = { horse:horse, rider:rider, lancePivot:lancePivot, foeLance:foeLance, shieldPivot:shieldPivot, pennon:pennon, glow:glow, tipMark:glint };
+      root.userData = { horse:horse, rider:rider, lancePivot:lancePivot, foeLance:foeLance, shieldPivot:shieldPivot, pennon:pennon, glow:glow, tipMark:glint, plumeMat:plumeMat };
       root.traverse(function(o){ if(o.isMesh) o.frustumCulled = true; });
       return root;
     }
@@ -1283,7 +1818,15 @@
     function mountPlayerCine(){
       if(playerCineGroup){ scene.remove(playerCineGroup); }
       var S = shieldById(G.shieldSkin), L = lanceById(G.lanceSkin);
-      var you = { name:'YOU', letter:'G', main:S.a, accent:S.b, plume:0xd9a441, horse:0x74522f, speed:0, sigma:0, headAim:0 };
+      var CP = caparisonById(G.caparisonSkin), HS = horseSkinById(G.horseSkin), PL = plumeById(G.plumeSkin);
+      // 'house' gear wears the house colours, and your shield bears
+      // your house's sigil (v1.17) — the same paint the first-person
+      // rig shows, so the cinematic knight matches the saddle view.
+      var H = currentHouse();
+      var sA = S.id === 'house' ? H.a : S.a, sB = S.id === 'house' ? H.b : S.b;
+      var cA = CP.id === 'house' ? H.a : CP.a, cB = CP.id === 'house' ? H.b : CP.b;
+      var you = { name:'YOU', letter:H.sigil, main:sA, accent:sB, plume:PL.color, horse:HS.coat, speed:0, sigma:0, headAim:0,
+                  capMain:cA, capAccent:cB };
       playerCineGroup = buildKnight(you);
       // Dress him in exactly the gear you have equipped — the same
       // colourways the first-person rig wears. buildKnight() paints any
@@ -1294,7 +1837,7 @@
       // takes your lance's pennon colour too, glow included, instead of
       // the shield accent buildKnight() gave it. The shield itself is
       // already right: buildKnight() bore it in your equipped shield
-      // colours, with your own 'G' from the letter passed above.
+      // colours, with your house sigil from the letter passed above.
       try{
         var fl = playerCineGroup.userData.foeLance;
         if(fl && fl.children[0]){
@@ -1313,8 +1856,10 @@
     /* ---------- first-person rig ---------- */
     // your horse's head, seen from the saddle
     var fpHorse = new THREE.Group();
+    var fpHorseCoatMat = null;
     (function(){
       var coat = M(0x74522f, 0.75), dark = M(0x241a12, 0.9);
+      fpHorseCoatMat = coat;
       var neck = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.3, 0.85, 10), coat));
       neck.position.set(0, -0.18, -0.2); neck.rotation.x = 0.85; fpHorse.add(neck);
       var head = ell(0.135, 0.16, 0.26, coat);
@@ -1441,9 +1986,9 @@
 
     /* ================= UI ================= */
     var el = {};
-    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','shopCoins','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
+    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '1.9';
+    var CURRENT_VERSION = '1.17';
     function openLog(){ el.logWrap.classList.remove('hidden'); }
     function closeLog(){ el.logWrap.classList.add('hidden'); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
@@ -1462,9 +2007,61 @@
     var shieldTexCache = {};
     function applyShieldSkin(id){
       var S = shieldById(id); G.shieldSkin = S.id;
-      if(!shieldTexCache[S.id]) shieldTexCache[S.id] = heraldryTex(S.a, S.b, 'G');
-      fpShieldMat.map = shieldTexCache[S.id];
+      // The 'house' shield wears your house's own colours, and every
+      // shield you ride with bears your house's sigil (v1.17).
+      var H = currentHouse();
+      var a = S.id === 'house' ? H.a : S.a, b = S.id === 'house' ? H.b : S.b;
+      var key = S.id + '-' + H.id;
+      if(!shieldTexCache[key]) shieldTexCache[key] = heraldryTex(a, b, H.sigil);
+      fpShieldMat.map = shieldTexCache[key];
       fpShieldMat.needsUpdate = true;
+    }
+    /* The v1.15 paint: caparison, horse coat and helmet plume. Each
+       apply repaints the horse and knight already standing in the
+       arena (your cinematic build — the foe is never touched) and,
+       for the coat, the first-person horse's head as well. The next
+       cinematic rebuild also reads the equipped skins directly, so
+       the paint shows from every angle either way. */
+    function applyCaparisonSkin(id){
+      var C = caparisonById(id); G.caparisonSkin = C.id;
+      // The 'house' cloth is cut in your house's own colours (v1.17).
+      var H = currentHouse();
+      var a = C.id === 'house' ? H.a : C.a, b = C.id === 'house' ? H.b : C.b;
+      if(playerCineGroup && playerCineGroup.userData.horse){
+        var hu = playerCineGroup.userData.horse.userData;
+        if(hu.clothMat) hu.clothMat.color.setHex(a);
+        if(hu.trimMat) hu.trimMat.color.setHex(b);
+      }
+    }
+    function applyHorseSkin(id){
+      var H = horseSkinById(id); G.horseSkin = H.id;
+      if(fpHorseCoatMat) fpHorseCoatMat.color.setHex(H.coat);
+      if(playerCineGroup && playerCineGroup.userData.horse){
+        var hu2 = playerCineGroup.userData.horse.userData;
+        if(hu2.coatMat) hu2.coatMat.color.setHex(H.coat);
+        if(hu2.coatDarkMat) hu2.coatDarkMat.color.setHex(new THREE.Color(H.coat).multiplyScalar(0.7).getHex());
+      }
+    }
+    function applyPlumeSkin(id){
+      var P = plumeById(id); G.plumeSkin = P.id;
+      if(playerCineGroup && playerCineGroup.userData.plumeMat) playerCineGroup.userData.plumeMat.color.setHex(P.color);
+    }
+    /* The champion banner flies over the lists only while its honour
+       is displayed; the title screen reads G.bannerOn / G.titleOn when
+       it is drawn, so this one call covers the arena. */
+    function applyBanner(){ if(championBanner) championBanner.visible = !!G.bannerOn; }
+    /* Your house (v1.17) flown and worn: the Ashwood's pennon — your
+       flag — takes your house colour, your shield and caparison are
+       repainted (the 'house' sets wear the house colours, and every
+       shield bears the house sigil), and the house banner over the
+       lists is rehung in the house colours with its sigil and name. */
+    function applyHouse(){
+      var H = currentHouse();
+      LANCES[0].pen = H.a;
+      applyLanceSkin(G.lanceSkin);
+      applyShieldSkin(G.shieldSkin);
+      applyCaparisonSkin(G.caparisonSkin);
+      if(houseBannerMat){ houseBannerMat.map = houseBannerTexture(H); houseBannerMat.needsUpdate = true; }
     }
     function hexCss(n){ return '#' + ('000000' + n.toString(16)).slice(-6); }
     function renderShop(){
@@ -1486,17 +2083,98 @@
       for(var j=0;j<SHIELDS.length;j++){
         var S = SHIELDS[j];
         var sOwned = !!G.ownedShields[S.id], sEquipped = G.shieldSkin === S.id;
-        var ssw = 'background:linear-gradient(180deg,' + hexCss(S.a) + ' 0 40%,' + hexCss(S.b) + ' 40% 60%,' + hexCss(S.a) + ' 60% 100%)';
+        var sA = S.id === 'house' ? currentHouse().a : S.a, sB = S.id === 'house' ? currentHouse().b : S.b;
+        var sName = S.id === 'house' ? currentHouse().name + ' · Your House' : S.name;
+        var ssw = 'background:linear-gradient(180deg,' + hexCss(sA) + ' 0 40%,' + hexCss(sB) + ' 40% 60%,' + hexCss(sA) + ' 60% 100%)';
         var stag = sEquipped ? 'Equipped' : sOwned ? 'Owned' : S.price + ' coin';
         var sbtn = sEquipped ? '<button class="btn small" type="button" disabled>EQUIPPED</button>'
           : sOwned ? '<button class="btn small" type="button" data-sequip="' + S.id + '">EQUIP</button>'
           : '<button class="btn small" type="button" data-sbuy="' + S.id + '"' + (G.coins >= S.price ? '' : ' disabled') + '>BUY · ' + S.price + '</button>';
-        html2 += '<li><span class="swatch shieldSw" style="' + ssw + '"></span><span class="sname"><b>' + S.name + '</b><span class="stag">' + stag + '</span></span>' + sbtn + '</li>';
+        html2 += '<li><span class="swatch shieldSw" style="' + ssw + '"></span><span class="sname"><b>' + sName + '</b><span class="stag">' + stag + '</span></span>' + sbtn + '</li>';
       }
       el.shieldShopList.innerHTML = html2;
+      // The v1.15 paint sections: same owned / equipped / price states
+      // as the lances and shields, coin only, in the same colour sets.
+      var htmlC = '';
+      for(var n=0;n<CAPARISONS.length;n++){
+        var C2 = CAPARISONS[n];
+        var cOwned = !!G.ownedCaparisons[C2.id], cEquipped = G.caparisonSkin === C2.id;
+        var cA = C2.id === 'house' ? currentHouse().a : C2.a, cB = C2.id === 'house' ? currentHouse().b : C2.b;
+        var cName = C2.id === 'house' ? currentHouse().name + ' · Your House' : C2.name;
+        var csw = 'background:linear-gradient(180deg,' + hexCss(cA) + ' 0 78%,' + hexCss(cB) + ' 78% 100%)';
+        var ctag = cEquipped ? 'Equipped' : cOwned ? 'Owned' : C2.price + ' coin';
+        var cbtn = cEquipped ? '<button class="btn small" type="button" disabled>EQUIPPED</button>'
+          : cOwned ? '<button class="btn small" type="button" data-cequip="' + C2.id + '">EQUIP</button>'
+          : '<button class="btn small" type="button" data-cbuy="' + C2.id + '"' + (G.coins >= C2.price ? '' : ' disabled') + '>BUY · ' + C2.price + '</button>';
+        htmlC += '<li><span class="swatch caparisonSw" style="' + csw + '"></span><span class="sname"><b>' + cName + '</b><span class="stag">' + ctag + '</span></span>' + cbtn + '</li>';
+      }
+      el.caparisonShopList.innerHTML = htmlC;
+      var htmlH = '';
+      for(var p=0;p<HORSESKINS.length;p++){
+        var H2 = HORSESKINS[p];
+        var hOwned = !!G.ownedHorseSkins[H2.id], hEquipped = G.horseSkin === H2.id;
+        var hsw = 'background:' + hexCss(H2.coat);
+        var htag = hEquipped ? 'Equipped' : hOwned ? 'Owned' : H2.price + ' coin';
+        var hbtn = hEquipped ? '<button class="btn small" type="button" disabled>EQUIPPED</button>'
+          : hOwned ? '<button class="btn small" type="button" data-hequip="' + H2.id + '">EQUIP</button>'
+          : '<button class="btn small" type="button" data-hbuy2="' + H2.id + '"' + (G.coins >= H2.price ? '' : ' disabled') + '>BUY · ' + H2.price + '</button>';
+        htmlH += '<li><span class="swatch horseSw" style="' + hsw + '"></span><span class="sname"><b>' + H2.name + '</b><span class="stag">' + htag + '</span></span>' + hbtn + '</li>';
+      }
+      el.horseShopList.innerHTML = htmlH;
+      var htmlP = '';
+      for(var q=0;q<PLUMES.length;q++){
+        var P2 = PLUMES[q];
+        var pOwned = !!G.ownedPlumes[P2.id], pEquipped = G.plumeSkin === P2.id;
+        var psw = 'background:' + hexCss(P2.color);
+        var ptag = pEquipped ? 'Equipped' : pOwned ? 'Owned' : P2.price + ' coin';
+        var pbtn = pEquipped ? '<button class="btn small" type="button" disabled>EQUIPPED</button>'
+          : pOwned ? '<button class="btn small" type="button" data-pequip="' + P2.id + '">EQUIP</button>'
+          : '<button class="btn small" type="button" data-pbuy="' + P2.id + '"' + (G.coins >= P2.price ? '' : ' disabled') + '>BUY · ' + P2.price + '</button>';
+        htmlP += '<li><span class="swatch plumeSw" style="' + psw + '"></span><span class="sname"><b>' + P2.name + '</b><span class="stag">' + ptag + '</span></span>' + pbtn + '</li>';
+      }
+      el.plumeShopList.innerHTML = htmlP;
+      // Renown unlocks: the player's trophy total heads the sections,
+      // and every row states its trophy cost and whether it is locked,
+      // owned or equipped — trophies are spent on unlock, never coin.
+      el.shopTrophies.textContent = G.renown;
+      var html3 = '';
+      for(var k=0;k<RENOWN_LANCES.length;k++){
+        var RL2 = RENOWN_LANCES[k];
+        var rOwned = !!G.ownedHonourLances[RL2.id], rEquipped = G.lanceSkin === RL2.id;
+        var rsw = 'background:linear-gradient(90deg,' + hexCss(RL2.a) + ' 0 25%,#e8dcc0 25% 50%,' + hexCss(RL2.b) + ' 50% 75%,#e8dcc0 75% 100%)';
+        var rtag = rEquipped ? 'Equipped' : rOwned ? 'Owned' : 'Locked · ' + RL2.trophies + ' trophies';
+        var rbtn = rEquipped ? '<button class="btn small" type="button" disabled>EQUIPPED</button>'
+          : rOwned ? '<button class="btn small" type="button" data-requip="' + RL2.id + '">EQUIP</button>'
+          : '<button class="btn small" type="button" data-rbuy="' + RL2.id + '"' + (G.renown >= RL2.trophies ? '' : ' disabled') + '>UNLOCK · ' + RL2.trophies + '</button>';
+        html3 += '<li><span class="swatch" style="' + rsw + '"></span><span class="sname"><b>' + RL2.name + '</b><span class="stag">' + rtag + '</span></span>' + rbtn + '</li>';
+      }
+      el.renownLanceList.innerHTML = html3;
+      var html4 = '';
+      for(var m=0;m<RENOWN_SHIELDS.length;m++){
+        var RS2 = RENOWN_SHIELDS[m];
+        var rsOwned = !!G.ownedHonourShields[RS2.id], rsEquipped = G.shieldSkin === RS2.id;
+        var rssw = 'background:linear-gradient(180deg,' + hexCss(RS2.a) + ' 0 40%,' + hexCss(RS2.b) + ' 40% 60%,' + hexCss(RS2.a) + ' 60% 100%)';
+        var rstag = rsEquipped ? 'Equipped' : rsOwned ? 'Owned' : 'Locked · ' + RS2.trophies + ' trophies';
+        var rsbtn = rsEquipped ? '<button class="btn small" type="button" disabled>EQUIPPED</button>'
+          : rsOwned ? '<button class="btn small" type="button" data-rsequip="' + RS2.id + '">EQUIP</button>'
+          : '<button class="btn small" type="button" data-rsbuy="' + RS2.id + '"' + (G.renown >= RS2.trophies ? '' : ' disabled') + '>UNLOCK · ' + RS2.trophies + '</button>';
+        html4 += '<li><span class="swatch shieldSw" style="' + rssw + '"></span><span class="sname"><b>' + RS2.name + '</b><span class="stag">' + rstag + '</span></span>' + rsbtn + '</li>';
+      }
+      el.renownShieldList.innerHTML = html4;
+      var bTag = G.bannerOn ? 'Flying over the lists' : G.bannerOwned ? 'Owned — not flying' : 'Locked · ' + BANNER_TROPHIES + ' trophies';
+      var bBtn = !G.bannerOwned
+        ? '<button class="btn small" type="button" data-hbuy="banner"' + (G.renown >= BANNER_TROPHIES ? '' : ' disabled') + '>UNLOCK · ' + BANNER_TROPHIES + '</button>'
+        : '<button class="btn small" type="button" data-htoggle="banner">' + (G.bannerOn ? 'HIDE' : 'FLY') + '</button>';
+      var tTag = G.titleOn ? 'Shown on the title screen' : G.titleOwned ? 'Owned — not shown' : 'Locked · ' + TITLE_TROPHIES + ' trophies';
+      var tBtn = !G.titleOwned
+        ? '<button class="btn small" type="button" data-hbuy="title"' + (G.renown >= TITLE_TROPHIES ? '' : ' disabled') + '>UNLOCK · ' + TITLE_TROPHIES + '</button>'
+        : '<button class="btn small" type="button" data-htoggle="title">' + (G.titleOn ? 'HIDE' : 'SHOW') + '</button>';
+      el.honourList.innerHTML =
+        '<li><span class="swatch bannerSw"></span><span class="sname"><b>Champion\'s Banner</b><span class="stag">' + bTag + '</span></span>' + bBtn + '</li>' +
+        '<li><span class="swatch titleSw">✦</span><span class="sname"><b>Champion of the Lists</b><span class="stag">' + tTag + '</span></span>' + tBtn + '</li>';
     }
     function openShop(){ renderShop(); el.shopWrap.classList.remove('hidden'); }
-    function closeShop(){ el.shopWrap.classList.add('hidden'); }
+    function closeShop(){ el.shopWrap.classList.add('hidden'); if(G.state === 'title') titleCard(); }
     function shopIsOpen(){ return !el.shopWrap.classList.contains('hidden'); }
     function overlayOpen(){ return logIsOpen() || shopIsOpen(); }
     el.shopCloseBtn.addEventListener('click', function(){ audio(); closeShop(); });
@@ -1521,6 +2199,72 @@
       }
       if(eq){ applyShieldSkin(eq.getAttribute('data-sequip')); saveProgress(); audio(); renderShop(); }
     });
+    el.caparisonShopList.addEventListener('click', function(e){
+      var t = e.target, buy = null, eq = null;
+      if(t && t.closest){ buy = t.closest('[data-cbuy]'); eq = t.closest('[data-cequip]'); }
+      if(buy){
+        var C = caparisonById(buy.getAttribute('data-cbuy'));
+        if(!G.ownedCaparisons[C.id] && G.coins >= C.price){ G.coins -= C.price; G.ownedCaparisons[C.id] = true; applyCaparisonSkin(C.id); refreshHUD(); saveProgress(); }
+        audio(); renderShop(); return;
+      }
+      if(eq){ applyCaparisonSkin(eq.getAttribute('data-cequip')); saveProgress(); audio(); renderShop(); }
+    });
+    el.horseShopList.addEventListener('click', function(e){
+      var t = e.target, buy = null, eq = null;
+      if(t && t.closest){ buy = t.closest('[data-hbuy2]'); eq = t.closest('[data-hequip]'); }
+      if(buy){
+        var H = horseSkinById(buy.getAttribute('data-hbuy2'));
+        if(!G.ownedHorseSkins[H.id] && G.coins >= H.price){ G.coins -= H.price; G.ownedHorseSkins[H.id] = true; applyHorseSkin(H.id); refreshHUD(); saveProgress(); }
+        audio(); renderShop(); return;
+      }
+      if(eq){ applyHorseSkin(eq.getAttribute('data-hequip')); saveProgress(); audio(); renderShop(); }
+    });
+    el.plumeShopList.addEventListener('click', function(e){
+      var t = e.target, buy = null, eq = null;
+      if(t && t.closest){ buy = t.closest('[data-pbuy]'); eq = t.closest('[data-pequip]'); }
+      if(buy){
+        var P = plumeById(buy.getAttribute('data-pbuy'));
+        if(!G.ownedPlumes[P.id] && G.coins >= P.price){ G.coins -= P.price; G.ownedPlumes[P.id] = true; applyPlumeSkin(P.id); refreshHUD(); saveProgress(); }
+        audio(); renderShop(); return;
+      }
+      if(eq){ applyPlumeSkin(eq.getAttribute('data-pequip')); saveProgress(); audio(); renderShop(); }
+    });
+    el.renownLanceList.addEventListener('click', function(e){
+      var t = e.target, buy = null, eq = null;
+      if(t && t.closest){ buy = t.closest('[data-rbuy]'); eq = t.closest('[data-requip]'); }
+      if(buy){
+        var L = renownLanceById(buy.getAttribute('data-rbuy'));
+        if(L && !G.ownedHonourLances[L.id] && G.renown >= L.trophies){ G.renown -= L.trophies; G.ownedHonourLances[L.id] = true; applyLanceSkin(L.id); refreshHUD(); saveProgress(); }
+        audio(); renderShop(); return;
+      }
+      if(eq){ applyLanceSkin(eq.getAttribute('data-requip')); saveProgress(); audio(); renderShop(); }
+    });
+    el.renownShieldList.addEventListener('click', function(e){
+      var t = e.target, buy = null, eq = null;
+      if(t && t.closest){ buy = t.closest('[data-rsbuy]'); eq = t.closest('[data-rsequip]'); }
+      if(buy){
+        var S = renownShieldById(buy.getAttribute('data-rsbuy'));
+        if(S && !G.ownedHonourShields[S.id] && G.renown >= S.trophies){ G.renown -= S.trophies; G.ownedHonourShields[S.id] = true; applyShieldSkin(S.id); refreshHUD(); saveProgress(); }
+        audio(); renderShop(); return;
+      }
+      if(eq){ applyShieldSkin(eq.getAttribute('data-rsequip')); saveProgress(); audio(); renderShop(); }
+    });
+    el.honourList.addEventListener('click', function(e){
+      var t = e.target, buy = null, tog = null;
+      if(t && t.closest){ buy = t.closest('[data-hbuy]'); tog = t.closest('[data-htoggle]'); }
+      if(buy){
+        var kind = buy.getAttribute('data-hbuy');
+        if(kind === 'banner' && !G.bannerOwned && G.renown >= BANNER_TROPHIES){ G.renown -= BANNER_TROPHIES; G.bannerOwned = true; G.bannerOn = true; applyBanner(); refreshHUD(); saveProgress(); }
+        if(kind === 'title' && !G.titleOwned && G.renown >= TITLE_TROPHIES){ G.renown -= TITLE_TROPHIES; G.titleOwned = true; G.titleOn = true; refreshHUD(); saveProgress(); }
+        audio(); renderShop(); return;
+      }
+      if(tog){
+        var tk = tog.getAttribute('data-htoggle');
+        if(tk === 'banner' && G.bannerOwned){ G.bannerOn = !G.bannerOn; applyBanner(); }
+        if(tk === 'title' && G.titleOwned){ G.titleOn = !G.titleOn; }
+        saveProgress(); audio(); renderShop();
+      }
+    });
     el.cardBox.addEventListener('click', function(e){
       var b = (e.target && e.target.closest) ? e.target.closest('[data-shop]') : null;
       if(b){ audio(); openShop(); }
@@ -1540,12 +2284,15 @@
       var foe = FOES[G.foeIndex];
       el.foeName.textContent = foe.name;
       el.scoreNum.innerHTML = G.youScore + ' <small>—</small> ' + G.foeScore;
-      el.passLabel.textContent = 'Pass ' + Math.min(G.pass, MAX_PASSES) + ' of ' + MAX_PASSES;
+      el.passLabel.textContent = G.practice ? 'Practice · Pass ' + G.pass : 'Pass ' + Math.min(G.pass, MAX_PASSES) + ' of ' + MAX_PASSES;
       paintLances(el.yourLances, G.youLances); paintLances(el.foeLances, G.foeLances);
       el.renownNum.textContent = G.renown;
       el.coinNum.textContent = G.coins;
       var sh = el.tourShields.children;
-      for(var i=0;i<sh.length;i++){ sh[i].className = i < G.foeIndex ? 'won' : (i === G.foeIndex ? 'now' : ''); }
+      var lp = ladderPos(G.foeIndex);
+      for(var i=0;i<sh.length;i++){ sh[i].className = i < lp ? 'won' : (i === lp ? 'now' : ''); }
+      var tourT = document.querySelector('#tourPlate .t');
+      if(tourT) tourT.textContent = G.foeIndex < FIRST_LADDER ? 'Tournament' : 'Champion\'s Ladder';
     }
     function paintLances(box, n){ var c = box.children; for(var i=0;i<c.length;i++) c[i].className = i < n ? 'broken' : ''; }
 
@@ -1676,27 +2423,193 @@
 
     /* ================= GAME FLOW ================= */
     function foeLetter(foe){ return foe.name.replace('SIR ','').replace('THE ','').charAt(0); }
-    function titleCard(){
+    /* ---------- house picker (v1.17) ----------
+       Shown on first entry, before the title card, and again from the
+       title screen's CHANGE HOUSE button. Each premade house is shown
+       with its shield (colours + sigil), its flag, its name, motto and
+       colours, so the pick is plain to see. Choosing a house dresses
+       you in it at once — house shield and house caparison equipped,
+       flag, banner and sigil repainted by applyHouse() — and saves the
+       pick on this device with the rest of your progress. */
+    function chooseHouse(id){
+      var H = houseById(id);
+      G.house = H.id; G.houseChosen = true;
+      G.shieldSkin = 'house'; G.caparisonSkin = 'house';
+      applyHouse(); saveProgress(); titleCard();
+    }
+    function housePickerCard(isChange){
       G.state = 'title';
+      G.practice = false;
+      if(el.practiceExitBtn) el.practiceExitBtn.classList.add('hidden');
+      var cards = HOUSES.map(function(H){
+        var cur = isChange && H.id === G.house && G.houseChosen;
+        return '<div class="houseCard">' +
+          '<div class="hShield" style="background:linear-gradient(180deg,' + hexCss(H.a) + ' 0 40%,' + hexCss(H.b) + ' 40% 60%,' + hexCss(H.a) + ' 60% 100%)"><span>' + H.sigil + '</span></div>' +
+          '<div class="hFlag"><i></i><span class="cloth" style="background:linear-gradient(90deg,' + hexCss(H.a) + ' 0 64%,' + hexCss(H.b) + ' 64% 100%)">' + H.sigil + '</span></div>' +
+          '<div class="hName">' + H.name + '</div>' +
+          '<div class="hMotto">“' + H.motto + '”</div>' +
+          '<div class="hCols">' + H.colName + ' · Sigil: ' + H.sigilName + '</div>' +
+          (cur ? '<button class="btn small" type="button" disabled>YOUR HOUSE</button>'
+               : '<button class="btn small" type="button" data-house="' + H.id + '">CHOOSE</button>') +
+          '</div>';
+      }).join('');
+      showCard(
+        '<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.3em;font-size:12px;color:#cbbd97;">BEFORE YOU RIDE</div>' +
+        '<h1 style="font-size:clamp(26px,6vw,36px)">' + (isChange ? 'CHANGE YOUR HOUSE' : 'CHOOSE YOUR HOUSE') + '</h1><div class="rule"></div>' +
+        '<p>Your house flies on your flag and the banner over the lists, colours your shield and your horse\'s caparison, and its name is announced on the title screen and before every match. Pick the house you ride for.</p>' +
+        '<div class="houseGrid">' + cards + '</div>' +
+        (isChange ? '<button class="btn ghost" id="houseBackBtn" type="button">BACK</button>'
+                  : '<p class="small">You can change your house later from the title screen.</p>')
+      );
+      var hBtns = el.cardBox.querySelectorAll('[data-house]');
+      for(var hbi=0; hbi<hBtns.length; hbi++){
+        hBtns[hbi].addEventListener('click', function(){ audio(); chooseHouse(this.getAttribute('data-house')); });
+      }
+      var backBtn = document.getElementById('houseBackBtn');
+      if(backBtn) backBtn.addEventListener('click', function(){ audio(); titleCard(); });
+    }
+    function titleCard(){
+      var HOUSE = currentHouse();
+      G.state = 'title';
+      G.practice = false;
+      if(el.practiceExitBtn) el.practiceExitBtn.classList.add('hidden');
       showCard(
         '<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.3em;font-size:12px;color:#cbbd97;">THE TOURNAMENT OF THE LISTS</div>' +
         '<h1>THE JOUST</h1><div class="rule"></div>' +
-        '<p>First person, lance in hand. Five knights stand between you and the Champion\'s wreath. ' +
+        (G.bannerOn ? '<div class="champBannerBox"><svg width="76" height="94" viewBox="0 0 76 94" aria-hidden="true"><rect x="6" y="2" width="64" height="4.5" fill="#5f471e"/><path d="M18 6.5 H58 V64 L38 50 L18 64 Z" fill="#7a1f1f" stroke="#d9a441" stroke-width="2.5"/><g transform="translate(26,15)"><path d="M7 3h10v6a5 5 0 0 1-10 0V3z" fill="#e9c979"/><path d="M7 5H4.2A3.2 3.2 0 0 0 7.4 9.6" fill="none" stroke="#e9c979" stroke-width="1.8"/><path d="M17 5h2.8A3.2 3.2 0 0 1 16.6 9.6" fill="none" stroke="#e9c979" stroke-width="1.8"/><rect x="11" y="13.8" width="2" height="3.6" fill="#d9a441"/><rect x="8" y="17.4" width="8" height="2" fill="#d9a441"/><rect x="6.5" y="19.8" width="11" height="1.7" fill="#b9862f"/></g></svg></div>' : '') +
+        (G.titleOn ? '<div class="champTitle">✦ ' + CHAMPION_TITLE + ' ✦</div>' : '') +
+        '<div class="houseBannerBox"><svg width="72" height="86" viewBox="0 0 72 86" aria-hidden="true"><rect x="8" y="2" width="56" height="4" fill="#5f471e"/><path d="M15 6 H57 V57 L36 44 L15 57 Z" fill="' + hexCss(HOUSE.a) + '" stroke="' + hexCss(HOUSE.b) + '" stroke-width="3"/><text x="36" y="33" text-anchor="middle" font-family="Georgia, serif" font-weight="900" font-size="23" fill="#ffffff">' + HOUSE.sigil + '</text></svg></div>' +
+        '<div class="houseLine">' + HOUSE.name.toUpperCase() + '</div>' +
+        '<div class="houseSub">' + HOUSE.colName + ' · Sigil: ' + HOUSE.sigilName + '</div>' +
+        '<p>First person, lance in hand. Five knights stand between you and the Champion\'s wreath — and beat the Black Knight, and a harder Champion\'s Ladder of five more awaits beyond him. ' +
         'Ride the charge, hold your aim true against the gallop, and strike helm, breast or shield — <b style="color:#ffe9a8">unhorse your foe to end the match at a stroke</b>.</p>' +
         '<ul class="howto">' +
         '<li><b>Aim</b> — work the LANCE joystick at bottom right, move the mouse, or drag a finger. Watch your lance point and put it on him.</li>' +
         '<li><b>Scoring</b> — shield 1 · breast 2 · helm 3. Most points after five passes also wins.</li>' +
-        '<li><b>Renown</b> — win a match, earn a trophy. Your trophies are counted at the top left, under the score.</li>' +
-        '<li><b>Colours</b> — winning also pays coin. Spend it in the Armoury on ten new lance colours and matching shields — paint only, same reach, same scoring, same guard.</li>' +
+        '<li><b>Renown</b> — win a match, earn a trophy, counted at the top left under the score. Spend trophies in the Armoury on champion lance and shield colours, a champion banner and the Champion of the Lists title — honours only, no edge in the lists.</li>' +
+        '<li><b>Colours</b> — winning pays coin by difficulty: 20 a win on Easy, 25 on Normal, 30 on Hard, and beating all 5 knights of a ladder pays a bonus on top — 250 / 500 / 750. Spend it in the Armoury on ten new lance colours, matching shields, and caparison, horse and plume paint in the same sets — paint only, same reach, same scoring, same guard.</li>' +
         '<li><b>Shield</b> — drag the SHIELD slider at bottom left up, middle or down (or keys 1·2·3) to guard your helm, breast or legs. He picks a fresh mark every pass.</li>' +
         '<li><b>His shield</b> — he works his own shield up, middle or down as he charges, guessing where you will strike. Strike where he is not covering — and watch for the glow on his lance point.</li>' +
         '<li><b>Saving</b> — your coin, Renown trophies, lance and shield colours, and your place in the tournament are kept on this device. Close the game and come back — everything is where you left it.</li>' +
         '<li><b>Cinematic</b> — before each match the camera circles your knight. Tap SKIP or press Space to jump straight in.</li>' +
+        '<li><b>Practice</b> — ride unlimited passes against the knight you face: winning a practice pass pays 5 coin, but no Renown, no ladder bonus and no tournament progress, and an unhorsing never ends it. Leave any time with END PRACTICE.</li>' +
+        '<li><b>Champion\'s Ladder</b> — beat the Black Knight to open a second, harder ladder: five new knights who read your shield faster, strike truer and hit harder, under the same best-of-five rules.</li>' +
+        '<li><b>Difficulty</b> — pick Easy, Normal or Hard below. It changes only your foes: how often they read your shield, how true their aim is, and how hard they hit. Controls, scoring and rules stay the same, and your pick is remembered.</li>' +
+        '<li><b>House</b> — your house sets your flag, shield, caparison and banner colours and its sigil, and its name is announced before every match. Change it any time with CHANGE HOUSE below.</li>' +
         '<li>Beware: his lance is aimed at you, too.</li></ul>' +
+        '<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.26em;font-size:12px;color:#cbbd97;margin-top:12px;">DIFFICULTY</div>' +
+        '<div class="arenaPicker" role="group" aria-label="Choose a difficulty">' +
+        DIFFICULTIES.map(function(D){ return '<button class="arenaBtn" type="button" data-difficulty="' + D.id + '">' + D.name.toUpperCase() + '</button>'; }).join('') +
+        '</div>' +
+        '<p class="small" id="difficultyDesc"></p>' +
+        '<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.26em;font-size:12px;color:#cbbd97;margin-top:12px;">ARENA</div>' +
+        '<div class="arenaPicker" role="group" aria-label="Choose an arena look">' +
+        ARENAS.map(function(A){ return '<button class="arenaBtn" type="button" data-arena="' + A.id + '">' + A.name.toUpperCase() + '</button>'; }).join('') +
+        '<button class="arenaBtn" type="button" data-arena="rotate">ROTATE ↻</button></div>' +
+        '<p class="small" id="arenaDesc"></p>' +
         '<button class="btn" id="startBtn" type="button">ENTER THE LISTS</button>' +
-        '<button class="btn ghost" data-shop type="button">ARMOURY</button>'
+        '<button class="btn" id="practiceBtn" type="button">PRACTICE</button>' +
+        '<button class="btn ghost" data-shop type="button">ARMOURY</button>' +
+        '<button class="btn ghost" id="changeHouseBtn" type="button">CHANGE HOUSE</button>'
       );
       document.getElementById('startBtn').addEventListener('click', function(){ audio(); sfxHorn(); G.started = true; el.hud.classList.remove('hidden'); matchIntro(); });
+      document.getElementById('practiceBtn').addEventListener('click', function(){ audio(); startPractice(); });
+      document.getElementById('changeHouseBtn').addEventListener('click', function(){ audio(); housePickerCard(true); });
+      paintDifficultyPicker();
+      var diffBtns = el.cardBox.querySelectorAll('[data-difficulty]');
+      for(var dbi=0; dbi<diffBtns.length; dbi++){
+        diffBtns[dbi].addEventListener('click', function(){
+          audio();
+          G.difficulty = difficultyById(this.getAttribute('data-difficulty')).id;
+          saveProgress(); paintDifficultyPicker();
+        });
+      }
+      paintArenaPicker();
+      var arenaBtns = el.cardBox.querySelectorAll('[data-arena]');
+      for(var abi=0; abi<arenaBtns.length; abi++){
+        arenaBtns[abi].addEventListener('click', function(){
+          audio();
+          var pick = this.getAttribute('data-arena');
+          G.arena = pick;
+          if(pick !== 'rotate') G.arenaIdx = ARENAS.indexOf(arenaById(pick));
+          applyArena(); saveProgress(); paintArenaPicker();
+        });
+      }
+    }
+    /* Difficulty picker on the title card: the buttons and the line
+       under them always show the current pick. Tapping one saves it at
+       once, so the choice is remembered on this device; it takes
+       effect from the next pass, in matches and Practice alike. */
+    function paintDifficultyPicker(){
+      var btns = el.cardBox.querySelectorAll('[data-difficulty]');
+      for(var i=0;i<btns.length;i++) btns[i].classList.toggle('on', btns[i].getAttribute('data-difficulty') === G.difficulty);
+      var d = document.getElementById('difficultyDesc');
+      if(!d) return;
+      d.textContent = currentDifficulty().desc;
+    }
+    /* Arena picker on the title card: the buttons and the line under
+       them always show the current pick. Scenery changes the moment a
+       button is tapped — the title screen sits in the lists, so the new
+       sky, light and castle are visible behind the card at once. */
+    function paintArenaPicker(){
+      var btns = el.cardBox.querySelectorAll('[data-arena]');
+      for(var i=0;i<btns.length;i++) btns[i].classList.toggle('on', btns[i].getAttribute('data-arena') === G.arena);
+      var d = document.getElementById('arenaDesc');
+      if(!d) return;
+      if(G.arena === 'rotate') d.textContent = 'Rotate — a new arena each match, in turn. Now showing: ' + currentArenaObj().name + '.';
+      else d.textContent = currentArenaObj().desc;
+    }
+    /* ---------- practice mode ----------
+       Unlimited passes against the knight you currently face, ridden
+       with the exact same first-person controls (LANCE joystick, mouse
+       / touch-drag / arrow keys, SHIELD slider), the same zone scoring
+       (shield 1 · breast 2 · helm 3) and the same hit feedback as a
+       match — but with no tournament at stake: passCard's practice
+       branch pays a flat 5 coin for a won pass (and saves it, like
+       any coin award) but no Renown and no ladder bonus, never
+       advances or resets G.foeIndex, and treats an unhorsing
+       (either way) as just another finished pass, so passes repeat
+       until the player leaves.
+       END PRACTICE — on the practice cards and as a HUD button visible
+       throughout every pass — returns to the title screen, and because
+       G.foeIndex is untouched, ENTER THE LISTS then resumes the
+       tournament exactly where it was. */
+    function startPractice(){
+      var foe = FOES[G.foeIndex];
+      G.practice = true;
+      G.pass = 1; G.youScore = 0; G.foeScore = 0; G.youLances = 0; G.foeLances = 0;
+      G.playerDown = false; G.foeDown = false; G.result = null;
+      G.started = true;
+      el.hud.classList.remove('hidden');
+      if(el.practiceExitBtn) el.practiceExitBtn.classList.remove('hidden');
+      mountFoe(G.foeIndex); resetPositions(); refreshHUD();
+      G.state = 'practiceIntro';
+      showCard(
+        '<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.24em;font-size:12px;color:#cbbd97;">PRACTICE · NO STAKES</div>' +
+        '<div class="herald" style="background:#' + ('000000'+foe.main.toString(16)).slice(-6) + '"><span>' + foeLetter(foe) + '</span></div>' +
+        '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + '</div><div class="rule"></div>' +
+        '<p>Unlimited passes to work on your aim — same lance, same shield, same scoring: shield 1 · breast 2 · helm 3. Winning a pass pays 5 coin; no Renown, no ladder bonus, no tournament progress, and an unhorsing either way just means fresh lances for the next pass.</p>' +
+        '<p class="small">Leave any time with END PRACTICE at the top right, or after any pass.</p>' +
+        '<button class="btn" id="practiceGoBtn" type="button">RIDE A PASS</button>' +
+        '<button class="btn ghost" id="practiceBackBtn" type="button">BACK</button>'
+      );
+      document.getElementById('practiceGoBtn').addEventListener('click', function(){ audio(); startPass(); });
+      document.getElementById('practiceBackBtn').addEventListener('click', function(){ audio(); exitPractice(); });
+    }
+    function exitPractice(){
+      G.practice = false;
+      if(el.practiceExitBtn) el.practiceExitBtn.classList.add('hidden');
+      hideBanner();
+      G.speed = 0; G.slowT = 0; G.timeScale = 1; G.result = null;
+      mountFoe(G.foeIndex); resetPositions(); refreshHUD();
+      el.hud.classList.add('hidden');
+      G.started = false;
+      titleCard();
+    }
+    if(el.practiceExitBtn){
+      // keep a tap on END PRACTICE from also steering the lance
+      el.practiceExitBtn.addEventListener('pointerdown', function(e){ e.stopPropagation(); });
+      el.practiceExitBtn.addEventListener('click', function(e){ e.stopPropagation(); audio(); if(G.practice) exitPractice(); });
     }
     /* ---------- pre-match cinematic ----------
        Before every match the camera leaves the saddle and circles your
@@ -1718,7 +2631,7 @@
       el.hud.classList.add('hidden');
       if(el.cineWrap) el.cineWrap.classList.remove('hidden');
       var foe = FOES[G.foeIndex];
-      if(el.cineKicker) el.cineKicker.textContent = 'Match ' + (G.foeIndex+1) + ' of 5 · The lists await';
+      if(el.cineKicker) el.cineKicker.textContent = ladderLabel(G.foeIndex) + ' · ' + currentHouse().name + ' rides';
       if(el.cineName) el.cineName.textContent = 'YOUR KNIGHT';
       if(el.cineSub) el.cineSub.textContent = 'vs ' + foe.name + ', ' + foe.title;
       // first-person gear rides on the camera — hide it for the orbit
@@ -1742,6 +2655,14 @@
     if(el.skipCineBtn) el.skipCineBtn.addEventListener('click', function(e){ e.stopPropagation(); audio(); endCinematic(); });
     if(el.cineWrap) el.cineWrap.addEventListener('pointerdown', function(){ /* overlay is pointer-events:none except the button */ });
     function matchIntro(){
+      G.practice = false;
+      // Rotate: each new match moves on to the next arena in turn. The
+      // first match after picking Rotate keeps the arena already on
+      // show, so the order always starts at Classic Day.
+      if(G.arena === 'rotate' && G._arenaShown) G.arenaIdx = (G.arenaIdx + 1) % ARENAS.length;
+      G._arenaShown = true;
+      applyArena();
+      if(el.practiceExitBtn) el.practiceExitBtn.classList.add('hidden');
       var foe = FOES[G.foeIndex];
       G.pass = 1; G.youScore = 0; G.foeScore = 0; G.youLances = 0; G.foeLances = 0;
       G.playerDown = false; G.foeDown = false;
@@ -1751,9 +2672,10 @@
     function showMatchCard(){
       var foe = FOES[G.foeIndex];
       showCard(
-        '<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.24em;font-size:12px;color:#cbbd97;">MATCH ' + (G.foeIndex+1) + ' OF 5</div>' +
+        '<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.24em;font-size:12px;color:#cbbd97;">' + ladderLabel(G.foeIndex).toUpperCase() + '</div>' +
         '<div class="herald" style="background:#' + ('000000'+foe.main.toString(16)).slice(-6) + '"><span>' + foeLetter(foe) + '</span></div>' +
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + '</div><div class="rule"></div>' +
+        '<div class="foeLine">You ride for <b style="color:#ffe9a8">' + currentHouse().name + '</b> — ' + currentHouse().colName + ', sigil: ' + currentHouse().sigilName + '.</div>' +
         '<p>' + foeIntroText(G.foeIndex) + '</p>' +
         '<button class="btn" id="chargeBtn" type="button">TO THE CHARGE</button>'
       );
@@ -1765,7 +2687,12 @@
         'Kay rides hard and aims for the body. Brace your shield and pick your spot.',
         'Percival\'s seat is steady and his point honest. He will punish a lazy aim.',
         'Gawain grows stronger as he rides. Expect speed, and a lance that hunts your helm.',
-        'No herald announces him. No quarter is given. Unhorse him, or be carried from the field.'
+        'No herald announces him. No quarter is given. Unhorse him, or be carried from the field — and the Champion\'s Ladder opens beyond him.',
+        'The Champion\'s Ladder begins. Lancelot has never been beaten cleanly: his shield finds your mark early, and his point barely wanders.',
+        'Tristan rides faster still and hunts the helm. Change your guard late, or he will already be covering it — and striking through yours.',
+        'Lamorak hits like a falling tree. Even a scoring blow from him can put you in the sand, so a blocked pass is a won pass.',
+        'Palamades never hurries and never misses by much. His shield settles on your aim almost at once — strike where you were not aiming a heartbeat ago.',
+        'Clad all in gold, the last champion of the second ladder. Fastest, truest and hardest-hitting of them all. Beat him, and both wreaths are yours.'
       ][i];
     }
     function resetPositions(){
@@ -1785,20 +2712,29 @@
     }
     function pickFoeAim(){
       var foe = FOES[G.foeIndex];
+      var diff = currentDifficulty();
+      // Difficulty shifts how often he hunts the helm and how widely
+      // his point scatters around the mark he picks (sigmaMult) — the
+      // mark itself, and the scoring of it, never change.
+      var headAim = Math.max(0.02, Math.min(0.75, foe.headAim + diff.headAimShift));
+      var sigma = foe.sigma * diff.sigmaMult;
       // A fresh, random mark every pass — helm, breast or legs — so where
       // the player parks the shield decides whether his strike tells.
       var r = Math.random(), tx, ty;
-      if(r < foe.headAim){ G.foeTargetZone = 'head'; tx = 0; ty = 2.80; }
-      else if(r < foe.headAim + 0.45){ G.foeTargetZone = 'chest'; tx = 0; ty = 2.32; }
+      if(r < headAim){ G.foeTargetZone = 'head'; tx = 0; ty = 2.80; }
+      else if(r < headAim + 0.45){ G.foeTargetZone = 'chest'; tx = 0; ty = 2.32; }
       else { G.foeTargetZone = 'legs'; tx = 0; ty = 1.66; }
       function gauss(){ return (Math.random()+Math.random()+Math.random()-1.5)/1.5; }
-      G.foeTargetX = tx + gauss()*foe.sigma*1.6;
-      G.foeTargetY = ty + gauss()*foe.sigma*1.1;
+      G.foeTargetX = tx + gauss()*sigma*1.6;
+      G.foeTargetY = ty + gauss()*sigma*1.1;
       // He also sets his shield for the pass — mid more often than not —
       // and works it from there as he charges (see the update loop).
       var sr = Math.random();
       G.foeShieldPos = sr < 0.25 ? 'up' : sr < 0.5 ? 'down' : 'mid';
-      G.shieldGuessT = 0.7;
+      // Champion's Ladder knights set and re-read their shield sooner;
+      // difficulty stretches or shortens that first wait (Easy reads
+      // later, Hard sooner).
+      G.shieldGuessT = (G.foeIndex >= FIRST_LADDER ? 0.35 : 0.7) * diff.guessIntervalMult;
     }
     // Judge his strike against the mark he picked this pass: helm 3,
     // breast 2, legs 1, judged by where his REAL point rides — the same
@@ -1942,7 +2878,17 @@
         var base = zone==='head' ? 0.68 : zone==='chest' ? 0.38 : zone==='legs' ? 0.12 : zone==='shield' ? 0.12 : 0;
         if(!base) return 0;
         if(attackerIsYou){ base -= G.foeIndex*0.035; }
-        else { base += (foe.speed > 12.4 ? 0.06 : 0) - 0.03; }
+        else {
+          base += (foe.speed > 12.4 ? 0.06 : 0) - 0.03;
+          // Champion's Ladder knights hit harder: each rung adds weight
+          // behind the lance, so the same scoring strike unhorses more often.
+          if(G.foeIndex >= FIRST_LADDER) base += 0.05 + (G.foeIndex - FIRST_LADDER) * 0.03;
+          // Difficulty: his hits land softer on Easy, harder on Hard
+          // (Normal adds nothing). Only his power changes — the zones
+          // and the unhorsing rule itself are untouched, and your own
+          // power against him is never scaled.
+          base += currentDifficulty().unhorseAdd;
+        }
         return Math.max(0.02, Math.min(0.9, base));
       }
       var youDown = Math.random() < unhorseChance(him.zone, false) && him.pts > 0;
@@ -1996,6 +2942,36 @@
     function hitTitle(z){ return z==='head' ? 'HELM STRUCK!' : z==='chest' ? 'BREAST STRUCK!' : 'SHIELD SPLINTERED!'; }
     function passCard(){
       var r = G.result, foe = FOES[G.foeIndex];
+      if(G.practice){
+        // Practice never ends on a pass: no match win or loss, no
+        // unhorsing finish, no Renown, no tournament change — just
+        // the score of the passes ridden and a fresh lance. Winning
+        // a practice pass (unhorsing him, or outscoring him on the
+        // pass without falling yourself) pays a flat 5 coin at any
+        // difficulty (v1.16) — never a ladder bonus — added to the
+        // purse and saved like any other coin award. passCard runs
+        // once per pass, so the pay lands once per pass win.
+        G.state = 'passcard';
+        var practiceWin = r.foeDown || (!r.youDown && r.you.pts > r.him.pts);
+        var practicePay = 0;
+        if(practiceWin){ practicePay = PRACTICE_WIN_PAY; G.coins += practicePay; refreshHUD(); saveProgress(); }
+        var downLine = r.foeDown ? '<p>Your lance unhorsed him — in a match that would end it. Here the squires fetch fresh lances and you ride again.</p>'
+          : r.youDown ? '<p>His lance unhorsed you — in a match that would end it. Here you are helped up, handed a fresh lance, and ride again.</p>'
+          : '<p>' + passSummary(r) + '</p>';
+        showCard(
+          '<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.22em;font-size:12px;color:#cbbd97;">PRACTICE · END OF PASS ' + G.pass + '</div>' +
+          '<h2>' + G.youScore + ' — ' + G.foeScore + '</h2><div class="rule"></div>' +
+          downLine +
+          (practiceWin
+            ? '<p class="small" style="color:#ffe9a8;">Practice pass won — purse +' + practicePay + ' coin, you hold ' + G.coins + ' coin. No Renown, no ladder bonus, and your place in the tournament is untouched.</p>'
+            : '<p class="small">No coin for that pass — win a practice pass (outscore him, or unhorse him) to earn 5 coin. No Renown, and your place in the tournament is untouched.</p>') +
+          '<button class="btn" id="nextBtn" type="button">NEXT PASS</button>' +
+          '<button class="btn ghost" id="practiceEndBtn" type="button">END PRACTICE</button>'
+        );
+        document.getElementById('nextBtn').addEventListener('click', function(){ audio(); G.pass++; startPass(); });
+        document.getElementById('practiceEndBtn').addEventListener('click', function(){ audio(); exitPractice(); });
+        return;
+      }
       var matchOver = r.foeDown || r.youDown || G.pass >= MAX_PASSES;
       if(!matchOver){
         G.state = 'passcard';
@@ -2022,19 +2998,35 @@
       if(youWin){
         G.renown += 1;
         var last = G.foeIndex >= FOES.length - 1;
-        var purse = 25 + G.foeIndex*15 + (last ? 100 : 0);
-        G.coins += purse; refreshHUD(); saveProgress();
+        var isBlackKnight = G.foeIndex === FIRST_LADDER - 1;
+        if(isBlackKnight) G.secondUnlocked = true;
+        // Coin pay (v1.16): a flat per-win rate by the difficulty in
+        // effect right now, plus — only when this win beats the last
+        // knight of a ladder — the one-time ladder completion bonus
+        // for that same difficulty. Both land in the purse together
+        // and are saved in the same saveProgress() call, once.
+        var diffWin = currentDifficulty();
+        var purse = diffWin.winPay;
+        var ladderDone = isBlackKnight || last;
+        var ladderBonus = ladderDone ? diffWin.ladderBonus : 0;
+        lastLadderBonus = ladderDone ? { amount:ladderBonus, diffName:diffWin.name, ladderName:(isBlackKnight ? 'the first ladder' : 'the Champion\'s Ladder') } : null;
+        G.coins += purse + ladderBonus; refreshHUD(); saveProgress();
+        var bonusLine = ladderDone ? '<p style="color:#ffe9a8;font-size:17px;"><b>LADDER COMPLETE!</b> Bonus +' + ladderBonus + ' coin on ' + diffWin.name + ' — beating all 5 knights of ' + lastLadderBonus.ladderName + '. It is in your purse: you hold ' + G.coins + ' coin.</p>' : '';
+        var winText = last ? 'The Golden Knight\'s helm is carried from the lists, and both wreaths are yours.'
+          : isBlackKnight ? 'The Black Knight is beaten — and beyond him the gates open on the Champion\'s Ladder: five harder knights who read your shield faster, strike truer and hit harder.'
+          : 'The crowd roars your name.';
         showCard(
-          '<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.22em;font-size:12px;color:#cbbd97;">' + (r.foeDown ? 'BY UNHORSING' : 'ON POINTS') + '</div>' +
+          '<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.22em;font-size:12px;color:#cbbd97;">' + (r.foeDown ? 'BY UNHORSING' : 'ON POINTS') + (isBlackKnight ? ' · CHAMPION\'S LADDER OPEN' : '') + '</div>' +
           '<h2>VICTORY</h2><div class="rule"></div>' +
-          '<p>' + foe.name + ' yields the field, ' + G.youScore + ' — ' + G.foeScore + '. ' + (last ? 'The Black Knight\'s helm is carried from the lists, and the wreath is yours.' : 'The crowd roars your name.') + '</p>' +
+          '<p>' + foe.name + ' yields the field, ' + G.youScore + ' — ' + G.foeScore + '. ' + winText + '</p>' +
           '<p class="small">Renown +1 — you now hold ' + G.renown + (G.renown === 1 ? ' trophy.' : ' trophies.') + '</p>' +
-          '<p class="small">Purse +' + purse + ' coin — you hold ' + G.coins + ' coin. New colours wait in the Armoury.</p>' +
-          '<button class="btn" id="winBtn" type="button">' + (last ? 'CLAIM THE WREATH' : 'FACE THE NEXT KNIGHT') + '</button>' +
+          '<p class="small">Purse +' + purse + ' coin (' + diffWin.name + ' win pay) — you hold ' + G.coins + ' coin. New colours wait in the Armoury.</p>' +
+          bonusLine +
+          '<button class="btn" id="winBtn" type="button">' + (last ? 'CLAIM THE WREATH' : isBlackKnight ? 'ENTER THE CHAMPION\'S LADDER' : 'FACE THE NEXT KNIGHT') + '</button>' +
           '<button class="btn ghost" data-shop type="button">ARMOURY</button>'
         );
         document.getElementById('winBtn').addEventListener('click', function(){ audio();
-          if(last){ saveProgress(); tourneyEnd(true); } else { G.foeIndex++; saveProgress(); matchIntro(); } });
+          if(last){ saveProgress(); tourneyEnd(true); } else { if(isBlackKnight) lastLadderBonus = null; G.foeIndex++; saveProgress(); matchIntro(); } });
       } else {
         showCard(
           '<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.22em;font-size:12px;color:#cbbd97;">' + (r.youDown ? 'UNHORSED' : 'BEATEN ON POINTS') + '</div>' +
@@ -2062,10 +3054,17 @@
       hideBanner();
       if(champion){
         sfxHorn(); sfxCheer(true);
-        showCard('<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.26em;font-size:12px;color:#cbbd97;">CHAMPION OF THE LISTS</div>' +
+        showCard('<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.26em;font-size:12px;color:#cbbd97;">CHAMPION OF BOTH LADDERS</div>' +
           '<h1 style="font-size:34px;">THE WREATH IS YOURS</h1><div class="rule"></div>' +
-          '<p>Five knights rode against you, and five were beaten. The queen of the tournament ties the golden wreath to your helm while the stands thunder.</p>' +
+          '<p>Ten knights rode against you across both ladders, and ten were beaten — the Black Knight, and every champion beyond him. The queen of the tournament ties the golden wreath to your helm while the stands thunder.</p>' +
+          (lastLadderBonus ? '<p style="color:#ffe9a8;font-size:17px;"><b>LADDER COMPLETE!</b> Bonus +' + lastLadderBonus.amount + ' coin on ' + lastLadderBonus.diffName + ' — beating all 5 knights of ' + lastLadderBonus.ladderName + '. It is already in your purse: you hold ' + G.coins + ' coin.</p>' : '') +
           '<p class="small">Renown: ' + G.renown + (G.renown === 1 ? ' trophy' : ' trophies') + ' — every match won on the way is counted at the top left.</p>' +
+          '<button class="btn" id="againBtn" type="button">JOUST AGAIN</button>');
+      } else if(G.foeIndex >= FIRST_LADDER){
+        var secondWins = G.foeIndex - FIRST_LADDER;
+        showCard('<div style="font-family:"Palatino Linotype", Palatino, Georgia, serif;letter-spacing:.26em;font-size:12px;color:#cbbd97;">THE CHAMPION\'S LADDER ENDS</div>' +
+          '<h1 style="font-size:32px;">A VALIANT SHOWING</h1><div class="rule"></div>' +
+          '<p>You cleared the first ladder and bested ' + secondWins + (secondWins === 1 ? ' knight' : ' knights') + ' of the Champion\'s Ladder before falling. The Black Knight is beaten — the Golden Knight still waits at the top.</p>' +
           '<button class="btn" id="againBtn" type="button">JOUST AGAIN</button>');
       } else {
         var place = ['fifth', 'fourth', 'third', 'second'][Math.min(G.foeIndex, 3)] || 'fifth';
@@ -2074,7 +3073,7 @@
           '<p>You bested ' + G.foeIndex + (G.foeIndex === 1 ? ' knight' : ' knights') + ' before falling — ' + place + ' place in the lists. The road to the wreath runs through harder lances next time.</p>' +
           '<button class="btn" id="againBtn" type="button">JOUST AGAIN</button>');
       }
-      document.getElementById('againBtn').addEventListener('click', function(){ audio(); G.foeIndex = 0; saveProgress(); matchIntro(); });
+      document.getElementById('againBtn').addEventListener('click', function(){ audio(); lastLadderBonus = null; G.foeIndex = 0; saveProgress(); matchIntro(); });
     }
 
     /* ================= MAIN LOOP ================= */
@@ -2220,6 +3219,8 @@
         camera.position.set(0,0,0);
         camera.rotation.set(Math.atan2(dyv, hDist), 0, 0);
         for(var cfi=0;cfi<wavingFlags.length;cfi++){ var cf2 = wavingFlags[cfi]; cf2.rotation.y = Math.sin(t*2.6 + cf2.userData.phase)*0.38; cf2.rotation.z = Math.sin(t*3.4 + cf2.userData.phase)*0.06; }
+        flickerTorches(t);
+        if(currentArenaObj().crowd === 'lively') animateCrowdLively(t);
         for(var cci=0;cci<clouds.length;cci++){ clouds[cci].position.x += clouds[cci].userData.speed * dt; if(clouds[cci].position.x > 220) clouds[cci].position.x = -220; }
         updateParticles(dt);
         if(G.cineT >= G.cineDur) endCinematic();
@@ -2261,19 +3262,27 @@
         gallopFoe += foeSpeed * sdt * 1.85;
         var step = Math.floor(G.hoofPhase / Math.PI);
         if(step !== G.lastHoofStep){ G.lastHoofStep = step; if(G.speed > 3.5 && !G.playerDown) sfxHoof(); }
-        // foe aim drifts toward his chosen target
+        // foe aim drifts toward his chosen target — Champion's Ladder
+        // knights settle on their mark noticeably faster. Difficulty
+        // scales that settling too: slower on Easy, faster on Hard.
         if(charging){
-          var ease = Math.min(1, sdt * 1.6);
+          var diffNow = currentDifficulty();
+          var ease = Math.min(1, sdt * (1.6 + G.foeIndex * 0.14) * diffNow.trackMult);
           G.foeAimX += (G.foeTargetX + Math.sin(t*1.9)*0.05 - G.foeAimX) * ease;
           G.foeAimY += (G.foeTargetY + Math.cos(t*1.6)*0.04 - G.foeAimY) * ease;
           // He works his shield as he charges, guessing where your point
           // is riding: better knights commit to the true read more often,
-          // lesser ones shift late or guess plain wrong.
+          // lesser ones shift late or guess plain wrong. On the
+          // Champion's Ladder he re-reads far sooner (roughly twice as
+          // often), and the skill line already puts him at or near a
+          // sure read on every rung.
           G.shieldGuessT -= sdt;
           if(G.shieldGuessT <= 0){
-            G.shieldGuessT = 0.45 + Math.random()*0.45;
+            // Difficulty: Easy waits longer between reads and reads
+            // true less often; Hard re-reads sooner and surer.
+            G.shieldGuessT = (G.foeIndex >= FIRST_LADDER ? 0.20 + Math.random()*0.22 : 0.45 + Math.random()*0.45) * diffNow.guessIntervalMult;
             var guess = G.aimY > 0.32 ? 'up' : G.aimY < -0.32 ? 'down' : 'mid';
-            var skill = 0.35 + G.foeIndex * 0.13;
+            var skill = Math.max(0.05, Math.min(0.97, 0.35 + G.foeIndex * 0.13 + diffNow.guessSkillAdd));
             if(Math.random() < skill) G.foeShieldPos = guess;
             else if(Math.random() < 0.45) G.foeShieldPos = ['up','mid','down'][(Math.random()*3)|0];
           }
@@ -2367,7 +3376,11 @@
         f.rotation.y = Math.sin(t*2.6 + f.userData.phase)*0.38;
         f.rotation.z = Math.sin(t*3.4 + f.userData.phase)*0.06;
       }
+      if(championBannerCloth && championBanner.visible) championBannerCloth.rotation.x = Math.sin(t*1.25 + 0.7)*0.05;
+      if(houseBannerCloth) houseBannerCloth.rotation.x = Math.sin(t*1.4 + 2.1)*0.05;
       for(var c=0;c<clouds.length;c++){ clouds[c].position.x += clouds[c].userData.speed * sdt; if(clouds[c].position.x > 220) clouds[c].position.x = -220; }
+      flickerTorches(t);
+      if(currentArenaObj().crowd === 'lively') animateCrowdLively(t);
       updateParticles(sdt);
 
       // --- HUD meters ---
@@ -2391,9 +3404,18 @@
     resetPositions();
     applyLanceSkin(G.lanceSkin);
     applyShieldSkin(G.shieldSkin);
+    applyCaparisonSkin(G.caparisonSkin);
+    applyHorseSkin(G.horseSkin);
+    applyPlumeSkin(G.plumeSkin);
+    applyBanner();
+    applyHouse();
     refreshHUD();
     G.foeAimX = 0.3; G.foeAimY = 2.05; pickFoeAim(); G.foeAimX = G.foeTargetX; G.foeAimY = G.foeTargetY;
-    titleCard();
+    // First entry ever (no save on this device): pick a house before
+    // the title screen. A returning player — including an old save
+    // with no house, which keeps the default house — goes straight
+    // to the title card.
+    if(!hadSave && !G.houseChosen) housePickerCard(false); else titleCard();
     // Defer the first render until after the document has parsed, so a slow
     // first frame in software WebGL can never hold up page load.
     if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ requestAnimationFrame(frame); });
