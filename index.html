@@ -51,7 +51,7 @@
         font-size:11px; letter-spacing:.18em; color:#cbbd97; }
       .renownRow b{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-size:16px; color:#ffe9a8; line-height:1; }
 
-      #tourPlate{ position:absolute; top:calc(8px + env(safe-area-inset-top)); right:10px; padding:7px 12px 8px; text-align:right; }
+      #tourPlate{ position:absolute; top:calc(8px + env(safe-area-inset-top)); right:64px; padding:7px 12px 8px; text-align:right; }
       #tourPlate .t{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-size:12px; letter-spacing:.14em; color:#cbbd97; text-transform:uppercase; }
       #tourShields{ display:flex; gap:5px; justify-content:flex-end; margin-top:5px; }
       #tourShields i{ width:15px; height:18px; display:block; background:#3a2f1c; border:1px solid rgba(217,164,65,.4); clip-path:polygon(0 0,100% 0,100% 62%,50% 100%,0 62%); }
@@ -252,10 +252,30 @@
       #logWrap{ position:fixed; inset:0; z-index:40; display:flex; align-items:center; justify-content:center; padding:14px; background:rgba(6,4,2,.62); }
       #logWrap.hidden{ display:none; }
       #logBox{ text-align:left; touch-action:pan-y; -webkit-overflow-scrolling:touch; }
-      #logXBtn{ position:absolute; top:calc(12px + env(safe-area-inset-top)); right:12px; z-index:5; width:46px; height:46px; border-radius:50%;
+      #logXBtn, #settingsXBtn{ position:absolute; top:calc(12px + env(safe-area-inset-top)); right:12px; z-index:5; width:46px; height:46px; border-radius:50%;
         display:flex; align-items:center; justify-content:center; background:var(--plate); border:1px solid var(--gold); box-shadow:0 2px 10px rgba(0,0,0,.55);
         color:#f2d492; font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:20px; line-height:1; cursor:pointer; }
-      #logXBtn:active{ transform:translateY(1px); }
+      #logXBtn:active, #settingsXBtn:active{ transform:translateY(1px); }
+      /* ---------- Settings (v3.0) ----------
+         The gear rides in the top-right corner of every screen —
+         title, menus and mid-match alike — clear of the version
+         pill (bottom centre / top-left dock) and of every BACK
+         button (card feet). The tournament plate in the HUD shifts
+         left to make room for it during a match. The panel itself
+         is a card like the Armoury and the update log. */
+      #settingsBtn{ position:fixed; right:10px; top:calc(10px + env(safe-area-inset-top)); z-index:30; width:46px; height:46px; border-radius:50%;
+        display:flex; align-items:center; justify-content:center; cursor:pointer; pointer-events:auto;
+        background:linear-gradient(180deg,#7d2115,#571209); border:1px solid var(--gold); color:#f2d492;
+        box-shadow:0 2px 10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,220,160,.3); }
+      #settingsBtn:active{ transform:translateY(1px); }
+      #settingsWrap{ position:fixed; inset:0; z-index:46; display:flex; align-items:center; justify-content:center; padding:14px; background:rgba(6,4,2,.62); }
+      #settingsWrap.hidden{ display:none; }
+      #settingsBox .btnRow{ text-align:center; }
+      #fpsVal{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:24px; color:#ffe9a8; margin-top:8px; letter-spacing:.06em; }
+      #fpsRange{ width:100%; height:36px; accent-color:#d9a441; cursor:pointer; margin:2px 0 0; }
+      .fpsTicks{ display:flex; justify-content:space-between; font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-size:13px; letter-spacing:.14em; color:#b7a67f; margin-top:-2px; }
+      .fpsTicks span{ cursor:pointer; padding:4px 10px; }
+      .fpsTicks span.on{ color:#ffe9a8; font-weight:900; }
       #logBox h2{ text-align:center; }
       #logBox .rule{ margin:10px auto; }
       .logList{ list-style:none; margin:10px 0 2px; padding:0; }
@@ -503,7 +523,32 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 2.11 — tap to see update history">v2.11 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 3.0 — tap to see update history">v3.0 <span class="vdot">· Updates</span></button>
+
+    <button id="settingsBtn" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
+
+    <div id="settingsWrap" class="hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <button id="settingsXBtn" type="button" aria-label="Close settings">✕</button>
+      <div class="card" id="settingsBox">
+        <div class="kick">SETTINGS</div>
+        <h2 id="settingsTitle">Graphics &amp; Frame Rate</h2>
+        <div class="rule"></div>
+        <div class="menuLabel">GRAPHICS</div>
+        <div class="arenaPicker" role="group" aria-label="Graphics quality">
+          <button class="arenaBtn" type="button" data-gfx="low">LOW</button>
+          <button class="arenaBtn" type="button" data-gfx="medium">MEDIUM</button>
+          <button class="arenaBtn" type="button" data-gfx="high">HIGH</button>
+        </div>
+        <p class="small" id="gfxDesc"></p>
+        <div class="menuLabel">FRAME RATE</div>
+        <div id="fpsVal">60 FPS</div>
+        <input id="fpsRange" type="range" min="0" max="2" step="1" value="1" aria-label="Frame rate — slide to 30, 60 or 120 frames per second" />
+        <div class="fpsTicks"><span data-fps="30" role="button" aria-label="30 frames per second">30</span><span data-fps="60" role="button" aria-label="60 frames per second">60</span><span data-fps="120" role="button" aria-label="120 frames per second">120</span></div>
+        <p class="small">Running now: <b id="fpsNow" style="color:#ffe9a8;">—</b> · 30 saves battery, 60 is smooth, 120 is smoothest on fast screens.</p>
+        <p class="small">Changes apply at once — even mid-match — and are saved on this device.</p>
+        <div class="btnRow"><button class="btn" id="settingsCloseBtn" type="button">CLOSE</button></div>
+      </div>
+    </div>
 
     <div id="logWrap" class="hidden" role="dialog" aria-modal="true" aria-labelledby="logTitle">
       <button id="logXBtn" type="button" aria-label="Close update history">✕</button>
@@ -511,8 +556,9 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v2.11</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v3.0</b></p>
         <ul class="logList">
+          <li><span class="vtag major">v3.0</span><span class="vtext"><b>Major: the great graphics update.</b> A ⚙ Settings button in the top corner — on the title screen and mid-match — opens Graphics: Low, Medium and High that truly change the shadows, rendering resolution, crowd, scenery and light, plus a frame-rate slider — 30, 60 or 120 FPS, genuinely capped. Both apply at once and save on your device.</span></li>
           <li><span class="vtag">v2.11</span><span class="vtext"><b>Round 4 no longer ends the tournament — and champions now shuffle.</b> Beating any round's champion now carries you into the next round, all the way through the 60 knights; only the very last champion ends the tournament. And at the start of every run the ten champions are shuffled among the round-end fights — a different champion each time, never twice in one run, still marked ★ CHAMPION ★.</span></li>
           <li><span class="vtag">v2.10</span><span class="vtext"><b>Sixty knights, ten champions.</b> PLAY setup now fits on one screen with no scrolling. The tournament grows to 60 knights in 12 rounds of 5 — 50 new knights — and every round ends with a ★ CHAMPION ★, marked in gold on his intro card, in the HUD and on the win and defeat cards. Sir Jaren the Slim, Sir Mic the Fih and Sir Dingus the Tall ride as champions.</span></li>
           <li><span class="vtag">v2.9</span><span class="vtext"><b>Exit to menu, any time.</b> An EXIT TO MENU button now rides on the HUD through every pass of a match and sits on the match intro, pass, win, defeat and tournament-end cards — tap it to save your progress and return straight to the title screen, with the tournament left exactly where it was. In LAN the button reads EXIT TO ROOM: it ends the match and takes both riders back to the room — still connected, the host free to change the arena — while LEAVE ROOM stays the way out to the title screen.</span></li>
@@ -945,6 +991,39 @@
     ];
     function arenaById(id){ for(var i=0;i<ARENAS.length;i++) if(ARENAS[i].id === id) return ARENAS[i]; return ARENAS[0]; }
 
+    /* ================= GRAPHICS QUALITY (v3.0) =================
+       Three real levels, chosen in Settings (the ⚙ button) and saved
+       on the device. LOW is exactly the look and cost the game has
+       always shipped: pixel ratio capped at 1.75, 1024 PCF sun
+       shadows over the lists, the shipped fog distances, the
+       shipped crowd and scenery, and particle bursts as they were.
+       MEDIUM raises the pixel-ratio cap, doubles the shadow map
+       with soft (PCFSoft) edges, sharpens the ground textures
+       (anisotropy), brightens the light a touch, pushes the fog
+       back for a longer view, fills the stands with a second,
+       denser crowd, dresses the grounds with barrels, hay bales,
+       spare-lance racks and more trees, adds a warm bounce light,
+       and throws half again as many splinters and dust. HIGH goes
+       the whole way: full device resolution (cap 3), 4096 soft
+       shadows whose camera covers the whole lists and stands,
+       the sharpest textures, the richest light (stronger bounce),
+       the longest view, gold finials and banners on the stands,
+       extra clouds, and more than double the particles. Nothing
+       here touches aim, scoring, controls or any rule — it is the
+       renderer and the dressing only — and applyGraphics() applies
+       a change the moment it is tapped, mid-match included. */
+    var GFX_LEVELS = {
+      low:    { pr:1.75, shadow:1024, soft:false, wideShadow:false, lightMul:1.00, exposureAdd:0.00, fogMul:1.00, far:500, aniso:1, crowdExtra:false, detail:false, highDetail:false, particleMul:1.0, bounce:0 },
+      medium: { pr:2.25, shadow:2048, soft:true,  wideShadow:false, lightMul:1.07, exposureAdd:0.03, fogMul:1.30, far:700, aniso:4, crowdExtra:true,  detail:true,  highDetail:false, particleMul:1.5, bounce:0.22 },
+      high:   { pr:3.00, shadow:4096, soft:true,  wideShadow:true,  lightMul:1.14, exposureAdd:0.06, fogMul:1.55, far:900, aniso:8, crowdExtra:true,  detail:true,  highDetail:true,  particleMul:2.2, bounce:0.50 }
+    };
+    var GFX_DESCS = {
+      low: 'The classic look — standard shadows and rendering, the full shipped crowd and scenery, lightest on your device.',
+      medium: 'Softer, bigger shadows, sharper ground, brighter light, a longer view, fuller stands and more scenery around the lists.',
+      high: 'Full shadows over the whole lists, full-resolution rendering, the richest light, the longest view, the fullest crowd and the heaviest splinters and dust.'
+    };
+    function gfxLevel(){ return GFX_LEVELS[G.gfx] || GFX_LEVELS.low; }
+
     /* Difficulty: foe behaviour only — never the controls, the scoring
        (shield 1 · breast 2 · helm 3), the best-of-five passes, the
        sudden-death tiebreak, the unhorsing rules themselves, the
@@ -1112,6 +1191,7 @@
       cineT:0, cineDur:8.5,
       arena:'classic', arenaIdx:0, _arenaShown:false,
       difficulty:'normal',
+      gfx:'low', fps:60,
       house:'goldmane', houseChosen:false,
       ownedHonourLances:{}, ownedHonourShields:{},
       bannerOwned:false, bannerOn:false, titleOwned:false, titleOn:false
@@ -1170,6 +1250,8 @@
           arena: G.arena,
           arenaIdx: G.arenaIdx,
           difficulty: G.difficulty,
+          gfxQuality: G.gfx,
+          fpsCap: G.fps,
           house: G.house,
           houseChosen: G.houseChosen
         }));
@@ -1241,6 +1323,12 @@
       // Difficulty pick is a preference only; an unknown id (or an old
       // save with no difficulty field at all) falls back to Normal.
       if(typeof s.difficulty === 'string') G.difficulty = difficultyById(s.difficulty).id;
+      // Graphics quality + frame-rate cap (v3.0): plain preferences,
+      // validated to the three levels / three rates; an old save with
+      // neither field keeps the defaults — Low (the classic look) and
+      // 60 FPS.
+      if(s.gfxQuality === 'low' || s.gfxQuality === 'medium' || s.gfxQuality === 'high') G.gfx = s.gfxQuality;
+      if(s.fpsCap === 30 || s.fpsCap === 60 || s.fpsCap === 120) G.fps = s.fpsCap;
       // House pick (v1.17): a save that names a house restores it; an
       // older save with no house field keeps the default Goldmane
       // colours it has always flown, and is not asked to pick.
@@ -1310,6 +1398,10 @@
     sun.shadow.camera.far=220; sun.shadow.bias=-0.0006;
     scene.add(sun); scene.add(sun.target);
     var fill = new THREE.DirectionalLight(0xbdd3ee, 0.35); fill.position.set(-30, 24, -40); scene.add(fill);
+    // Warm bounce light (v3.0): dark (intensity 0) at Low — the
+    // shipped lighting exactly — and lit by applyGraphics() at
+    // Medium and High for the richer light those levels promise.
+    var bounce = new THREE.DirectionalLight(0xffe2b0, 0); bounce.position.set(-14, 26, 34); scene.add(bounce);
 
     /* ---------- materials ---------- */
     function M(color, rough, metal){ return new THREE.MeshStandardMaterial({ color:color, roughness:rough==null?0.85:rough, metalness:metal||0 }); }
@@ -1617,6 +1709,100 @@
       }
     })();
 
+    /* ---------- graphics detail sets (v3.0) ----------
+       Built once, switched visible by applyGraphics(). The extra
+       crowd interleaves a second, denser set of bodies into the
+       same four rows of each stand (Medium and High); the detail
+       set dresses the grounds outside the stands with barrels,
+       hay bales, spare-lance racks and more trees (Medium and
+       High); the High set adds gold finials and hanging banners
+       to the stands and extra clouds overhead. Pure dressing,
+       like every arena: nothing touches aim, scoring or riders. */
+    var extraCrowdGroup = new THREE.Group(); extraCrowdGroup.visible = false; worldGroup.add(extraCrowdGroup);
+    (function(){
+      [1, -1].forEach(function(side){
+        var g = new THREE.Group();
+        var rows = 4, per = 30, count = rows*per;
+        var bodies = new THREE.InstancedMesh(new THREE.BoxGeometry(0.42, 0.62, 0.3), new THREE.MeshStandardMaterial({ roughness:0.95 }), count);
+        var heads = new THREE.InstancedMesh(new THREE.SphereGeometry(0.14, 8, 6), new THREE.MeshStandardMaterial({ color:0xcfa87e, roughness:0.8 }), count);
+        var dummy = new THREE.Object3D(); var col = new THREE.Color();
+        var palette = [0xa02c22, 0x274a73, 0x3d6b35, 0xc78f2a, 0x6d4a7a, 0x8a6a4a, 0xd8d3c3, 0x54423a];
+        var bases = []; var idx = 0;
+        for(var r=0;r<rows;r++) for(var i=0;i<per;i++){
+          var x = side*(0.1 + r*0.72), y = 3.15 + r*0.52, z = -60 + i*(120/per) + (Math.random()-0.5)*1.2;
+          var ry = side>0 ? -Math.PI/2 : Math.PI/2;
+          dummy.position.set(x, y, z); dummy.rotation.y = ry; dummy.updateMatrix();
+          bodies.setMatrixAt(idx, dummy.matrix); bodies.setColorAt(idx, col.setHex(palette[(Math.random()*palette.length)|0]));
+          dummy.position.y = y + 0.48; dummy.updateMatrix(); heads.setMatrixAt(idx, dummy.matrix);
+          bases.push({ x:x, y:y, z:z, ry:ry, phase:Math.random()*6.28 });
+          idx++;
+        }
+        bodies.instanceMatrix.needsUpdate = true; heads.instanceMatrix.needsUpdate = true;
+        crowdSets.push({ bodies:bodies, heads:heads, bases:bases, extra:true });
+        g.add(bodies, heads);
+        g.position.x = side*13.5;
+        extraCrowdGroup.add(g);
+      });
+    })();
+    var detailGroup = new THREE.Group(); detailGroup.visible = false; worldGroup.add(detailGroup);
+    (function(){
+      var barrelG = new THREE.CylinderGeometry(0.42, 0.46, 1.05, 10);
+      var bandM = M(0x2e2a26, 0.5, 0.6);
+      [[19,-38],[19.9,-37.2],[-19,44],[-19.9,44.8],[21,18],[-21,-16]].forEach(function(p){
+        var b = new THREE.Group();
+        var body = new THREE.Mesh(barrelG, MAT.wood); body.position.y = 0.53; body.castShadow = true; b.add(body);
+        [-0.28, 0.28].forEach(function(dy){ var band = new THREE.Mesh(new THREE.CylinderGeometry(0.47, 0.47, 0.07, 10), bandM); band.position.y = 0.53 + dy; b.add(band); });
+        b.position.set(p[0], 0, p[1]); detailGroup.add(b);
+      });
+      var hayM = M(0xb08d57, 1);
+      [[20,-6],[-20,26],[22,52],[-22,-52]].forEach(function(p){
+        var hay = new THREE.Mesh(new THREE.CylinderGeometry(0.58, 0.58, 0.95, 10), hayM);
+        hay.rotation.z = Math.PI/2; hay.position.set(p[0], 0.58, p[1]); hay.castShadow = true; detailGroup.add(hay);
+      });
+      [-58, 58].forEach(function(z){
+        var rack = new THREE.Group();
+        var post1 = new THREE.Mesh(new THREE.BoxGeometry(0.12, 1.1, 0.12), MAT.woodDark); post1.position.set(0, 0.55, -0.8); rack.add(post1);
+        var post2 = post1.clone(); post2.position.z = 0.8; rack.add(post2);
+        var bar = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 1.8), MAT.wood); bar.position.y = 1.0; rack.add(bar);
+        for(var li=0; li<4; li++){
+          var ln = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.045, 3.4, 6), MAT.wood);
+          ln.position.set(0.15, 1.7, -0.6 + li*0.4); ln.rotation.z = 0.32; ln.castShadow = true; rack.add(ln);
+        }
+        rack.position.set(4.6, 0, z); detailGroup.add(rack);
+      });
+      var trunkG3 = new THREE.CylinderGeometry(0.24, 0.36, 2.4, 6), folG3 = new THREE.IcosahedronGeometry(2.1, 1);
+      var folM3 = M(0x46622e, 1), folM4 = M(0x59773a, 1);
+      for(var ti=0; ti<10; ti++){
+        var side = ti%2 ? 1 : -1;
+        var t = new THREE.Group();
+        var trunk = new THREE.Mesh(trunkG3, MAT.woodDark); trunk.position.y = 1.2; t.add(trunk);
+        var fol = new THREE.Mesh(folG3, ti%3 ? folM3 : folM4); fol.position.y = 3.8; fol.scale.y = 1.25; fol.castShadow = true; t.add(fol);
+        t.position.set(side*(30 + (ti%5)*7), 0, -120 + ti*26);
+        detailGroup.add(t);
+      }
+    })();
+    var highGroup = new THREE.Group(); highGroup.visible = false; worldGroup.add(highGroup);
+    (function(){
+      [1, -1].forEach(function(side){
+        for(var z=-56; z<=56; z+=16){
+          var fin = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 6), MAT.gold);
+          fin.position.set(side*14.2, 7.15, z); highGroup.add(fin);
+        }
+        [-30, 0, 30].forEach(function(z){
+          var ban = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 2.6), new THREE.MeshStandardMaterial({ color: side>0 ? 0x8c2f26 : 0x274a73, side:THREE.DoubleSide, roughness:0.9 }));
+          ban.geometry.translate(0, -1.3, 0);
+          ban.position.set(side*10.1, 3.4, z); ban.rotation.y = side>0 ? -Math.PI/2 : Math.PI/2;
+          highGroup.add(ban);
+        });
+      });
+      for(var k=0;k<4;k++){
+        var cl = new THREE.Group();
+        for(var j=0;j<4;j++){ var s = new THREE.Mesh(new THREE.SphereGeometry(3+Math.random()*3.5, 10, 8), cloudMat); s.position.set(j*3.4-5, Math.random()*0.8, Math.random()*2-1); s.scale.y = 0.45; cl.add(s); }
+        cl.position.set(-160+Math.random()*320, 48+Math.random()*20, -180+Math.random()*240);
+        cl.userData.speed = 0.4 + Math.random()*0.5; highGroup.add(cl); clouds.push(cl);
+      }
+    })();
+
     /* ---------- arena weather & far scenery (v2.8) ----------
        Extra dressing for the new arenas: a moon and stars for the
        Night Tournament, falling rain (with lightning) for the Rain
@@ -1742,8 +1928,8 @@
         if(boltT > 0){
           boltT -= dt;
           var fl = boltT > 0.11 ? 1.15 : 0.4;
-          hemi.intensity = A.hemiInt + fl; fill.intensity = A.fillInt + fl*0.5;
-        } else { hemi.intensity = A.hemiInt; fill.intensity = A.fillInt; }
+          hemi.intensity = A.hemiInt * gfxLevel().lightMul + fl; fill.intensity = A.fillInt * gfxLevel().lightMul + fl*0.5;
+        } else { hemi.intensity = A.hemiInt * gfxLevel().lightMul; fill.intensity = A.fillInt * gfxLevel().lightMul; }
       }
       if(snowGroup.visible){
         var sp2 = snowPts.userData.pos;
@@ -1795,6 +1981,7 @@
     function animateCrowdLively(t){
       for(var s=0;s<crowdSets.length;s++){
         var set = crowdSets[s];
+        if(set.extra && !gfxLevel().crowdExtra) continue;
         for(var i=0;i<set.bases.length;i++){
           var b = set.bases[i];
           var bounce = Math.max(0, Math.sin(t*3.1 + b.phase)) * 0.13 + Math.max(0, Math.sin(t*5.3 + b.phase*1.7)) * 0.04;
@@ -1823,11 +2010,11 @@
         skyMat.uniforms.bot.value.setHex(A.skyBot);
       }
       scene.fog.color.setHex(A.fog);
-      hemi.color.setHex(A.hemiSky); hemi.groundColor.setHex(A.hemiGround); hemi.intensity = A.hemiInt;
-      sun.color.setHex(A.sunColor); sun.intensity = A.sunInt;
+      hemi.color.setHex(A.hemiSky); hemi.groundColor.setHex(A.hemiGround); hemi.intensity = A.hemiInt * gfxLevel().lightMul;
+      sun.color.setHex(A.sunColor); sun.intensity = A.sunInt * gfxLevel().lightMul;
       sun.position.set(A.sunPos[0], A.sunPos[1], A.sunPos[2]);
-      fill.color.setHex(A.fillColor); fill.intensity = A.fillInt;
-      renderer.toneMappingExposure = A.exposure;
+      fill.color.setHex(A.fillColor); fill.intensity = A.fillInt * gfxLevel().lightMul;
+      renderer.toneMappingExposure = A.exposure + gfxLevel().exposureAdd;
       MAT.stone.color.setHex(A.stone); MAT.stoneDark.color.setHex(A.stoneDark); MAT.roof.color.setHex(A.roof);
       MAT.grass.color.setHex(A.grass); MAT.sand.color.setHex(A.sand);
       if(cloudMat) cloudMat.color.setHex(A.cloud);
@@ -1837,8 +2024,8 @@
       festivalGroup.visible = !!A.festival;
       // v2.8: fog depth, weather, night sky and whole-place scenery.
       // Arenas without these fields keep the shipped values exactly.
-      scene.fog.near = A.fogNear != null ? A.fogNear : 110;
-      scene.fog.far = A.fogFar != null ? A.fogFar : 330;
+      scene.fog.near = (A.fogNear != null ? A.fogNear : 110) * gfxLevel().fogMul;
+      scene.fog.far = (A.fogFar != null ? A.fogFar : 330) * gfxLevel().fogMul;
       nightGroup.visible = A.fx === 'night';
       rainGroup.visible = A.fx === 'rain';
       snowGroup.visible = A.fx === 'snow';
@@ -1853,6 +2040,46 @@
       resetCrowd();
     }
     applyArena();
+
+    /* applyGraphics (v3.0): pushes the saved graphics level into
+       the live renderer — resolution, shadow size/type/reach,
+       texture sharpness, draw distance, bounce light and the
+       detail sets' visibility — then reapplies the arena so its
+       fog and lighting pick up the level's scaling. Called once
+       at start-up and again the moment a Settings button is
+       tapped, so a change lands at once, mid-match included,
+       with nothing restarted. */
+    function applyGraphics(){
+      var L = gfxLevel();
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, L.pr));
+      var wantType = L.soft ? THREE.PCFSoftShadowMap : THREE.PCFShadowMap;
+      if(renderer.shadowMap.type !== wantType){
+        renderer.shadowMap.type = wantType;
+        scene.traverse(function(o){
+          if(o.material){
+            var ms = Array.isArray(o.material) ? o.material : [o.material];
+            for(var mi=0; mi<ms.length; mi++) ms[mi].needsUpdate = true;
+          }
+        });
+      }
+      if(sun.shadow.mapSize.x !== L.shadow){
+        sun.shadow.mapSize.set(L.shadow, L.shadow);
+        if(sun.shadow.map){ sun.shadow.map.dispose(); sun.shadow.map = null; }
+      }
+      var sc = L.wideShadow ? [-70, 70, 95, -95, 300] : [-40, 40, 70, -70, 220];
+      sun.shadow.camera.left = sc[0]; sun.shadow.camera.right = sc[1];
+      sun.shadow.camera.top = sc[2]; sun.shadow.camera.bottom = sc[3]; sun.shadow.camera.far = sc[4];
+      sun.shadow.camera.updateProjectionMatrix();
+      camera.far = L.far; camera.updateProjectionMatrix();
+      bounce.intensity = L.bounce;
+      var an = Math.min(L.aniso, renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : L.aniso);
+      [MAT.grass.map, MAT.sand.map].forEach(function(tx){ if(tx && tx.anisotropy !== an){ tx.anisotropy = an; tx.needsUpdate = true; } });
+      extraCrowdGroup.visible = !!L.crowdExtra;
+      detailGroup.visible = !!L.detail;
+      highGroup.visible = !!L.highDetail;
+      applyArena();
+      paintSettings();
+    }
 
     /* ---------- horse + knight builders ---------- */
     function shadowed(m){ m.castShadow = true; return m; }
@@ -2618,6 +2845,7 @@
     var dustMat = new THREE.MeshBasicMaterial({ color:0xcbb98f, transparent:true, opacity:0.5 });
     var dustGeo = new THREE.SphereGeometry(0.16, 6, 5);
     function burst(pos, n, mat, geo, spread, up){
+      n = Math.max(1, Math.round(n * gfxLevel().particleMul));
       for(var i=0;i<n;i++){
         var m = new THREE.Mesh(geo, mat);
         m.position.copy(pos);
@@ -2641,9 +2869,9 @@
 
     /* ================= UI ================= */
     var el = {};
-    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','lanExitBtn','menuExitBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
+    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '2.11';
+    var CURRENT_VERSION = '3.0';
     function openLog(){ el.logWrap.classList.remove('hidden'); refreshPill(); }
     function closeLog(){ el.logWrap.classList.add('hidden'); refreshPill(); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
@@ -2831,7 +3059,53 @@
     function openShop(){ renderShop(); el.shopWrap.classList.remove('hidden'); refreshPill(); }
     function closeShop(){ el.shopWrap.classList.add('hidden'); if(G.state === 'title') titleCard(); refreshPill(); }
     function shopIsOpen(){ return !el.shopWrap.classList.contains('hidden'); }
-    function overlayOpen(){ return logIsOpen() || shopIsOpen(); }
+    /* ---- settings (v3.0) ----
+       The ⚙ button opens this panel from anywhere — title screen,
+       menus, the pre-match cinematic and mid-match. Graphics taps
+       run applyGraphics() on the spot; the frame-rate slider only
+       has to set G.fps, because the render loop reads it every
+       frame. Both are saved with the rest of the progress. */
+    function settingsIsOpen(){ return !!(el.settingsWrap && !el.settingsWrap.classList.contains('hidden')); }
+    function openSettings(){ paintSettings(); el.settingsWrap.classList.remove('hidden'); refreshPill(); }
+    function closeSettings(){ el.settingsWrap.classList.add('hidden'); refreshPill(); }
+    function paintSettings(){
+      if(!el.settingsWrap) return;
+      var btns = el.settingsWrap.querySelectorAll('[data-gfx]');
+      for(var i=0;i<btns.length;i++) btns[i].classList.toggle('on', btns[i].getAttribute('data-gfx') === G.gfx);
+      if(el.gfxDesc) el.gfxDesc.textContent = GFX_DESCS[G.gfx] || '';
+      if(el.fpsRange) el.fpsRange.value = G.fps === 30 ? 0 : G.fps === 120 ? 2 : 1;
+      if(el.fpsVal) el.fpsVal.textContent = G.fps + ' FPS';
+      var ticks = el.settingsWrap.querySelectorAll('[data-fps]');
+      for(var j=0;j<ticks.length;j++) ticks[j].classList.toggle('on', parseInt(ticks[j].getAttribute('data-fps'), 10) === G.fps);
+      if(el.fpsNow) el.fpsNow.textContent = (typeof measuredFps === 'number' && measuredFps > 0) ? measuredFps + ' fps' : '—';
+    }
+    function setFps(v){
+      if(v !== 30 && v !== 60 && v !== 120) v = 60;
+      G.fps = v; paintSettings(); saveProgress();
+    }
+    el.settingsBtn.addEventListener('click', function(e){ e.stopPropagation(); audio(); openSettings(); });
+    el.settingsCloseBtn.addEventListener('click', function(){ audio(); closeSettings(); });
+    el.settingsXBtn.addEventListener('click', function(){ audio(); closeSettings(); });
+    el.settingsWrap.addEventListener('pointerdown', function(e){ if(e.target === el.settingsWrap) closeSettings(); });
+    (function(){
+      var gb = el.settingsWrap.querySelectorAll('[data-gfx]');
+      for(var i=0;i<gb.length;i++){
+        gb[i].addEventListener('click', function(){
+          var v = this.getAttribute('data-gfx');
+          if(GFX_LEVELS[v]){ G.gfx = v; applyGraphics(); saveProgress(); }
+          audio();
+        });
+      }
+      var tk = el.settingsWrap.querySelectorAll('[data-fps]');
+      for(var j=0;j<tk.length;j++){
+        tk[j].addEventListener('click', function(){ setFps(parseInt(this.getAttribute('data-fps'), 10)); audio(); });
+      }
+    })();
+    el.fpsRange.addEventListener('input', function(){
+      var vals = [30, 60, 120];
+      setFps(vals[parseInt(el.fpsRange.value, 10)] || 60);
+    });
+    function overlayOpen(){ return logIsOpen() || shopIsOpen() || settingsIsOpen(); }
     el.shopCloseBtn.addEventListener('click', function(){ audio(); closeShop(); });
     el.shopWrap.addEventListener('pointerdown', function(e){ if(e.target === el.shopWrap) closeShop(); });
     el.shopList.addEventListener('click', function(e){
@@ -2937,7 +3211,7 @@
        sit over a BACK, LEAVE or CLOSE button. On the title screen,
        and in play with no card open, it returns to the bottom centre. */
     function refreshPill(){
-      var away = logIsOpen() || shopIsOpen() ||
+      var away = logIsOpen() || shopIsOpen() || settingsIsOpen() ||
         (!el.cardWrap.classList.contains('hidden') && !document.getElementById('playBtn'));
       document.body.classList.toggle('pillAway', !!away);
     }
@@ -2993,7 +3267,7 @@
       G.aimTY = Math.max(-1, Math.min(1, (0.46 - fy) / 0.36));
     }
     window.addEventListener('pointermove', function(e){ if(overlayOpen()) return; if(e.pointerId === joyId) return; if(shieldDragging) return; if(G.state==='charge' || G.state==='ready') setAimFromEvent(e); });
-    window.addEventListener('pointerdown', function(e){ if(overlayOpen()) return; audio(); if(G.state==='cinematic'){ if(e.target !== el.versionBtn && !el.versionBtn.contains(e.target)) endCinematic(); return; } if((G.state==='charge'||G.state==='ready') && e.target !== el.versionBtn && !el.versionBtn.contains(e.target) && e.target !== el.joystick && !el.joystick.contains(e.target) && !el.shieldSlider.contains(e.target)) setAimFromEvent(e); });
+    window.addEventListener('pointerdown', function(e){ if(overlayOpen()) return; if(el.settingsBtn && (e.target === el.settingsBtn || el.settingsBtn.contains(e.target))) return; audio(); if(G.state==='cinematic'){ if(e.target !== el.versionBtn && !el.versionBtn.contains(e.target)) endCinematic(); return; } if((G.state==='charge'||G.state==='ready') && e.target !== el.versionBtn && !el.versionBtn.contains(e.target) && e.target !== el.joystick && !el.joystick.contains(e.target) && !el.shieldSlider.contains(e.target)) setAimFromEvent(e); });
     window.addEventListener('keydown', function(e){
       keys[e.code] = true;
       if(G.state==='cinematic' && (e.code==='Space' || e.code==='Enter' || e.code==='Escape')){ e.preventDefault(); endCinematic(); return; }
@@ -5107,12 +5381,43 @@
         }
       }
     }
-    function frame(){
+    /* Frame-rate cap (v3.0): the loop is driven by
+       requestAnimationFrame, but a frame is only simulated and
+       rendered once the chosen interval — 1000/30, 1000/60 or
+       1000/120 ms — has elapsed since the last rendered frame,
+       so 30 and 60 genuinely cap the rate on fast screens and
+       120 lets a fast screen run as fast as it can. A skipped
+       frame never calls clock.getDelta(), so the next rendered
+       frame's delta is the true elapsed time: the horses, the
+       timers and the slow-motion all run at exactly the same
+       speed at 30, 60 and 120. G.fps is read fresh every frame,
+       so moving the Settings slider retimes the loop at once,
+       mid-match included. measuredFps is the rate actually
+       rendered, shown back in Settings as proof. */
+    var nextFrameMs = 0, fpsFrames = 0, fpsStamp = 0, measuredFps = 0;
+    function frame(nowMs){
       requestAnimationFrame(frame);
+      var now = (typeof nowMs === 'number' && isFinite(nowMs)) ? nowMs
+        : (window.performance && performance.now ? performance.now() : Date.now());
+      var interval = 1000 / (G.fps || 60);
+      if(nextFrameMs){
+        if(now < nextFrameMs - 0.5) return;
+        nextFrameMs += interval;
+        // A full beat or more behind (hidden tab, a long hitch):
+        // resync to now instead of bursting to catch up.
+        if(nextFrameMs <= now) nextFrameMs = now + interval;
+      } else nextFrameMs = now + interval;
       var dt = Math.min(clock.getDelta(), 0.05);
       var t = clock.elapsedTime;
       try{ update(dt, t); }catch(e){ errBox.style.display='block'; errBox.textContent = 'Error: ' + e.message; }
       renderer.render(scene, camera);
+      fpsFrames++;
+      if(!fpsStamp) fpsStamp = now;
+      else if(now - fpsStamp >= 500){
+        measuredFps = Math.round(fpsFrames * 1000 / Math.max(1, now - fpsStamp));
+        fpsFrames = 0; fpsStamp = now;
+        if(el.fpsNow && settingsIsOpen()) el.fpsNow.textContent = measuredFps + ' fps';
+      }
     }
     function update(dt, t){
       // timescale (slow-motion on impact)
@@ -5387,6 +5692,7 @@
     applyPlumeSkin(G.plumeSkin);
     applyBanner();
     applyHouse();
+    applyGraphics();
     refreshHUD();
     G.foeAimX = 0.3; G.foeAimY = 2.05; pickFoeAim(); G.foeAimX = G.foeTargetX; G.foeAimY = G.foeTargetY;
     // First entry ever (no save on this device): pick a house before
