@@ -145,7 +145,11 @@
       #versionBtn .vdot{ color:#cbbd97; font-weight:400; letter-spacing:.02em; }
       #logWrap{ position:fixed; inset:0; z-index:40; display:flex; align-items:center; justify-content:center; padding:14px; background:rgba(6,4,2,.62); }
       #logWrap.hidden{ display:none; }
-      #logBox{ text-align:left; }
+      #logBox{ text-align:left; touch-action:pan-y; -webkit-overflow-scrolling:touch; }
+      #logXBtn{ position:absolute; top:calc(12px + env(safe-area-inset-top)); right:12px; z-index:5; width:46px; height:46px; border-radius:50%;
+        display:flex; align-items:center; justify-content:center; background:var(--plate); border:1px solid var(--gold); box-shadow:0 2px 10px rgba(0,0,0,.55);
+        color:#f2d492; font-family:"Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:20px; line-height:1; cursor:pointer; }
+      #logXBtn:active{ transform:translateY(1px); }
       #logBox h2{ text-align:center; }
       #logBox .rule{ margin:10px auto; }
       .logList{ list-style:none; margin:10px 0 2px; padding:0; }
@@ -273,15 +277,18 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 1.7 — tap to see update history">v1.7 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 1.9 — tap to see update history">v1.9 <span class="vdot">· Updates</span></button>
 
     <div id="logWrap" class="hidden" role="dialog" aria-modal="true" aria-labelledby="logTitle">
+      <button id="logXBtn" type="button" aria-label="Close update history">✕</button>
       <div class="card" id="logBox">
         <div style="font-family:'Palatino Linotype', Palatino, Georgia, serif;letter-spacing:.26em;font-size:12px;color:#cbbd97;text-align:center;">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v1.7</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v1.9</b></p>
         <ul class="logList">
+          <li><span class="vtag">v1.9</span><span class="vtext"><b>Horse's head &amp; neck fixed in profile.</b> The head is properly proportioned now — full poll, forehead, jaw and a blunt fleshy muzzle, no long thin droop — carried on a naturally arched neck that tapers cleanly into a defined throatlatch, with bridle, chanfron and ears refitted.</span></li>
+          <li><span class="vtag">v1.8</span><span class="vtext"><b>Update log closes again.</b> A big ✕ button now sits at the top corner of this log, always in reach, and the list scrolls properly under your finger on touch screens — no more getting stuck in it.</span></li>
           <li><span class="vtag">v1.7</span><span class="vtext"><b>Horse's face widened.</b> The muzzle, cheeks and jaw are now full and properly proportioned — no more thin, pinched face — with eyes, nostrils and mouth spaced on the wider face, and the bridle, noseband and chanfron refitted to match.</span></li>
           <li><span class="vtag">v1.6</span><span class="vtext"><b>Horse's head &amp; hips rebuilt.</b> The head is now one long tapered skull — defined cheeks and jaw, almond eyes, flared nostrils and a mouth line — with bridle and chanfron shaped to fit it, and the hips flow from the croup into real thigh muscle, so the hindquarters look right from the side and rear.</span></li>
           <li><span class="vtag">v1.5</span><span class="vtext"><b>Horse body rebuilt.</b> The torso is now one shaped barrel — defined withers, a level back, a deep chest, a tucked belly and a sloping croup flowing into the hindquarters — no more sphere or box bulges from the side or rear.</span></li>
@@ -818,39 +825,92 @@
         horse.add(clothPatch(0.595, 0.65, -HEM-0.03, HEM+0.03, 0.005, trimMat, 1, 26));   // gold front edging
         horse.add(clothPatch(0.13, 0.23, -HEM-0.01, HEM+0.01, 0.007, MAT.leather, 1, 26)); // girth strap over the cloth
       }
-      // Neck + head: a tapered, arched neck carrying a shaped head —
+      // Neck + head: an arched, lofted neck carrying a shaped head —
       // skull, tapering face, jaw, muzzle and nostrils.
       var neckPivot = new THREE.Group(); neckPivot.position.set(0, 1.66, 0.78); horse.add(neckPivot);
-      var neck = limb(0.155, 0.30, 1.02, coat);
-      neck.position.set(0, 0.34, 0.16); neck.rotation.x = 0.62; neckPivot.add(neck);
-      var throat = ell(0.155, 0.34, 0.28, coat); throat.position.set(0, 0.28, 0.27); throat.rotation.x = 0.5; neckPivot.add(throat);
+      // Neck: ONE lofted neck on a curved spine, ring by ring from the
+      // chest to the poll. Each station fixes the centre, the width and
+      // the depth on the crest side and the throat side separately, so
+      // the neck rises out of the chest deep and full, its crest bows
+      // in a natural arch, and the throat side tucks in as it nears the
+      // jaw — a defined throatlatch instead of a straight wedge butting
+      // into the head. (The old neck was one tapered cylinder: a thick
+      // cone at the chest pinching to a stick at the top, which made
+      // the head look small, thin and drooping against it.)
+      // [centreY, centreZ, halfWidth, crestDepth, throatDepth]
+      var NECK = [
+        [-0.34, -0.16, 0.300, 0.350, 0.330], [-0.10, -0.05, 0.272, 0.322, 0.300],
+        [ 0.14,  0.04, 0.238, 0.288, 0.262], [ 0.36,  0.105, 0.208, 0.252, 0.218],
+        [ 0.54,  0.150, 0.184, 0.222, 0.172], [ 0.68,  0.180, 0.168, 0.198, 0.138]
+      ];
+      (function(){
+        var NA = 20, pos = [], idx = [];
+        function neckTangent(i){
+          var a = NECK[Math.max(0, i-1)], b = NECK[Math.min(NECK.length-1, i+1)];
+          var ty = b[0]-a[0], tz = b[1]-a[1], l = Math.sqrt(ty*ty + tz*tz) || 1;
+          return [ty/l, tz/l];
+        }
+        for(var si=0; si<NECK.length; si++){
+          var st = NECK[si], tg = neckTangent(si);
+          // crest direction: perpendicular to the spine, up and back
+          var gy = tg[1], gz = -tg[0];
+          for(var ia=0; ia<NA; ia++){
+            var a = ia/NA * Math.PI*2, ca = Math.cos(a);
+            var d = spow(ca, 0.9) * (ca >= 0 ? st[3] : st[4]);
+            pos.push(st[2] * spow(Math.sin(a), 0.9), st[0] + gy*d, st[1] + gz*d);
+          }
+        }
+        for(var sj=0; sj<NECK.length-1; sj++) for(var aj=0; aj<NA; aj++){
+          var r0 = sj*NA+aj, r1 = r0+NA, aN = (aj+1)%NA;
+          idx.push(r0, r1, sj*NA+aN, r1, (sj+1)*NA+aN, sj*NA+aN);
+        }
+        var t0 = neckTangent(0);
+        var baseC = pos.length/3;
+        pos.push(0, NECK[0][0] - t0[0]*0.07, NECK[0][1] - t0[1]*0.07);
+        for(var ak=0; ak<NA; ak++) idx.push(baseC, ak, (ak+1)%NA);
+        var tN = neckTangent(NECK.length-1), lastSt = NECK[NECK.length-1];
+        var topC = pos.length/3, lastRing = (NECK.length-1)*NA;
+        pos.push(0, lastSt[0] + tN[0]*0.05, lastSt[1] + tN[1]*0.05);
+        for(var ak2=0; ak2<NA; ak2++) idx.push(topC, lastRing+(ak2+1)%NA, lastRing+ak2);
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+        geo.setIndex(idx); geo.computeVertexNormals();
+        var neckMesh = new THREE.Mesh(geo, coat); neckMesh.castShadow = true; neckPivot.add(neckMesh);
+      })();
       // jowl blend: one elongated mass filling the throatlatch, so the
       // neck flows into the back of the jaw with no step or gap where
       // the head joins — the old neck simply butted into a round skull.
-      var jowl = ell(0.168, 0.21, 0.235, coat); jowl.position.set(0, 0.55, 0.30); jowl.rotation.x = 0.45; neckPivot.add(jowl);
-      // mane: a row of dark tufts down the crest of the neck
-      for(var mi=0; mi<5; mi++){
+      var jowl = ell(0.170, 0.20, 0.24, coat); jowl.position.set(0, 0.58, 0.32); jowl.rotation.x = 0.40; neckPivot.add(jowl);
+      // mane: a row of dark tufts down the crest of the neck, laid
+      // along the lofted crest line from the withers to the poll
+      var MANE = [[0.02, -0.355], [0.235, -0.240], [0.43, -0.145], [0.595, -0.070], [0.72, -0.015]];
+      for(var mi=0; mi<MANE.length; mi++){
         var tuftM = ell(0.045, 0.13, 0.10, dark);
-        tuftM.position.set(0, 0.06 + mi*0.135, -0.05 + mi*0.075); tuftM.rotation.x = 0.62; neckPivot.add(tuftM);
+        tuftM.position.set(0, MANE[mi][0], MANE[mi][1]); tuftM.rotation.x = 0.35; neckPivot.add(tuftM);
       }
-      var headG = new THREE.Group(); headG.position.set(0, 0.66, 0.44); neckPivot.add(headG);
+      var headG = new THREE.Group(); headG.position.set(0, 0.66, 0.44); headG.rotation.x = -0.08; neckPivot.add(headG);
       // Head: ONE lofted skull, ring by ring from the poll to the
       // mouth, in the same station style as the torso. Each station
-      // fixes the centre height, half-width and depth independently,
-      // so the head is long and wedge-shaped — broad and full across
-      // the eyes, cheeks and jaw, then tapering steadily down the face
-      // bones to a broad, fleshy muzzle — instead of the old round
-      // skull ball with a cylinder face and a ball muzzle stuck on it.
-      // The half-widths keep a real horse's face ratios: roughly a
-      // third of the head's length across the eyes, holding most of
-      // that width through the cheeks before easing to the muzzle.
+      // fixes the centre height, half-width and depth independently.
+      // In profile the skull is deep and full at the poll and through
+      // the jowl — no spike where it leaves the neck — the forehead
+      // runs in one smooth, nearly straight line down the face bones,
+      // the jaw line stays deep under the cheek, and the muzzle ends
+      // blunt and fleshy instead of pinching to a point. The centre
+      // line falls far less than the old loft's, and the head group
+      // sits tipped a touch nose-up, so the head is carried alert on
+      // the arched neck instead of hanging long, thin and drooping.
+      // The half-widths keep the wider face of the last rebuild:
+      // roughly a third of the head's length across the eyes, holding
+      // most of that width through the cheeks before easing to the
+      // muzzle.
       // [z, centreY, halfWidth, radiusY] — poll to muzzle
       var HEAD = [
-        [-0.22, 0.10, 0.058, 0.068], [-0.16, 0.08, 0.138, 0.142],
-        [-0.06, 0.05, 0.180, 0.178], [ 0.06, 0.02, 0.185, 0.172],
-        [ 0.18,-0.04, 0.160, 0.148], [ 0.30,-0.11, 0.132, 0.124],
-        [ 0.42,-0.19, 0.108, 0.104], [ 0.52,-0.26, 0.102, 0.094],
-        [ 0.60,-0.30, 0.082, 0.074], [ 0.65,-0.315, 0.028, 0.030]
+        [-0.24, 0.100, 0.075, 0.105], [-0.18, 0.090, 0.135, 0.152],
+        [-0.08, 0.060, 0.172, 0.182], [ 0.04, 0.028, 0.185, 0.180],
+        [ 0.16,-0.022, 0.168, 0.164], [ 0.28,-0.082, 0.142, 0.140],
+        [ 0.40,-0.140, 0.118, 0.118], [ 0.50,-0.190, 0.106, 0.104],
+        [ 0.58,-0.224, 0.096, 0.092], [ 0.64,-0.244, 0.055, 0.058]
       ];
       (function(){
         var NA = 20, pos = [], idx = [];
@@ -885,15 +945,15 @@
         var cheek = ell(0.055, 0.085, 0.135, coat);
         cheek.position.set(s*0.148, -0.075, 0.13); cheek.rotation.x = 0.15; headG.add(cheek);
       });
-      var jaw = ell(0.125, 0.058, 0.24, coat); jaw.position.set(0, -0.158, 0.08); headG.add(jaw);
+      var jaw = ell(0.125, 0.058, 0.25, coat); jaw.position.set(0, -0.165, 0.08); headG.add(jaw);
       // darker muzzle skin over the tip of the loft, a grooved chin,
       // and a mouth line cut around the underside of the muzzle —
-      // all widened with the loft so the muzzle reads full and soft,
-      // not pinched to a point
-      var muzzleCap = ell(0.104, 0.082, 0.092, coatDark); muzzleCap.position.set(0, -0.270, 0.53); headG.add(muzzleCap);
-      var chin = ell(0.060, 0.030, 0.064, coatDark); chin.position.set(0, -0.318, 0.545); headG.add(chin);
-      var mouth = new THREE.Mesh(new THREE.TorusGeometry(0.088, 0.008, 6, 18, Math.PI), dark);
-      mouth.position.set(0, -0.270, 0.55); mouth.rotation.z = Math.PI; headG.add(mouth);
+      // all refitted to the blunter, higher muzzle of the new loft,
+      // so the muzzle reads full and soft, not pinched to a point
+      var muzzleCap = ell(0.100, 0.085, 0.100, coatDark); muzzleCap.position.set(0, -0.245, 0.545); headG.add(muzzleCap);
+      var chin = ell(0.060, 0.030, 0.064, coatDark); chin.position.set(0, -0.320, 0.550); headG.add(chin);
+      var mouth = new THREE.Mesh(new THREE.TorusGeometry(0.094, 0.008, 6, 18, Math.PI), dark);
+      mouth.position.set(0, -0.228, 0.56); mouth.rotation.z = Math.PI; headG.add(mouth);
       // eyes: dark almonds set into the side of the cranium, each with
       // a brow ridge above it and a catchlight in it — not beads
       var eyeMat = new THREE.MeshStandardMaterial({ color:0x201409, roughness:0.18, metalness:0.1 });
@@ -905,9 +965,9 @@
         glint.position.set(s*0.186, 0.070, 0.018); headG.add(glint);
         var brow = ell(0.020, 0.024, 0.070, coat);
         brow.position.set(s*0.160, 0.118, 0.0); headG.add(brow);
-        // flared nostrils spread on the front corners of the wider muzzle
+        // flared nostrils spread on the front corners of the blunt muzzle
         var nostril = ell(0.030, 0.018, 0.034, dark);
-        nostril.position.set(s*0.066, -0.258, 0.598); nostril.rotation.y = s*0.45; nostril.rotation.x = -0.3; headG.add(nostril);
+        nostril.position.set(s*0.064, -0.252, 0.595); nostril.rotation.y = s*0.45; nostril.rotation.x = -0.3; headG.add(nostril);
         // ears: flattened cones with a dark inner ear, splayed and
         // tipped like a listening horse's — collected below so they
         // can still flick on their own; set wider on the broader poll
@@ -917,37 +977,37 @@
         var innerEar = new THREE.Mesh(new THREE.ConeGeometry(0.032, 0.17, 6), dark);
         innerEar.position.set(0, -0.03, 0.016); ear.add(innerEar);
         // bridle cheekpieces in three short runs, each endpoint
-        // measured on the wider loft's surface, so the straps hug the
+        // measured on the new loft's surface, so the straps hug the
         // taper from poll to cheek to bit instead of cutting through
-        // the cheek bulge or floating off a round skull
-        var pts = [[s*0.152, 0.14, -0.06],[s*0.184, 0.05, 0.04],[s*0.168, -0.03, 0.16],[s*0.104, -0.25, 0.485]];
+        // the cheek bulge or floating off the face
+        var pts = [[s*0.164, 0.14, -0.06],[s*0.188, 0.05, 0.04],[s*0.170, -0.03, 0.16],[s*0.092, -0.25, 0.485]];
         for(var pi=0; pi<pts.length-1; pi++){
           headG.add(segBetween(new THREE.Vector3(pts[pi][0], pts[pi][1], pts[pi][2]),
                                new THREE.Vector3(pts[pi+1][0], pts[pi+1][1], pts[pi+1][2]), 0.016, 0.016, MAT.leather));
         }
-        // bit ring at the corner of the mouth, out at the wider jaw
+        // bit ring at the corner of the mouth, on the refitted jaw line
         var bit = new THREE.Mesh(new THREE.TorusGeometry(0.028, 0.007, 6, 14), MAT.steel);
-        bit.position.set(s*0.102, -0.26, 0.50); bit.rotation.y = Math.PI/2; headG.add(bit);
+        bit.position.set(s*0.094, -0.245, 0.495); bit.rotation.y = Math.PI/2; headG.add(bit);
       });
       var forelock = ell(0.068, 0.10, 0.095, dark); forelock.position.set(0, 0.20, -0.05); headG.add(forelock);
-      // browband ring around the cranium, sized off the wider loft section
+      // browband ring around the cranium, sized off the new loft section
       var browband = new THREE.Mesh(new THREE.TorusGeometry(0.192, 0.013, 6, 22), MAT.leather);
-      browband.position.set(0, 0.042, -0.02); headG.add(browband);
-      // noseband ring around the muzzle, sized off the wider loft
-      // section there, so it sits on the fuller muzzle it belongs on
-      var noseband = new THREE.Mesh(new THREE.TorusGeometry(0.115, 0.015, 6, 20), MAT.leather);
-      noseband.position.set(0, -0.204, 0.44); headG.add(noseband);
+      browband.position.set(0, 0.045, -0.02); headG.add(browband);
+      // noseband ring around the muzzle, sized off the new loft
+      // section there and raised with the blunter muzzle's centre line
+      var noseband = new THREE.Mesh(new THREE.TorusGeometry(0.121, 0.015, 6, 20), MAT.leather);
+      noseband.position.set(0, -0.158, 0.44); headG.add(noseband);
       // steel chanfron: a plate lofted down the centre of the face,
-      // widened station by station with the broader face bones, riding
-      // just on the loft's surface, and its edges curving down to meet
-      // them — shaped to this head, not a flat oval hovering in front of it
+      // riding just on the new loft's smoother face line, station by
+      // station, and its edges curving down to meet the face bones —
+      // shaped to this head, not a flat oval hovering in front of it
       (function(){
-        var CF = [[-0.04, 0.228, 0.078],[0.06, 0.198, 0.088],[0.18, 0.112, 0.074],[0.30, 0.016, 0.060],[0.42, -0.084, 0.048]];
+        var CF = [[-0.04, 0.235, 0.078],[0.06, 0.201, 0.086],[0.18, 0.132, 0.072],[0.30, 0.049, 0.058],[0.42, -0.031, 0.047]];
         var across = [-1, -0.5, 0, 0.5, 1], pos = [], idx = [];
         for(var ci=0; ci<CF.length; ci++){
           for(var ai=0; ai<across.length; ai++){
             var u = across[ai];
-            pos.push(u * CF[ci][2], CF[ci][1] - u*u*0.030, CF[ci][0]);
+            pos.push(u * CF[ci][2], CF[ci][1] - u*u*0.026, CF[ci][0]);
           }
         }
         for(var cj=0; cj<CF.length-1; cj++) for(var aj2=0; aj2<across.length-1; aj2++){
@@ -1381,9 +1441,9 @@
 
     /* ================= UI ================= */
     var el = {};
-    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','coinNum','shopWrap','shopList','shieldShopList','shopCoins','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
+    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','shopCoins','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '1.7';
+    var CURRENT_VERSION = '1.9';
     function openLog(){ el.logWrap.classList.remove('hidden'); }
     function closeLog(){ el.logWrap.classList.add('hidden'); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
@@ -1467,6 +1527,7 @@
     });
     el.versionBtn.addEventListener('click', function(e){ e.stopPropagation(); audio(); openLog(); });
     el.logCloseBtn.addEventListener('click', function(){ audio(); closeLog(); });
+    el.logXBtn.addEventListener('click', function(){ audio(); closeLog(); });
     el.logWrap.addEventListener('pointerdown', function(e){ if(e.target === el.logWrap) closeLog(); });
     function showCard(html){ el.cardBox.innerHTML = html; el.cardWrap.classList.remove('hidden'); }
     function hideCard(){ el.cardWrap.classList.add('hidden'); }
