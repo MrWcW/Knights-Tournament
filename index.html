@@ -324,6 +324,48 @@
       .arenaBtn.on{ background:linear-gradient(180deg,#9c352a,#6d1a12 60%,#571209); border-color:var(--gold); color:#ffe9a8;
         box-shadow:0 2px 10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,220,160,.3); text-shadow:0 1px 2px rgba(0,0,0,.5); }
       #arenaDesc, #difficultyDesc{ min-height:20px; }
+      /* ---------- Champions (v2.10) ----------
+         A champion foe is never in doubt: a solid gold CHAMPION
+         banner on his match intro and practice cards, a gold ring
+         on his shield, a CHAMPION badge in the HUD score plate and
+         champion lines on the win and defeat cards. */
+      .champBanner{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; letter-spacing:.14em;
+        font-size:clamp(17px,4.6vw,22px); color:#14100a; text-align:center;
+        background:linear-gradient(180deg,#f2d492,#d9a441 60%,#b9862f); border:1px solid #8a6a35; border-radius:4px;
+        padding:7px 10px; margin:8px auto 2px; max-width:360px;
+        box-shadow:0 3px 12px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.5); }
+      .champNote{ color:#ffe9a8 !important; }
+      .champNote b{ color:#fff3d6; letter-spacing:.06em; }
+      .herald.champHerald{ box-shadow:inset 0 0 0 3px #d9a441, inset 0 0 0 5px rgba(0,0,0,.5), 0 0 16px rgba(217,164,65,.5); }
+      #champBadge{ margin-top:7px; padding:5px 4px 1px; border-top:1px solid rgba(217,164,65,.55);
+        font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:12.5px;
+        letter-spacing:.22em; color:#ffe9a8; text-align:center;
+        background:linear-gradient(90deg, transparent, rgba(217,164,65,.22), transparent); }
+      #champBadge.hidden{ display:none; }
+      /* ---------- PLAY setup: one screen, no scrolling (v2.10) ----------
+         The PLAY card never scrolls: compact pickers in tight grids,
+         short description lines, ENTER THE LISTS and BACK side by
+         side — everything on screen at once, phone or desktop. */
+      #cardWrap:has(.playSetup){ padding:8px; }
+      .card:has(.playSetup){ padding:14px 16px 12px; overflow:hidden; max-height:97vh; }
+      .playSetup .crownBox svg{ width:36px; height:23px; }
+      .playSetup h1{ font-size:27px !important; }
+      .playSetup .rule{ margin:6px auto; }
+      .playSetup p{ margin:3px 0; font-size:14.5px; }
+      .playSetup .menuLabel{ margin-top:9px; font-size:11px; }
+      .playSetup .arenaPicker{ display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin:6px 0 0; }
+      .playSetup .arenaPicker.arenaGrid{ grid-template-columns:repeat(3,1fr); }
+      .playSetup .arenaBtn{ min-height:33px; padding:5px 3px; font-size:11.5px; letter-spacing:.03em; }
+      .playSetup #difficultyDesc, .playSetup #arenaDesc{ min-height:0; font-size:12px; line-height:1.3; margin:4px 0 0; color:#cbbd97; }
+      .playSetup .playBtns{ margin-top:10px; }
+      .playSetup .playBtns .btn{ min-height:44px; font-size:15px; padding:9px 10px; margin-top:0; }
+      @media (max-height:700px){
+        .card:has(.playSetup){ padding:10px 12px 9px; }
+        .playSetup .crownBox{ display:none; }
+        .playSetup .arenaBtn{ min-height:29px; font-size:11px; }
+        .playSetup #difficultyDesc, .playSetup #arenaDesc{ font-size:11.5px; }
+        .playSetup .playBtns .btn{ min-height:40px; }
+      }
       /* ---------- House picker (v2.5): one page, no scrolling ----------
          All six houses fit on a single screen at phone and desktop
          sizes alike: the card never scrolls while the grid is showing,
@@ -401,6 +443,7 @@
         </div>
         <div class="lances" id="yourLances"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <div class="lances foe" id="foeLances"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div id="champBadge" class="hidden">♛ ★ CHAMPION ★ ♛</div>
         <div class="renownRow"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v6a5 5 0 0 1-10 0V3z" fill="#e9c979"/><path d="M7 5H4.2A3.2 3.2 0 0 0 7.4 9.6" fill="none" stroke="#e9c979" stroke-width="1.8"/><path d="M17 5h2.8A3.2 3.2 0 0 1 16.6 9.6" fill="none" stroke="#e9c979" stroke-width="1.8"/><rect x="11" y="13.8" width="2" height="3.6" fill="#d9a441"/><rect x="8" y="17.4" width="8" height="2" rx="0.6" fill="#d9a441"/><rect x="6.5" y="19.8" width="11" height="1.7" rx="0.6" fill="#b9862f"/></svg><span>RENOWN</span><b id="renownNum">0</b></div>
         <div class="renownRow"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#e9c979" stroke="#9a742f" stroke-width="2"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="#9a742f" stroke-width="1.6"/></svg><span>PURSE</span><b id="coinNum">0</b><span>COIN</span></div>
       </div>
@@ -460,7 +503,7 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 2.9 — tap to see update history">v2.9 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 2.11 — tap to see update history">v2.11 <span class="vdot">· Updates</span></button>
 
     <div id="logWrap" class="hidden" role="dialog" aria-modal="true" aria-labelledby="logTitle">
       <button id="logXBtn" type="button" aria-label="Close update history">✕</button>
@@ -468,8 +511,10 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v2.9</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v2.11</b></p>
         <ul class="logList">
+          <li><span class="vtag">v2.11</span><span class="vtext"><b>Round 4 no longer ends the tournament — and champions now shuffle.</b> Beating any round's champion now carries you into the next round, all the way through the 60 knights; only the very last champion ends the tournament. And at the start of every run the ten champions are shuffled among the round-end fights — a different champion each time, never twice in one run, still marked ★ CHAMPION ★.</span></li>
+          <li><span class="vtag">v2.10</span><span class="vtext"><b>Sixty knights, ten champions.</b> PLAY setup now fits on one screen with no scrolling. The tournament grows to 60 knights in 12 rounds of 5 — 50 new knights — and every round ends with a ★ CHAMPION ★, marked in gold on his intro card, in the HUD and on the win and defeat cards. Sir Jaren the Slim, Sir Mic the Fih and Sir Dingus the Tall ride as champions.</span></li>
           <li><span class="vtag">v2.9</span><span class="vtext"><b>Exit to menu, any time.</b> An EXIT TO MENU button now rides on the HUD through every pass of a match and sits on the match intro, pass, win, defeat and tournament-end cards — tap it to save your progress and return straight to the title screen, with the tournament left exactly where it was. In LAN the button reads EXIT TO ROOM: it ends the match and takes both riders back to the room — still connected, the host free to change the arena — while LEAVE ROOM stays the way out to the title screen.</span></li>
           <li><span class="vtag">v2.8</span><span class="vtext"><b>Back buttons freed + seven new arenas.</b> The version pill now slides out of the way on every screen with a BACK button, so it can never block it — it stays on the title screen as before. And the arena picker grows: Night Tournament, Rain Storm, Winter Snow and Foggy Dawn, plus three new places — Forest Clearing, Castle Courtyard and Seaside Lists. Rotate rides through all ten.</span></li>
           <li><span class="vtag">v2.7</span><span class="vtext"><b>Menus fit for a king.</b> Every screen is redressed in royal tournament style — a crown over the title, heraldic shields and banners, gold-trimmed frames, crimson-and-gold buttons and knightly lettering — with every button, picker and feature exactly where it was.</span></li>
@@ -639,11 +684,152 @@
       { name:'SIR TRISTAN',  title:'the Swift',         main:0x1f6f6b, accent:0xd9a441, plume:0xd9a441, horse:0x5a4632, speed:14.3, sigma:0.12, headAim:0.48 },
       { name:'SIR LAMORAK',  title:'the Mighty',        main:0xc25e1e, accent:0x3a2415, plume:0x3a2415, horse:0x3a2c22, speed:14.6, sigma:0.10, headAim:0.52 },
       { name:'SIR PALAMEDES',title:'the Relentless',    main:0x5b3a8c, accent:0xd9a441, plume:0xd9a441, horse:0x24202a, speed:14.9, sigma:0.08, headAim:0.56 },
-      { name:'THE GOLDEN KNIGHT', title:'Champion of Champions', main:0xd9a441, accent:0x7a1f1f, plume:0x7a1f1f, horse:0xe3ddcf, speed:15.3, sigma:0.06, headAim:0.60 }
+      { name:'THE GOLDEN KNIGHT', title:'Champion of Champions', main:0xd9a441, accent:0x7a1f1f, plume:0x7a1f1f, horse:0xe3ddcf, speed:15.3, sigma:0.06, headAim:0.60 },
+      /* The expanded lists (v2.10): fifty new knights in ten rounds
+         of five. Each round runs four regular knights and ends with
+         a CHAMPION (champ:true) — faster, truer and harder-hitting
+         than anyone in his round, and marked in gold everywhere he
+         appears: intro card, HUD and the win and defeat cards. Sir
+         Jaren the Slim and Sir Mic the Fih are the first two
+         champions. Since v2.11 the ten champions are shuffled
+         among the ten round-end slots at the start of every run
+         (see the champion shuffle below), so no champion owns a
+         fixed round. Stats keep climbing
+         round by round, so the last rounds ride harder than the
+         Champion's Ladder ever did. */
+      // Round 3
+      { name:'SIR OWAIN',    title:'the Red',       main:0x9c352a, accent:0xe8dcc0, plume:0x9c352a, horse:0x5a4030, speed:14.1, sigma:0.135, headAim:0.42, intro:'First of the new rounds. Owain rides in red and hits the ground running — the lists beyond the Golden Knight are faster than anything before them.' },
+      { name:'SIR BEDWYN',   title:'the Quiet',     main:0x4a5d23, accent:0xd8d3c3, plume:0xd8d3c3, horse:0x3c3226, speed:14.3, sigma:0.125, headAim:0.44, intro:'Bedwyn says nothing before a charge and little after. His point, though, speaks plainly enough.' },
+      { name:'SIR CARADOC',  title:'the Tall',      main:0x33506e, accent:0xd9a441, plume:0xd9a441, horse:0x6e6258, speed:14.5, sigma:0.12, headAim:0.46, intro:'Caradoc is tall enough that his helm rides high over the barrier — and his lance hunts just as high.' },
+      { name:'SIR HUW',      title:'the Fox',       main:0xc25e1e, accent:0x2e2a26, plume:0xe8a020, horse:0x7a4a26, speed:14.7, sigma:0.11, headAim:0.48, intro:'Huw changes his guard the way a fox changes direction — late, and all at once. Watch his shield, not his eyes.' },
+      { name:'SIR JAREN',    title:'the Slim',      main:0x6d1a12, accent:0xd9a441, plume:0xd9a441, horse:0x2e2a26, speed:15.2, sigma:0.075, headAim:0.56, champ:true, intro:'Sir Jaren the Slim — thin as a lance shaft and twice as hard to catch. A champion of the new rounds: he reads your shield early, strikes near-true, and hits far above his weight.' },
+      // Round 4
+      { name:'SIR ALARIC',   title:'the Grim',      main:0x3a3f4a, accent:0x8c2f26, plume:0x8c2f26, horse:0x24202a, speed:14.3, sigma:0.13, headAim:0.44, intro:'Alaric has ridden in forty tournaments and smiled at none of them. His aim is as cheerful as he is.' },
+      { name:'SIR BEVIS',    title:'the Boar',      main:0x5d4030, accent:0xd9a441, plume:0x3a2415, horse:0x4a3423, speed:14.5, sigma:0.12, headAim:0.46, intro:'Bevis charges head-down like his namesake. Against him a blocked pass is a won pass — his whole weight rides behind every blow.' },
+      { name:'SIR COL',      title:'the Shepherd',  main:0x687f3c, accent:0xe8dcc0, plume:0xe8dcc0, horse:0x8a7a5c, speed:14.7, sigma:0.115, headAim:0.48, intro:'Col herded sheep before he herded squires. Patient, unhurried, and suddenly exactly where you did not want him.' },
+      { name:'SIR DAFYDD',   title:'the Bard',      main:0x7a4a8c, accent:0xd9a441, plume:0xd9a441, horse:0x5c4a6e, speed:14.9, sigma:0.105, headAim:0.50, intro:'Dafydd sings his own victories on the ride home. Give him nothing to sing about.' },
+      { name:'SIR MIC',      title:'the Fih',       main:0x1f3a5f, accent:0xd9a441, plume:0xe8a020, horse:0x1c1c20, speed:15.4, sigma:0.07, headAim:0.58, champ:true, intro:'Sir Mic the Fih — nobody at court can say what a Fih is, and nobody who has faced him asks twice. A champion in deep blue and gold: faster than Jaren, truer than Jaren, and hungrier.' },
+      // Round 5
+      { name:'SIR ELIAS',    title:'the Monk',      main:0x6e6258, accent:0x274a73, plume:0xd8d3c3, horse:0x9a958c, speed:14.5, sigma:0.125, headAim:0.46, intro:'Elias prays before every pass — for your soul, he says. His lance arrives like an answered prayer: quickly.' },
+      { name:'SIR FARAMOND', title:'the Proud',     main:0x8c2f26, accent:0xd9a441, plume:0xf2e3ac, horse:0xe3ddcf, speed:14.7, sigma:0.115, headAim:0.48, intro:'Faramond will not ride against a knight he calls beneath him. You are here, so take that as a compliment — and a warning.' },
+      { name:'SIR GARETH',   title:'the Gentle',    main:0x2e6b34, accent:0xe8dcc0, plume:0x7fae4c, horse:0x6b4a2f, speed:14.9, sigma:0.11, headAim:0.50, intro:'Gareth apologises to every knight he unhorses. He has had a great deal of practice at apologising.' },
+      { name:'SIR HOB',      title:'the Miller',    main:0xb08d57, accent:0x571209, plume:0xe8dcc0, horse:0x7a5c3e, speed:15.1, sigma:0.10, headAim:0.52, intro:'Hob ground corn for twenty years before he picked up a lance. His arms remember the millstones.' },
+      { name:'SIR DINGUS',   title:'the Tall',      main:0x704214, accent:0xd9a441, plume:0xd9a441, horse:0x8a7a5c, speed:15.6, sigma:0.068, headAim:0.59, champ:true, intro:'Sir Dingus the Tall — the tallest knight in all the lists, a head above every other champion here, with the reach to match. Do not let the name fool you: his point arrives early, high and true, and it has put better knights than you in the sand.' },
+      // Round 6
+      { name:'SIR IVO',      title:'the Lean',      main:0x274a73, accent:0xc9cfda, plume:0xc9cfda, horse:0x4a4e57, speed:14.7, sigma:0.12, headAim:0.48, intro:'Ivo eats like a sparrow and rides like a hawk. There is nothing spare on him to hit but helm and shield.' },
+      { name:'SIR JOSCELIN', title:'the Fair',      main:0xd8b84a, accent:0x8c2f26, plume:0xf2e3ac, horse:0xcbb489, speed:14.9, sigma:0.11, headAim:0.50, intro:'The stands sigh for Joscelin. His lance, sadly for you, is as handsome as he is — and twice as straight.' },
+      { name:'SIR KIT',      title:'the Cutpurse',  main:0x2c4024, accent:0xb08d57, plume:0x3d6b35, horse:0x2e2a26, speed:15.1, sigma:0.105, headAim:0.52, intro:'Kit came to the lists from the road, and the road taught him to strike where a guard is not. Keep your shield honest.' },
+      { name:'SIR LIONEL',   title:'the Loud',      main:0xc78f2a, accent:0x571209, plume:0xe8a020, horse:0x8a5a2a, speed:15.3, sigma:0.095, headAim:0.54, intro:'Lionel roars down the whole charge. It is not courage or madness — it is timing, and it works.' },
+      { name:'SIR MORHOLT',  title:'the Giant',     main:0x3a2415, accent:0xd9a441, plume:0xd9a441, horse:0x1f1c1a, speed:15.8, sigma:0.065, headAim:0.60, champ:true, intro:'Morholt stands near seven feet in the saddle and his horse is a siege engine with hooves. Even his shield hits land like tree trunks. Unhorse him if you can — nobody lately has.' },
+      // Round 7
+      { name:'SIR MAEL',     title:'the Salt',      main:0x5a6ea6, accent:0xe8dcc0, plume:0xd8d3c3, horse:0x6e6258, speed:14.9, sigma:0.115, headAim:0.50, intro:'Mael sailed the narrow sea before he ever saw a tilt-yard. He rides a charge like a deck in a gale — loose, rolling, and hard to read.' },
+      { name:'SIR NIGEL',    title:'the Ninth',     main:0x4a2c5a, accent:0xd9a441, plume:0xb04a6b, horse:0x34283e, speed:15.1, sigma:0.105, headAim:0.52, intro:'Eight elder brothers fell in the lists before him. Nigel rides with eight ghosts on his shoulders and something to prove to all of them.' },
+      { name:'SIR OSRIC',    title:'the One-Eyed',  main:0x1c1c20, accent:0xd8d3c3, plume:0x7a1f1f, horse:0x24202a, speed:15.3, sigma:0.10, headAim:0.54, intro:'Osric lost an eye to a lance and kept the lance. What his sight lost, his seat and his timing more than repaid.' },
+      { name:'SIR PEREDUR',  title:'the Piper',     main:0x1f6f6b, accent:0xe8dcc0, plume:0xd9a441, horse:0x5a4632, speed:15.5, sigma:0.09, headAim:0.55, intro:'Peredur plays the pipes at feast and plays the fool at market — then rides like this. The fooling ends at the barrier.' },
+      { name:'SIR ANGOR',    title:'the Ironhand',  main:0x4c4850, accent:0xd9a441, plume:0xd9a441, horse:0x3a3e46, speed:16.0, sigma:0.06, headAim:0.62, champ:true, intro:'Angor lost his left hand to a portcullis and had the smiths forge him one of iron. It has never once loosened on the reins — or on a lance.' },
+      // Round 8
+      { name:'SIR QUENTIN',  title:'the Quarrel',   main:0x7a1f1f, accent:0xe8dcc0, plume:0x8c2f26, horse:0x5c3226, speed:15.0, sigma:0.11, headAim:0.51, intro:'Quentin has quarrelled with every knight at court, half the heralds and one bishop. The lance is where he settles them all.' },
+      { name:'SIR ROLAND',   title:'the Rook',      main:0x232c4e, accent:0xc9cfda, plume:0x232c4e, horse:0x2a3040, speed:15.2, sigma:0.10, headAim:0.53, intro:'Roland rides as straight as a rook flies and about as mercifully. There is no feint in him — only arrival.' },
+      { name:'SIR SEGER',    title:'the Smith',     main:0x6d5a33, accent:0xe8a020, plume:0xc25e1e, horse:0x4a3423, speed:15.4, sigma:0.095, headAim:0.55, intro:'Seger forged half the armour in this tournament, his own first. He knows where every plate is weak — because he put the strength there.' },
+      { name:'SIR TALIESIN', title:'the Dreamer',   main:0x8a9a5b, accent:0x274a73, plume:0xf2e3ac, horse:0x9a958c, speed:15.6, sigma:0.088, headAim:0.56, intro:'Taliesin claims he dreams each match the night before. The unnerving part is how often the dreams are right.' },
+      { name:'SIR LOHENGRIN', title:'the Swan',     main:0xd8d3c3, accent:0xd9a441, plume:0xffffff, horse:0xe3ddcf, speed:16.1, sigma:0.058, headAim:0.63, champ:true, intro:'Lohengrin arrived at the tournament by swan boat, or so the song goes. However he came, he has not lost since — white, silent and exact as a drawn blade.' },
+      // Round 9
+      { name:'SIR URIEN',    title:'the Raven',     main:0x1c1c20, accent:0x5b3a8c, plume:0x232c4e, horse:0x1f1c1a, speed:15.1, sigma:0.105, headAim:0.52, intro:'Urien keeps a raven at his pavilion and consults it before matches. The raven, witnesses swear, nods.' },
+      { name:'SIR VAUGHAN',  title:'the Vast',      main:0x8c5a2a, accent:0x274a73, plume:0xd9a441, horse:0x6b4a2f, speed:15.3, sigma:0.098, headAim:0.54, intro:'Vaughan fills the barrier lane the way a gate fills a doorway. Getting a lance past him is a problem of geography.' },
+      { name:'SIR WALERAN',  title:'the Wolf',      main:0x5a5e52, accent:0x7a1f1f, plume:0x8a8d90, horse:0x3c4038, speed:15.5, sigma:0.092, headAim:0.56, intro:'Waleran circles. Waleran waits. Waleran strikes once. The pack tactics of one are somehow worse than a pack.' },
+      { name:'SIR YVAIN',    title:'the Younger',   main:0x3d6b35, accent:0xd9a441, plume:0xe8a020, horse:0x7a6248, speed:15.7, sigma:0.085, headAim:0.57, intro:'Yvain is nineteen and has never been unhorsed in a match that counted. The herald says it with disbelief every single time.' },
+      { name:'SIR BRUNOR',   title:'the Shieldbreaker', main:0x571209, accent:0xd9a441, plume:0xd9a441, horse:0x2e2018, speed:16.2, sigma:0.055, headAim:0.64, champ:true, intro:'Brunor does not aim around shields. He aims through them, and keeps the splinters of the famous ones nailed over his stable door. Yours would make a fine addition, he says.' },
+      // Round 10
+      { name:'SIR ANSELM',   title:'the Ashen',     main:0x8a8d90, accent:0x3a3f4a, plume:0xd8d3c3, horse:0x6e6a62, speed:15.2, sigma:0.10, headAim:0.53, intro:'Anselm rode out of a burned town with nothing but his armour and his name. Both are grey now. Neither has bent since.' },
+      { name:'SIR BALIN',    title:'the Wild',      main:0x9c352a, accent:0x2e2a26, plume:0xc8452f, horse:0x4a2c1e, speed:15.4, sigma:0.095, headAim:0.55, intro:'Balin is banned from three feast halls and one wedding. In the lists, though, wild is a discipline — and he is its master.' },
+      { name:'SIR CORIN',    title:'the Crane',     main:0x7fa8c9, accent:0x571209, plume:0xe8dcc0, horse:0x8a8d90, speed:15.6, sigma:0.088, headAim:0.57, intro:'Corin is all arms and angles, folded into the saddle like his namesake. His lance unfolds at the last moment, from further away than seems fair.' },
+      { name:'SIR DRUSTAN',  title:'the Deep',      main:0x14343e, accent:0xd9a441, plume:0x1f6f6b, horse:0x203038, speed:15.8, sigma:0.082, headAim:0.58, intro:'Nobody knows where Drustan trains, or with whom, or why his colours are the colour of deep water. His aim is the only thing about him that surfaces.' },
+      { name:'SIR AGRAVAIN', title:'the Hardhand',  main:0x6d1a12, accent:0xd9a441, plume:0xe8a020, horse:0x33231a, speed:16.3, sigma:0.052, headAim:0.65, champ:true, intro:'Agravain grips a lance the way other men grip a grudge — personally, and to the end. A champion of the hardest school: no flourish, no mercy, no wasted motion.' },
+      // Round 11
+      { name:'SIR ELAND',    title:'the Elder',     main:0x6e6258, accent:0xd9a441, plume:0xd8d3c3, horse:0x9a8d7a, speed:15.3, sigma:0.098, headAim:0.54, intro:'Eland has buried two kings and outlived three champions. Experience is just speed that has learned where to stand.' },
+      { name:'SIR FOLKE',    title:'the Falconer',  main:0x2e6b34, accent:0xb08d57, plume:0x7fae4c, horse:0x5c4a32, speed:15.5, sigma:0.09, headAim:0.56, intro:'Folke trains hawks and reads a charge the way they read a field — from above, all at once, choosing the one moment to stoop.' },
+      { name:'SIR GRIMBALD', title:'the Grey',      main:0x4c4850, accent:0xc9cfda, plume:0x8a8d90, horse:0x3a3e46, speed:15.7, sigma:0.085, headAim:0.58, intro:'Grey hair, grey steel, grey horse. Grimbald is the least colourful thing in the tournament and very nearly the most dangerous.' },
+      { name:'SIR HUGH',     title:'the Hammer',    main:0x8c2f26, accent:0x3a2415, plume:0x3a2415, horse:0x4a3423, speed:15.9, sigma:0.08, headAim:0.59, intro:'Hugh does not fence with a lance. He falls on you with it, the whole horse behind the blow, like a hammer off a wall.' },
+      { name:'SIR MALLEOR',  title:'the Merciless', main:0x2a0a12, accent:0xd9a441, plume:0x7a1f1f, horse:0x1c1410, speed:16.4, sigma:0.05, headAim:0.66, champ:true, intro:'Malleor has never once pulled a strike, spared a beaten man a second pass, or smiled at a herald. The crowd goes quiet when he rides in — champions do that to a place.' },
+      // Round 12
+      { name:'SIR MARHAULT', title:'the Moor',      main:0x274a3a, accent:0xd9a441, plume:0xe8a020, horse:0x3c2e20, speed:15.4, sigma:0.095, headAim:0.55, intro:'Marhault crossed a sea and a desert to ride in this tournament. He did not come all that way to lose politely.' },
+      { name:'SIR OWEN',     title:'the Oathbound', main:0x31456e, accent:0xe8dcc0, plume:0xd8d3c3, horse:0x5a5148, speed:15.6, sigma:0.088, headAim:0.57, intro:'Owen swore an oath on a winter road and has kept it through forty matches. Whatever it was, it is clearly working.' },
+      { name:'SIR PELLEAS',  title:'the Pale',      main:0xd8d3c3, accent:0x274a73, plume:0x274a73, horse:0xc9c2ae, speed:15.8, sigma:0.082, headAim:0.59, intro:'Pelleas looks like a ghost story the north tells its squires. Then the ghost story takes up a lance, and stops being a story.' },
+      { name:'SIR SAHER',    title:'the Scarred',   main:0x7a3a26, accent:0xd8d3c3, plume:0x8c2f26, horse:0x4a3423, speed:16.0, sigma:0.078, headAim:0.60, intro:'Every scar Saher carries came from a knight whose name the heralds still sing. He collects famous opponents the way other men collect favour.' },
+      { name:'SIR AURELIUS', title:'the Last Champion', main:0xd9a441, accent:0x571209, plume:0xd9a441, horse:0xe3ddcf, speed:16.6, sigma:0.045, headAim:0.68, champ:true, intro:'Aurelius, the Last Champion — clad all in gold and counted the mightiest of the ten champions. Sixty knights entered these lists and he stands among the very best of them: fastest, truest, hardest-hitting. Beat him, and his round is yours.' }
     ];
-    var FIRST_LADDER = 5; // foes 0–4 are the original ladder; 5–9 the Champion's Ladder
-    function ladderPos(idx){ return idx < FIRST_LADDER ? idx : idx - FIRST_LADDER; }
-    function ladderLabel(idx){ return idx < FIRST_LADDER ? 'Match ' + (idx + 1) + ' of 5' : 'Champion\'s Ladder · Match ' + (idx - FIRST_LADDER + 1) + ' of 5'; }
+    var FIRST_LADDER = 5; // foes 0–4 are the original ladder; 5–9 the Champion's Ladder; 10–59 the ten new rounds of five (v2.10)
+    function ladderPos(idx){ return idx % 5; }
+    function roundNo(idx){ return Math.floor(idx / 5) + 1; }
+    function isChamp(idx){ return !!(FOES[idx] && FOES[idx].champ); }
+    function ladderLabel(idx){
+      if(idx < FIRST_LADDER) return 'Match ' + (idx + 1) + ' of 5';
+      if(idx < 10) return 'Champion\'s Ladder · Match ' + (idx - FIRST_LADDER + 1) + ' of 5';
+      if(isChamp(idx)) return '★ CHAMPION ★ · Round ' + roundNo(idx) + ' · Final Match';
+      return 'Round ' + roundNo(idx) + ' · Match ' + (idx % 5 + 1) + ' of 5';
+    }
+    /* ================= CHAMPION SHUFFLE (v2.11) =================
+       The ten flagged champions used to sit in a fixed order —
+       Jaren always closed Round 3, Mic Round 4, Dingus Round 5,
+       and so on. They no longer do. At the start of every
+       tournament run the ten champions are shuffled among the ten
+       round-end slots (the 5th fight of Rounds 3–12, indices 14,
+       19, 24, …, 59): the whole champion — name, title, colours,
+       horse, stats, intro and his champ flag — moves to his drawn
+       slot, so every existing display (gold CHAMPION banner on the
+       intro card, the HUD badge, the win and defeat lines) marks
+       whoever was drawn, with no display code changed. The draw is
+       a full permutation of the pool: no champion repeats until
+       all ten have ridden, and the drawn order is never the old
+       fixed order and never the previous run's order. The regular
+       knights of every round never move, and the first two
+       ladders (Black Knight, Golden Knight) are not in the pool.
+       The order is saved with the rest of the progress, so a run
+       keeps the same champions across closes and reopens, and a
+       fresh shuffle is drawn when a new run starts (JOUST AGAIN).
+       An old v2.10 save with no saved order keeps the fixed order
+       for the rest of a run already past its first champion, so a
+       champion already beaten in that run can never reappear. */
+    var CHAMP_SLOTS = [];
+    var CHAMP_POOL = [];
+    for(var csi = 0; csi < FOES.length; csi++){
+      if(FOES[csi].champ){ CHAMP_SLOTS.push(csi); CHAMP_POOL.push(FOES[csi]); }
+    }
+    var champOrder = null; // champOrder[slotPosition] = index into CHAMP_POOL
+    function validChampOrder(o){
+      if(!o || Object.prototype.toString.call(o) !== '[object Array]' || o.length !== CHAMP_POOL.length) return false;
+      var seen = {};
+      for(var i = 0; i < o.length; i++){
+        if(typeof o[i] !== 'number' || Math.floor(o[i]) !== o[i] || o[i] < 0 || o[i] >= CHAMP_POOL.length || seen[o[i]]) return false;
+        seen[o[i]] = true;
+      }
+      return true;
+    }
+    function champOrderIs(o, other){
+      if(!o || !other || o.length !== other.length) return false;
+      for(var i = 0; i < o.length; i++) if(o[i] !== other[i]) return false;
+      return true;
+    }
+    function identityChampOrder(){
+      var o = [];
+      for(var i = 0; i < CHAMP_POOL.length; i++) o.push(i);
+      return o;
+    }
+    function applyChampOrder(){
+      if(!validChampOrder(champOrder)) return;
+      for(var i = 0; i < CHAMP_SLOTS.length; i++) FOES[CHAMP_SLOTS[i]] = CHAMP_POOL[champOrder[i]];
+    }
+    function shuffleChampions(){
+      var n = CHAMP_POOL.length, o = identityChampOrder(), prev = champOrder, fixed = identityChampOrder(), guard = 0;
+      do {
+        for(var j = n - 1; j > 0; j--){
+          var k = Math.floor(Math.random() * (j + 1)), t = o[j]; o[j] = o[k]; o[k] = t;
+        }
+        guard++;
+      } while(n > 1 && guard < 60 && (champOrderIs(o, fixed) || (prev && champOrderIs(o, prev))));
+      champOrder = o;
+      applyChampOrder();
+    }
     var MAX_PASSES = 5;
 
     /* Arena looks: pure scenery — sky, light, fog, castle stone and
@@ -979,6 +1165,7 @@
           titleOwned: G.titleOwned,
           titleOn: G.titleOn,
           foeIndex: G.foeIndex,
+          champOrder: champOrder,
           secondUnlocked: G.secondUnlocked,
           arena: G.arena,
           arenaIdx: G.arenaIdx,
@@ -989,6 +1176,7 @@
       } catch(e){ /* a failed save never interrupts play */ }
     }
     var hadSave = false;
+    var savedChampOrder = null; // this run's shuffled champion order, if the save carries one (v2.11)
     function loadProgress(){
       if(!storeOK) return;
       var raw = null;
@@ -1039,6 +1227,10 @@
       if(typeof s.plumeSkin === 'string' && G.ownedPlumes[s.plumeSkin]) G.plumeSkin = plumeById(s.plumeSkin).id;
       if(typeof s.foeIndex === 'number' && isFinite(s.foeIndex))
         G.foeIndex = Math.max(0, Math.min(FOES.length - 1, Math.floor(s.foeIndex)));
+      // The shuffled champion order (v2.11) validates as a true
+      // permutation of the champion pool; anything else is ignored
+      // and a fresh order is settled after loading, below.
+      if(validChampOrder(s.champOrder)) savedChampOrder = s.champOrder.slice();
       if(s.secondUnlocked === true || G.foeIndex >= FIRST_LADDER) G.secondUnlocked = true;
       // Arena pick is scenery preference only; an unknown id (or an old
       // save with no arena field at all) falls back to the original.
@@ -1056,6 +1248,16 @@
       G.houseChosen = s.houseChosen === true;
     }
     loadProgress();
+    // Settle this run's champion order (v2.11): restore the saved
+    // shuffle so a run in progress keeps its champions across
+    // reopens; keep the old fixed order only for the remainder of
+    // a pre-v2.11 run already past its first champion (so a beaten
+    // champion cannot reappear in that run); otherwise — a new
+    // player, or a run not yet at its first champion — draw a
+    // fresh shuffle for the run that is starting.
+    if(savedChampOrder){ champOrder = savedChampOrder; applyChampOrder(); }
+    else if(hadSave && CHAMP_SLOTS.length && G.foeIndex > CHAMP_SLOTS[0]){ champOrder = identityChampOrder(); applyChampOrder(); }
+    else shuffleChampions();
     // Belt and braces: whatever the last thing that changed was, it is
     // on record by the time the page goes away.
     window.addEventListener('beforeunload', saveProgress);
@@ -2439,9 +2641,9 @@
 
     /* ================= UI ================= */
     var el = {};
-    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','lanExitBtn','menuExitBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
+    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','lanExitBtn','menuExitBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '2.9';
+    var CURRENT_VERSION = '2.11';
     function openLog(){ el.logWrap.classList.remove('hidden'); refreshPill(); }
     function closeLog(){ el.logWrap.classList.add('hidden'); refreshPill(); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
@@ -2752,9 +2954,16 @@
     function refreshHUD(){
       var foe = FOES[G.foeIndex];
       el.foeName.textContent = (G.lan && G.lanFoe) ? G.lanFoe.name : foe.name;
+      // A champion foe is marked in the HUD at all times (v2.10): a
+      // crown on his name and a gold CHAMPION badge in the plate.
+      if(el.champBadge){
+        var showChamp = !G.lan && !!foe.champ;
+        el.champBadge.classList.toggle('hidden', !showChamp);
+        if(showChamp) el.foeName.textContent = '♛ ' + foe.name;
+      }
       el.scoreNum.innerHTML = G.youScore + ' <small>—</small> ' + G.foeScore;
       el.passLabel.textContent = G.lan ? 'LAN 1v1 · Pass ' + Math.min(G.pass, MAX_PASSES) + ' of ' + MAX_PASSES
-        : G.practice ? 'Practice · Pass ' + G.pass : 'Pass ' + Math.min(G.pass, MAX_PASSES) + ' of ' + MAX_PASSES;
+        : G.practice ? 'Practice · Pass ' + G.pass : 'Pass ' + Math.min(G.pass, MAX_PASSES) + ' of ' + MAX_PASSES + (foe.champ ? ' · ★ CHAMPION ★' : '');
       paintLances(el.yourLances, G.youLances); paintLances(el.foeLances, G.foeLances);
       el.renownNum.textContent = G.renown;
       el.coinNum.textContent = G.coins;
@@ -2762,7 +2971,7 @@
       var lp = ladderPos(G.foeIndex);
       for(var i=0;i<sh.length;i++){ sh[i].className = i < lp ? 'won' : (i === lp ? 'now' : ''); }
       var tourT = document.querySelector('#tourPlate .t');
-      if(tourT) tourT.textContent = G.foeIndex < FIRST_LADDER ? 'Tournament' : 'Champion\'s Ladder';
+      if(tourT) tourT.textContent = foe.champ ? '★ CHAMPION ★' : G.foeIndex < FIRST_LADDER ? 'Tournament' : G.foeIndex < 10 ? 'Champion\'s Ladder' : 'Round ' + roundNo(G.foeIndex) + ' of 12';
       if(G.lan && tourT){
         // In a LAN match the shields plate tracks the passes of this
         // match instead of the tournament ladders it normally shows.
@@ -3009,23 +3218,25 @@
       if(el.practiceExitBtn) el.practiceExitBtn.classList.add('hidden');
       if(el.lanExitBtn) el.lanExitBtn.classList.add('hidden');
       showCard(
+        '<div class="playSetup">' +
         '<div class="menuKicker">PLAY · SET UP YOUR MATCH</div>' +
         '<div class="crownBox"><svg width="44" height="28" viewBox="0 0 54 34" aria-hidden="true"><path d="M4 26 L2 8 L16 16 L27 4 L38 16 L52 8 L50 26 Z" fill="#d9a441" stroke="#8a6a35" stroke-width="1.5" stroke-linejoin="round"/><rect x="4" y="26" width="46" height="5" fill="#b9862f"/><circle cx="27" cy="20" r="3" fill="#8c2f26"/><circle cx="12" cy="21" r="2.2" fill="#31456e"/><circle cx="42" cy="21" r="2.2" fill="#31456e"/></svg></div>' +
         '<h1 style="font-size:clamp(26px,6vw,36px)">PLAY</h1><div class="rule"></div>' +
-        '<p>Choose your difficulty and your arena, then enter the lists.</p>' +
+        '<p>Choose difficulty &amp; arena, then enter the lists.</p>' +
         '<div class="menuLabel">DIFFICULTY</div>' +
         '<div class="arenaPicker" role="group" aria-label="Choose a difficulty">' +
         DIFFICULTIES.map(function(D){ return '<button class="arenaBtn" type="button" data-difficulty="' + D.id + '">' + D.name.toUpperCase() + '</button>'; }).join('') +
         '</div>' +
         '<p class="small" id="difficultyDesc"></p>' +
         '<div class="menuLabel">ARENA</div>' +
-        '<div class="arenaPicker" role="group" aria-label="Choose an arena look">' +
+        '<div class="arenaPicker arenaGrid" role="group" aria-label="Choose an arena look">' +
         ARENAS.map(function(A){ return '<button class="arenaBtn" type="button" data-arena="' + A.id + '">' + A.name.toUpperCase() + '</button>'; }).join('') +
         '<button class="arenaBtn" type="button" data-arena="rotate">ROTATE ↻</button></div>' +
         '<p class="small" id="arenaDesc"></p>' +
-        '<div class="menuStack">' +
-        '<button class="btn" id="startBtn" type="button">ENTER THE LISTS</button>' +
-        '<button class="btn ghost" id="playBackBtn" type="button">BACK</button>' +
+        '<div class="menuRow playBtns">' +
+        '<button class="btn" id="startBtn" type="button" style="flex:1.5 1 0">ENTER THE LISTS</button>' +
+        '<button class="btn ghost" id="playBackBtn" type="button" style="margin-left:0">BACK</button>' +
+        '</div>' +
         '</div>'
       );
       document.getElementById('startBtn').addEventListener('click', function(){ audio(); sfxHorn(); G.started = true; el.hud.classList.remove('hidden'); matchIntro(); });
@@ -3071,7 +3282,7 @@
         '<li><b>Shield slider</b> — slide SHIELD at bottom left up, middle or down (or keys 1·2·3) to guard your helm, breast or legs. He works his own shield the same way, guessing where you will strike — hit where he is not covering, and watch for the glow on his lance point.</li>' +
         '<li><b>Scoring</b> — shield 1 · breast 2 · helm 3. Most points after five passes wins the match; a tie rides one more pass to settle it.</li>' +
         '<li><b>Unhorsing</b> — a solid scoring strike can knock a rider clean off his horse, and that ends the match at a stroke — yours on him, or his on you. When a rider falls, the crowd roars.</li>' +
-        '<li><b>Tournament</b> — five knights stand between you and the Champion\'s wreath. Beat the Black Knight and the Champion\'s Ladder opens: five harder knights under the same rules.</li>' +
+        '<li><b>Tournament</b> — sixty knights ride in twelve rounds of five: the first two rounds are the original ladders, then ten more rounds of new knights. Every round ends with a champion — the fifth knight, marked ★ CHAMPION ★ in gold — who rides faster, aims truer and hits harder. Clear all twelve rounds to take the wreath.</li>' +
         '<li><b>Practice</b> — unlimited passes against the knight you face. Winning a pass pays 5 coin, but no Renown and no tournament progress, and an unhorsing just means fresh lances. Leave any time with END PRACTICE.</li>' +
         '<li><b>LAN 1v1</b> — joust a friend on the same WiFi: create a room, share the 6-digit code, and ride best-of-five with the same scoring and controls, each in your own real gear and colours. Whoever created the room picks the arena, and both phones ride in it. The winner takes 3× coin and 3× Renown; tournament progress is untouched.</li>' +
         '<li><b>Difficulty</b> — Easy, Normal, Hard or Nightmare, picked in Play setup when you press PLAY. Harder foes read your shield faster, aim truer and hit harder; Nightmare never stops shifting guard and aim. Your pick is remembered.</li>' +
@@ -3134,8 +3345,9 @@
       G.state = 'practiceIntro';
       showCard(
         '<div class="kick">PRACTICE · NO STAKES</div>' +
-        '<div class="herald" style="background:#' + ('000000'+foe.main.toString(16)).slice(-6) + '"><span>' + foeLetter(foe) + '</span></div>' +
-        '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + '</div><div class="rule"></div>' +
+        (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
+        '<div class="herald' + (foe.champ ? ' champHerald' : '') + '" style="background:#' + ('000000'+foe.main.toString(16)).slice(-6) + '"><span>' + foeLetter(foe) + '</span></div>' +
+        '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
         '<p>Unlimited passes to work on your aim — same lance, same shield, same scoring: shield 1 · breast 2 · helm 3. Winning a pass pays 5 coin; no Renown, no ladder bonus, no tournament progress, and an unhorsing either way just means fresh lances for the next pass.</p>' +
         '<p class="small">Leave any time with END PRACTICE at the top right, or after any pass.</p>' +
         '<button class="btn" id="practiceGoBtn" type="button">RIDE A PASS</button>' +
@@ -3213,7 +3425,7 @@
       var foe = FOES[G.foeIndex];
       if(el.cineKicker) el.cineKicker.textContent = ladderLabel(G.foeIndex) + ' · ' + currentHouse().name + ' rides';
       if(el.cineName) el.cineName.textContent = 'YOUR KNIGHT';
-      if(el.cineSub) el.cineSub.textContent = 'vs ' + foe.name + ', ' + foe.title;
+      if(el.cineSub) el.cineSub.textContent = 'vs ' + foe.name + ', ' + foe.title + (foe.champ ? ' — ★ CHAMPION ★' : '');
       // first-person gear rides on the camera — hide it for the orbit
       fpHorse.visible = false; fpShield.visible = false; fpLancePivot.visible = false; lanceShadow.visible = false;
       sfxNeigh();
@@ -3254,8 +3466,10 @@
       var foe = FOES[G.foeIndex];
       showCard(
         '<div class="kick">' + ladderLabel(G.foeIndex).toUpperCase() + '</div>' +
-        '<div class="herald" style="background:#' + ('000000'+foe.main.toString(16)).slice(-6) + '"><span>' + foeLetter(foe) + '</span></div>' +
-        '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + '</div><div class="rule"></div>' +
+        (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
+        '<div class="herald' + (foe.champ ? ' champHerald' : '') + '" style="background:#' + ('000000'+foe.main.toString(16)).slice(-6) + '"><span>' + foeLetter(foe) + '</span></div>' +
+        '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
+        (foe.champ ? '<p class="champNote">This is a <b>CHAMPION</b> — the last knight of Round ' + roundNo(G.foeIndex) + '. You beat four knights to reach him; beat him to clear the round. Champions ride faster, aim truer and hit harder than any knight before them.</p>' : '') +
         '<div class="foeLine">You ride for <b style="color:#ffe9a8">' + currentHouse().name + '</b> — ' + currentHouse().colName + ', sigil: ' + currentHouse().sigilName + '.</div>' +
         '<p>' + foeIntroText(G.foeIndex) + '</p>' +
         '<button class="btn" id="chargeBtn" type="button">TO THE CHARGE</button>' +
@@ -3264,6 +3478,7 @@
       document.getElementById('chargeBtn').addEventListener('click', function(){ audio(); startPass(); });
     }
     function foeIntroText(i){
+      if(FOES[i] && FOES[i].intro) return FOES[i].intro;
       return [
         'A young knight, more heart than craft. His lance wanders — a fine first lesson.',
         'Kay rides hard and aims for the body. Brace your shield and pick your spot.',
@@ -3487,12 +3702,12 @@
       function unhorseChance(zone, attackerIsYou){
         var base = zone==='head' ? 0.68 : zone==='chest' ? 0.38 : zone==='legs' ? 0.12 : zone==='shield' ? 0.12 : 0;
         if(!base) return 0;
-        if(attackerIsYou){ base -= G.foeIndex*0.035; }
+        if(attackerIsYou){ base -= Math.min(G.foeIndex, 10)*0.035; }
         else {
           base += (foe.speed > 12.4 ? 0.06 : 0) - 0.03;
           // Champion's Ladder knights hit harder: each rung adds weight
           // behind the lance, so the same scoring strike unhorses more often.
-          if(G.foeIndex >= FIRST_LADDER) base += 0.05 + (G.foeIndex - FIRST_LADDER) * 0.03;
+          if(G.foeIndex >= FIRST_LADDER) base += 0.05 + Math.min(G.foeIndex - FIRST_LADDER, 5) * 0.03;
           // Difficulty: his hits land softer on Easy, harder on Hard
           // (Normal adds nothing). Only his power changes — the zones
           // and the unhorsing rule itself are untouched, and your own
@@ -3611,8 +3826,17 @@
       }
       if(youWin){
         G.renown += 1;
+        // 'last' means the final knight of the whole roster — the
+        // 60th knight (index 59), never a round's champion before
+        // him (v2.11: beating Round 4's champion at index 19, or any
+        // other round's champion, must continue the tournament).
         var last = G.foeIndex >= FOES.length - 1;
         var isBlackKnight = G.foeIndex === FIRST_LADDER - 1;
+        var isChamp = !!foe.champ;
+        // Every round of five ends with a champion-class foe (the
+        // Black Knight, the Golden Knight, then a flagged CHAMPION),
+        // and beating that fifth knight pays the ladder bonus.
+        var isSetEnd = (G.foeIndex % 5) === 4;
         if(isBlackKnight) G.secondUnlocked = true;
         // Coin pay (v1.16): a flat per-win rate by the difficulty in
         // effect right now, plus — only when this win beats the last
@@ -3621,30 +3845,41 @@
         // and are saved in the same saveProgress() call, once.
         var diffWin = currentDifficulty();
         var purse = diffWin.winPay;
-        var ladderDone = isBlackKnight || last;
+        var ladderDone = isSetEnd;
         var ladderBonus = ladderDone ? diffWin.ladderBonus : 0;
-        lastLadderBonus = ladderDone ? { amount:ladderBonus, diffName:diffWin.name, ladderName:(isBlackKnight ? 'the first ladder' : 'the Champion\'s Ladder') } : null;
+        lastLadderBonus = ladderDone ? { amount:ladderBonus, diffName:diffWin.name, ladderName:(isBlackKnight ? 'the first ladder' : G.foeIndex < 10 ? 'the Champion\'s Ladder' : 'Round ' + roundNo(G.foeIndex)) } : null;
         G.coins += purse + ladderBonus; refreshHUD(); saveProgress();
         var bonusLine = ladderDone ? '<p style="color:#ffe9a8;font-size:17px;"><b>LADDER COMPLETE!</b> Bonus +' + ladderBonus + ' coin on ' + diffWin.name + ' — beating all 5 knights of ' + lastLadderBonus.ladderName + '. It is in your purse: you hold ' + G.coins + ' coin.</p>' : '';
-        var winText = last ? 'The Golden Knight\'s helm is carried from the lists, and both wreaths are yours.'
+        var winText = last ? 'The Last Champion\'s helm is carried from the lists, and the wreath of the whole tournament is yours.'
           : isBlackKnight ? 'The Black Knight is beaten — and beyond him the gates open on the Champion\'s Ladder: five harder knights who read your shield faster, strike truer and hit harder.'
+          : isChamp ? 'The CHAMPION yields the field — Round ' + roundNo(G.foeIndex) + ' is cleared, and the next round\'s knights are already arming.'
+          : G.foeIndex === 9 ? 'The Golden Knight is beaten — but the lists go on: ten more rounds of knights wait beyond him, and every round ends with a champion.'
           : 'The crowd roars your name.';
         showCard(
-          '<div class="kick">' + (r.foeDown ? 'BY UNHORSING' : 'ON POINTS') + (isBlackKnight ? ' · CHAMPION\'S LADDER OPEN' : '') + '</div>' +
+          '<div class="kick">' + (r.foeDown ? 'BY UNHORSING' : 'ON POINTS') + (isBlackKnight ? ' · CHAMPION\'S LADDER OPEN' : '') + (isChamp ? ' · ★ CHAMPION BEATEN ★' : '') + '</div>' +
           '<h2>VICTORY</h2><div class="rule"></div>' +
           '<p>' + foe.name + ' yields the field, ' + G.youScore + ' — ' + G.foeScore + '. ' + winText + '</p>' +
           '<p class="small">Renown +1 — you now hold ' + G.renown + (G.renown === 1 ? ' trophy.' : ' trophies.') + '</p>' +
           '<p class="small">Purse +' + purse + ' coin (' + diffWin.name + ' win pay) — you hold ' + G.coins + ' coin. New colours wait in the Armoury.</p>' +
           bonusLine +
-          '<button class="btn" id="winBtn" type="button">' + (last ? 'CLAIM THE WREATH' : isBlackKnight ? 'ENTER THE CHAMPION\'S LADDER' : 'FACE THE NEXT KNIGHT') + '</button>' +
+          '<button class="btn" id="winBtn" type="button">' + (last ? 'CLAIM THE WREATH' : isBlackKnight ? 'ENTER THE CHAMPION\'S LADDER' : isChamp ? 'ENTER THE NEXT ROUND' : 'FACE THE NEXT KNIGHT') + '</button>' +
           '<button class="btn ghost" data-shop type="button">ARMOURY</button>' +
           '<button class="btn ghost" data-exitmenu type="button">EXIT TO MENU</button>'
         );
         document.getElementById('winBtn').addEventListener('click', function(){ audio();
-          if(last){ saveProgress(); tourneyEnd(true); } else { if(isBlackKnight) lastLadderBonus = null; G.foeIndex++; saveProgress(); matchIntro(); } });
+          // v2.11 fix: ONLY the very last knight of the full
+          // 60-knight roster (the champion drawn into the final
+          // slot, index FOES.length - 1) ends the tournament.
+          // Every other win — a regular knight, a ladder ender, or
+          // ANY round's champion, Round 4's included — advances to
+          // the next knight in order, saves that new standing, and
+          // rides straight into the next match intro, so the next
+          // round's knights and its champion appear in turn.
+          if(last){ saveProgress(); tourneyEnd(true); }
+          else { if(isBlackKnight) lastLadderBonus = null; G.foeIndex = Math.min(G.foeIndex + 1, FOES.length - 1); saveProgress(); matchIntro(); } });
       } else {
         showCard(
-          '<div class="kick">' + (r.youDown ? 'UNHORSED' : 'BEATEN ON POINTS') + '</div>' +
+          '<div class="kick">' + (r.youDown ? 'UNHORSED' : 'BEATEN ON POINTS') + (foe.champ ? ' · BY THE ★ CHAMPION ★' : '') + '</div>' +
           '<h2>DEFEAT</h2><div class="rule"></div>' +
           '<p>' + foe.name + ' takes the match ' + G.foeScore + ' — ' + G.youScore + '. Squires help you from the sand as the herald calls his name.</p>' +
           '<button class="btn" id="loseBtn" type="button">SEE THE RESULT</button>' +
@@ -3670,11 +3905,18 @@
       hideBanner();
       if(champion){
         sfxHorn(); sfxCheer(true);
-        showCard('<div class="kick">CHAMPION OF BOTH LADDERS</div>' +
+        showCard('<div class="kick">CHAMPION OF THE LISTS · ALL TWELVE ROUNDS</div>' +
           '<h1 style="font-size:34px;">THE WREATH IS YOURS</h1><div class="rule"></div>' +
-          '<p>Ten knights rode against you across both ladders, and ten were beaten — the Black Knight, and every champion beyond him. The queen of the tournament ties the golden wreath to your helm while the stands thunder.</p>' +
+          '<p>Sixty knights rode against you across twelve rounds of five, ten of them champions — Sir Jaren the Slim, Sir Mic the Fih, Sir Dingus the Tall and every champion beyond them — and every one was beaten. The queen of the tournament ties the golden wreath to your helm while the stands thunder.</p>' +
           (lastLadderBonus ? '<p style="color:#ffe9a8;font-size:17px;"><b>LADDER COMPLETE!</b> Bonus +' + lastLadderBonus.amount + ' coin on ' + lastLadderBonus.diffName + ' — beating all 5 knights of ' + lastLadderBonus.ladderName + '. It is already in your purse: you hold ' + G.coins + ' coin.</p>' : '') +
           '<p class="small">Renown: ' + G.renown + (G.renown === 1 ? ' trophy' : ' trophies') + ' — every match won on the way is counted at the top left.</p>' +
+          '<button class="btn" id="againBtn" type="button">JOUST AGAIN</button>' +
+          '<button class="btn ghost" data-exitmenu type="button">EXIT TO MENU</button>');
+      } else if(G.foeIndex >= 10){
+        var roundsCleared = Math.floor(G.foeIndex / 5);
+        showCard('<div class="kick">THE TOURNAMENT ENDS · ROUND ' + roundNo(G.foeIndex) + ' OF 12</div>' +
+          '<h1 style="font-size:32px;">A VALIANT SHOWING</h1><div class="rule"></div>' +
+          '<p>You bested ' + G.foeIndex + ' knights and cleared ' + roundsCleared + (roundsCleared === 1 ? ' full round' : ' full rounds') + ' of five before falling in Round ' + roundNo(G.foeIndex) + '. A champion still waits at the end of every round — ride again and take the wreath.</p>' +
           '<button class="btn" id="againBtn" type="button">JOUST AGAIN</button>' +
           '<button class="btn ghost" data-exitmenu type="button">EXIT TO MENU</button>');
       } else if(G.foeIndex >= FIRST_LADDER){
@@ -3692,7 +3934,7 @@
           '<button class="btn" id="againBtn" type="button">JOUST AGAIN</button>' +
           '<button class="btn ghost" data-exitmenu type="button">EXIT TO MENU</button>');
       }
-      document.getElementById('againBtn').addEventListener('click', function(){ audio(); lastLadderBonus = null; G.foeIndex = 0; saveProgress(); matchIntro(); });
+      document.getElementById('againBtn').addEventListener('click', function(){ audio(); lastLadderBonus = null; G.foeIndex = 0; shuffleChampions(); saveProgress(); matchIntro(); });
     }
 
     /* ================= LAN 1v1 (v2.0 · 6-digit rooms + full gear sync v2.1) =================
@@ -4978,7 +5220,7 @@
         }
         if(charging && !G.lan){
           var diffNow = currentDifficulty();
-          var ease = Math.min(1, sdt * (1.6 + G.foeIndex * 0.14) * diffNow.trackMult);
+          var ease = Math.min(1, sdt * (1.6 + Math.min(G.foeIndex, 12) * 0.14) * diffNow.trackMult);
           G.foeAimX += (G.foeTargetX + Math.sin(t*1.9)*0.05 - G.foeAimX) * ease;
           G.foeAimY += (G.foeTargetY + Math.cos(t*1.6)*0.04 - G.foeAimY) * ease;
           // He works his shield as he charges, guessing where your point
