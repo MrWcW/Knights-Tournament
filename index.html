@@ -81,6 +81,13 @@
         font-weight:900; font-size:13.5px; letter-spacing:.1em; padding:10px 16px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.55); white-space:nowrap; }
       #practiceExitBtn.hidden{ display:none; }
       #practiceExitBtn:active{ transform:translateY(1px); }
+      /* endless exit — same perch and dress as the practice exit,
+         shown for the whole of an Endless run */
+      #endlessExitBtn{ pointer-events:auto; position:absolute; top:calc(74px + env(safe-area-inset-top)); right:10px;
+        background:var(--plate); border:1px solid var(--gold); color:#fff7dd; font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif;
+        font-weight:900; font-size:13.5px; letter-spacing:.1em; padding:10px 16px; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.55); white-space:nowrap; }
+      #endlessExitBtn.hidden{ display:none; }
+      #endlessExitBtn:active{ transform:translateY(1px); }
       /* LAN 1v1 exit — same perch as the practice exit, shown for the
          whole of a LAN match so the room can be left at any moment */
       #lanExitBtn{ pointer-events:auto; position:absolute; top:calc(74px + env(safe-area-inset-top)); right:10px;
@@ -344,6 +351,45 @@
       .arenaBtn.on{ background:linear-gradient(180deg,#9c352a,#6d1a12 60%,#571209); border-color:var(--gold); color:#ffe9a8;
         box-shadow:0 2px 10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,220,160,.3); text-shadow:0 1px 2px rgba(0,0,0,.5); }
       #arenaDesc, #difficultyDesc{ min-height:20px; }
+      /* ---------- Practice foe picker (v4.2) ----------
+         The roster list on the Practice picker: one tappable row per
+         knight, champions under their own heading, the chosen row lit
+         crimson like every other picker in the game. The list scrolls
+         inside the card so the rank controls and FACE HIM stay put. */
+      .pickList{ max-height:32vh; overflow:auto; margin:8px 0 2px; border:1px solid rgba(217,164,65,.35); background:rgba(10,8,5,.55); text-align:left; -webkit-overflow-scrolling:touch; touch-action:pan-y; overscroll-behavior:contain; }
+      .pickHead{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:700; font-size:11.5px; letter-spacing:.22em; color:#ffe9a8; padding:9px 10px 3px; }
+      .pickRow{ pointer-events:auto; display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; width:100%; background:none; border:0; border-bottom:1px solid rgba(217,164,65,.14); color:#ddd0ab; padding:9px 10px; cursor:pointer; text-align:left; font-family:Georgia, "Times New Roman", serif; }
+      .pickRow .nm{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:700; font-size:14.5px; letter-spacing:.04em; color:#f2e3bb; white-space:nowrap; }
+      .pickRow .tt{ font-size:13px; color:#b7a67f; }
+      .pickRow .ch{ margin-left:auto; font-size:10.5px; letter-spacing:.12em; color:#e9c979; white-space:nowrap; }
+      .pickRow.on{ background:linear-gradient(180deg,#9c352a,#6d1a12 60%,#571209); }
+      .pickRow.on .nm{ color:#ffe9a8; }
+      .pickRow.on .tt{ color:#e8dcc0; }
+      .rankCtl{ display:flex; align-items:center; justify-content:center; gap:10px; margin-top:8px; }
+      .rankCtl .arenaBtn{ min-width:52px; font-size:20px; padding:6px 10px; }
+      .rankNum{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:22px; color:#ffe9a8; min-width:124px; letter-spacing:.06em; }
+      /* ---------- Career stats (v4.4) ----------
+         The CAREER card: four headline tiles (wins, unhorsings,
+         best streak, matches) and the hit-location bars beneath —
+         where your scoring hits actually land, shield vs breast
+         vs helm, counted from your real judged strikes. */
+      .statsGrid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; text-align:left; }
+      .statTile{ border:1px solid rgba(217,164,65,.4); background:rgba(10,8,5,.55); padding:10px 12px 9px; box-shadow:inset 0 1px 0 rgba(233,201,121,.1); }
+      .statTile .num{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:29px; line-height:1; color:#ffe9a8; font-variant-numeric:tabular-nums; }
+      .statTile .lab{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:700; font-size:11.5px; letter-spacing:.18em; color:#e3c878; margin-top:5px; text-transform:uppercase; }
+      .statTile .sub{ font-size:13px; color:#b7a67f; margin-top:2px; line-height:1.35; }
+      .hitRows{ margin-top:8px; text-align:left; }
+      .hitRow{ margin:10px 0; }
+      .hitRow .hitTop{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+      .hitRow .hitName{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:700; font-size:14.5px; letter-spacing:.08em; color:#f2e3bb; }
+      .hitRow .hitPts{ font-size:12px; letter-spacing:.1em; color:#b7a67f; text-transform:uppercase; }
+      .hitRow .hitCount{ margin-left:auto; font-size:14.5px; color:#ddd0ab; font-variant-numeric:tabular-nums; white-space:nowrap; }
+      .hitRow .hitCount b{ color:#ffe9a8; }
+      .hitBar{ height:11px; margin-top:5px; background:#241b0e; border:1px solid rgba(217,164,65,.35); overflow:hidden; }
+      .hitBar i{ display:block; height:100%; min-width:0; }
+      .hitBar i.sh{ background:linear-gradient(90deg,#8a6f45,#b08d57); }
+      .hitBar i.br{ background:linear-gradient(90deg,#7d2115,#c8452f); }
+      .hitBar i.he{ background:linear-gradient(90deg,#b9862f,#e9c979); }
       /* ---------- Champions (v2.10) ----------
          A champion foe is never in doubt: a solid gold CHAMPION
          banner on his match intro and practice cards, a gold ring
@@ -475,6 +521,8 @@
 
       <button id="practiceExitBtn" class="hidden" type="button" aria-label="End practice and return to the title screen">✕ END PRACTICE</button>
 
+      <button id="endlessExitBtn" class="hidden" type="button" aria-label="End the Endless run and return to the title screen">✕ END ENDLESS</button>
+
       <button id="lanExitBtn" class="hidden" type="button" aria-label="Leave the LAN 1v1 room and return to the title screen">✕ LEAVE 1v1</button>
 
       <button id="menuExitBtn" class="hidden" type="button" aria-label="Exit to the title screen menu — saves your progress and ends the current match">✕ EXIT TO MENU</button>
@@ -523,7 +571,7 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 4.1 — tap to see update history">v4.1 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 4.5 — tap to see update history">v4.5 <span class="vdot">· Updates</span></button>
 
     <button id="settingsBtn" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
@@ -556,8 +604,12 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v4.1</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v4.5</b></p>
         <ul class="logList">
+          <li><span class="vtag">v4.5</span><span class="vtext"><b>LAN rematch series.</b> LAN 1v1 is now a series, not one-and-done: the host picks best of three or best of five on the room screen, match wins are tallied after every match, and the first to 2 (or 3) takes the series — NEXT MATCH rides on, NEW SERIES starts fresh.</span></li>
+          <li><span class="vtag">v4.4</span><span class="vtext"><b>Career stats.</b> A new CAREER page on the title screen tracks your wins, unhorsings, best streak and where your hits land — shield, breast or helm. Counting starts now and saves on this device.</span></li>
+          <li><span class="vtag">v4.3</span><span class="vtext"><b>Endless mode.</b> Ride foe after foe at a rank that climbs with every knight you beat — the run ends only when you are unhorsed. The Practice picker is fixed too: the ★ CHAMPIONS ★ now sit at the top of the list, Sir Jaren the Slim and Sir Mih the Goldfih first, pickable like any knight.</span></li>
+          <li><span class="vtag">v4.2</span><span class="vtext"><b>Pick your foe in Practice.</b> Practice now opens a picker: choose any knight or ★ CHAMPION ★ by name, and the rank he rides at — ride the same knight at Rank 1 and Rank 60 and feel the difference. Your current foe and a surprise foe are still there if you want them.</span></li>
           <li><span class="vtag">v4.1</span><span class="vtext"><b>The knight gets better as your rank climbs.</b> No more tiers — the order is a plain random shuffle, and whoever you draw rides at your rank's strength: slow and loose in the early ranks, then faster, tighter-aiming and more helm-hungry the higher you climb, and likelier to unhorse you near the top.</span></li>
           <li><span class="vtag major">v4.0</span><span class="vtext"><b>Major: slow motion before the clash.</b> In the last second before the lances meet, the charge slows to about half speed so you can settle your aim — then it's straight back to normal speed the moment of impact.</span></li>
           <li><span class="vtag">v3.7</span><span class="vtext"><b>A champion renamed.</b> Sir Mih the Goldfish now rides as Sir Mih the Goldfih — same speed, same aim, same deep blue and gold.</span></li>
@@ -951,9 +1003,16 @@
     // rank's scaled speed, scatter and helm hunger. Combat code
     // reads the foe through here, never the raw roster numbers.
     function combatFoe(idx){
-      var base = FOES[idx];
+      // v4.2: in pick-your-foe Practice the knight in this slot is
+      // the one the player picked, riding at the picked rank — his
+      // identity comes from the pick, his stats from the rank. Every
+      // other time (tournament, LAN, unpicked Practice) this is
+      // exactly the slot's own knight at the slot's own rank.
+      var picked = practicePicked() && idx === G.foeIndex;
+      var endless = endlessActive() && idx === G.foeIndex;
+      var base = endless ? G.endlessKnight : picked ? G.practiceKnight : FOES[idx];
       if(!base) return base;
-      var s = rankFoeStats(idx), out = {}, k;
+      var s = rankFoeStats(endless ? endlessStatSlot() : picked ? G.practiceRank : idx), out = {}, k;
       for(k in base) out[k] = base[k];
       out.speed = s.speed; out.sigma = s.sigma; out.headAim = s.headAim;
       return out;
@@ -1190,7 +1249,11 @@
     // Rolls one on first sight of a slot, so no knight is ever
     // mounted in his roster colours.
     function effectiveFoe(idx){
-      var base = FOES[idx];
+      // v4.2: a picked Practice foe wears this facing's rolled look
+      // exactly as a slot knight does — only the knight under the
+      // paint is the player's pick. v4.3: an Endless foe wears it
+      // the same way — the run's current knight, at the run's rank.
+      var base = (endlessActive() && idx === G.foeIndex) ? G.endlessKnight : (practicePicked() && idx === G.foeIndex) ? G.practiceKnight : FOES[idx];
       if(!base) return base;
       if(foeLookIdx !== idx || !foeLook) rollFoeLook(idx);
       var out = {}, k;
@@ -1517,7 +1580,7 @@
       aimX:0, aimY:0, aimTX:0, aimTY:0, speed:0, chargeT:0, stateT:0,
       playerZ:56, foeZ:-56, foeAimX:0, foeAimY:0, foeTargetX:0, foeTargetY:2.05,
       result:null, shake:0, timeScale:1, slowT:0, preSlow:false, hoofPhase:0, lastHoofStep:0,
-      playerDown:false, foeDown:false, camFall:0, started:false, practice:false, shieldPos:'mid', shieldKnock:0, foeTargetZone:'chest', renown:0,
+      playerDown:false, foeDown:false, camFall:0, started:false, practice:false, practiceKnight:null, practiceRank:null, endless:false, endlessKnight:null, endlessLevel:0, endlessFoes:0, endlessPasses:0, shieldPos:'mid', shieldKnock:0, foeTargetZone:'chest', renown:0,
       coins:0, ownedLances:{ ash:true }, lanceSkin:'ash', ownedShields:{ house:true }, shieldSkin:'house',
       ownedCaparisons:{ house:true }, caparisonSkin:'house', ownedHorseSkins:{ bay:true }, horseSkin:'bay',
       ownedPlumes:{ gold:true }, plumeSkin:'gold',
@@ -1528,7 +1591,8 @@
       gfx:'low', fps:60,
       house:'goldmane', houseChosen:false,
       ownedHonourLances:{}, ownedHonourShields:{},
-      bannerOwned:false, bannerOn:false, titleOwned:false, titleOn:false
+      bannerOwned:false, bannerOn:false, titleOwned:false, titleOn:false,
+      career:{ wins:0, losses:0, unhorsedFoe:0, unhorsedYou:0, curStreak:0, bestStreak:0, hitsShield:0, hitsBreast:0, hitsHelm:0 }
     };
     /* Session-only record of the ladder completion bonus just awarded
        on a ladder-ending win, so the tournament end card can show the
@@ -1539,6 +1603,57 @@
        pass, the same at every difficulty; no ladder bonus in
        Practice, ever. */
     var PRACTICE_WIN_PAY = 5;
+    /* ================= CAREER STATS (v4.4) =================
+       A running record of your riding, shown on the CAREER page:
+       match wins and losses, unhorsings dealt and suffered, your
+       current and best win streaks, and where your scoring hits
+       actually land — shield, breast (chest) or helm (head), taken
+       from the same judged strike that scores the pass, in every
+       mode (tournament, Practice, Endless and LAN alike). Wins and
+       streaks count decided matches only — tournament matches,
+       Endless foes beaten, and LAN 1v1 matches; a Practice pass is
+       not a match, so it adds its hits and unhorsings but never a
+       win. Counting begins with v4.4: earlier riding was never
+       recorded, so a kept save starts its career at nought. The
+       record is saved with the rest of your progress (see
+       saveProgress / loadProgress below). */
+    function defaultCareer(){
+      return { wins:0, losses:0, unhorsedFoe:0, unhorsedYou:0, curStreak:0, bestStreak:0, hitsShield:0, hitsBreast:0, hitsHelm:0 };
+    }
+    function careerClean(v){
+      var c = defaultCareer();
+      if(v && typeof v === 'object'){
+        for(var k in c){
+          if(typeof v[k] === 'number' && isFinite(v[k]) && v[k] >= 0) c[k] = Math.floor(v[k]);
+        }
+      }
+      if(c.bestStreak < c.curStreak) c.bestStreak = c.curStreak;
+      return c;
+    }
+    function recordCareerPass(you, foeDown, youDown){
+      if(!G.career) G.career = defaultCareer();
+      if(you && you.pts > 0){
+        if(you.zone === 'shield') G.career.hitsShield++;
+        else if(you.zone === 'chest') G.career.hitsBreast++;
+        else if(you.zone === 'head') G.career.hitsHelm++;
+      }
+      if(foeDown) G.career.unhorsedFoe++;
+      if(youDown) G.career.unhorsedYou++;
+      saveProgress();
+    }
+    function recordCareerWin(){
+      if(!G.career) G.career = defaultCareer();
+      G.career.wins++;
+      G.career.curStreak++;
+      if(G.career.curStreak > G.career.bestStreak) G.career.bestStreak = G.career.curStreak;
+      saveProgress();
+    }
+    function recordCareerLoss(){
+      if(!G.career) G.career = defaultCareer();
+      G.career.losses++;
+      G.career.curStreak = 0;
+      saveProgress();
+    }
 
     /* ================= SAVED PROGRESS =================
        The purse, the trophy count, the Armoury collection (owned and
@@ -1562,6 +1677,7 @@
         window.localStorage.setItem(SAVE_KEY, JSON.stringify({
           coins: G.coins,
           renown: G.renown,
+          career: G.career,
           ownedLances: G.ownedLances,
           lanceSkin: G.lanceSkin,
           ownedShields: G.ownedShields,
@@ -1613,6 +1729,9 @@
       // starting gear rather than breaking the Armoury or the 3D gear.
       if(typeof s.coins === 'number' && isFinite(s.coins) && s.coins >= 0) G.coins = Math.floor(s.coins);
       if(typeof s.renown === 'number' && isFinite(s.renown) && s.renown >= 0) G.renown = Math.floor(s.renown);
+      // Career record (v4.4): validated field by field like the rest
+      // of the save; an older save has none yet and starts at nought.
+      if(s.career && typeof s.career === 'object') G.career = careerClean(s.career);
       if(s.ownedLances && typeof s.ownedLances === 'object'){
         for(var li = 0; li < LANCES.length; li++) if(s.ownedLances[LANCES[li].id]) G.ownedLances[LANCES[li].id] = true;
       }
@@ -3390,9 +3509,9 @@
 
     /* ================= UI ================= */
     var el = {};
-    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow'].forEach(function(id){ el[id] = document.getElementById(id); });
+    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','endlessExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '4.1';
+    var CURRENT_VERSION = '4.5';
     function openLog(){ el.logWrap.classList.remove('hidden'); refreshPill(); }
     function closeLog(){ el.logWrap.classList.add('hidden'); refreshPill(); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
@@ -3747,7 +3866,7 @@
     }
     function hideBanner(){ el.banner.className = ''; }
     function refreshHUD(){
-      var foe = FOES[G.foeIndex];
+      var foe = activeFoeBase();
       el.foeName.textContent = (G.lan && G.lanFoe) ? G.lanFoe.name : foe.name;
       // A champion foe is marked in the HUD at all times (v2.10): a
       // crown on his name and a gold CHAMPION badge in the plate.
@@ -3757,8 +3876,9 @@
         if(showChamp) el.foeName.textContent = '♛ ' + foe.name;
       }
       el.scoreNum.innerHTML = G.youScore + ' <small>—</small> ' + G.foeScore;
-      el.passLabel.textContent = G.lan ? 'LAN 1v1 · Pass ' + Math.min(G.pass, MAX_PASSES) + ' of ' + MAX_PASSES
-        : G.practice ? 'Practice · Pass ' + G.pass : 'Pass ' + Math.min(G.pass, MAX_PASSES) + ' of ' + MAX_PASSES + (foe.champ ? ' · ★ CHAMPION ★' : '');
+      el.passLabel.textContent = G.lan ? 'LAN 1v1' + (typeof lanSeriesActive !== 'undefined' && lanSeriesActive ? ' · Series ' + lanSeriesYou + '–' + lanSeriesFoe : '') + ' · Pass ' + Math.min(G.pass, MAX_PASSES) + ' of ' + MAX_PASSES
+        : G.endless ? 'Endless · Rank ' + (G.endlessLevel + 1) + ' · Pass ' + G.pass
+        : G.practice ? (practicePicked() ? 'Practice · Rank ' + (G.practiceRank + 1) + ' · Pass ' + G.pass : 'Practice · Pass ' + G.pass) : 'Pass ' + Math.min(G.pass, MAX_PASSES) + ' of ' + MAX_PASSES + (foe.champ ? ' · ★ CHAMPION ★' : '');
       paintLances(el.yourLances, G.youLances); paintLances(el.foeLances, G.foeLances);
       el.renownNum.textContent = G.renown;
       el.coinNum.textContent = G.coins;
@@ -3767,10 +3887,29 @@
       for(var i=0;i<sh.length;i++){ sh[i].className = i < lp ? 'won' : (i === lp ? 'now' : ''); }
       var tourT = document.querySelector('#tourPlate .t');
       if(tourT) tourT.textContent = foe.champ ? '★ CHAMPION ★' : G.foeIndex < FIRST_LADDER ? 'Tournament' : G.foeIndex < 10 ? 'Champion\'s Ladder' : 'Round ' + roundNo(G.foeIndex) + ' of 12';
+      if(endlessActive() && tourT){
+        // An Endless foe holds no tournament place either: the plate
+        // names the run's current rank, and its shields mark that
+        // rank's place in its round. The tournament standing
+        // underneath is untouched and returns with the next match.
+        tourT.textContent = foe.champ ? '★ CHAMPION ★' : 'Endless · Rank ' + (G.endlessLevel + 1);
+        var elp = ladderPos(endlessStatSlot());
+        for(var ei=0;ei<sh.length;ei++) sh[ei].className = ei < elp ? 'won' : (ei === elp ? 'now' : '');
+      }
+      if(practicePicked() && tourT){
+        // A picked Practice foe holds no tournament place: the plate
+        // names the rank he rides at, and its shields mark his place
+        // in that rank's round. The tournament standing underneath
+        // is untouched and returns with the next match.
+        tourT.textContent = foe.champ ? '★ CHAMPION ★' : 'Practice · Rank ' + (G.practiceRank + 1);
+        var plp = ladderPos(G.practiceRank);
+        for(var pi=0;pi<sh.length;pi++) sh[pi].className = pi < plp ? 'won' : (pi === plp ? 'now' : '');
+      }
       if(G.lan && tourT){
         // In a LAN match the shields plate tracks the passes of this
         // match instead of the tournament ladders it normally shows.
-        tourT.textContent = 'LAN 1v1';
+        // v4.5: while a series runs, the plate carries its score.
+        tourT.textContent = (typeof lanSeriesActive !== 'undefined' && lanSeriesActive) ? 'LAN · SERIES ' + lanSeriesYou + '–' + lanSeriesFoe : 'LAN 1v1';
         var lanLp = Math.min(G.pass, MAX_PASSES) - 1;
         for(var li2=0; li2<sh.length; li2++) sh[li2].className = li2 < lanLp ? 'won' : (li2 === lanLp ? 'now' : '');
       }
@@ -3989,7 +4128,9 @@
       var HOUSE = currentHouse();
       G.state = 'title';
       G.practice = false;
+      G.endless = false; G.endlessKnight = null;
       if(el.practiceExitBtn) el.practiceExitBtn.classList.add('hidden');
+      if(el.endlessExitBtn) el.endlessExitBtn.classList.add('hidden');
       if(el.lanExitBtn) el.lanExitBtn.classList.add('hidden');
       if(el.menuExitBtn) el.menuExitBtn.classList.add('hidden');
       showCard(
@@ -4006,16 +4147,20 @@
         '<button class="btn" id="playBtn" type="button">PLAY</button>' +
         '<div class="menuRow"><button class="btn" id="practiceBtn" type="button">PRACTICE</button>' +
         '<button class="btn" id="lanBtn" type="button">LAN 1v1</button></div>' +
+        '<button class="btn" id="endlessBtn" type="button">ENDLESS</button>' +
         '<div class="menuRow"><button class="btn ghost" data-shop type="button">ARMOURY</button>' +
         '<button class="btn ghost" id="changeHouseBtn" type="button">CHANGE HOUSE</button></div>' +
-        '<div class="menuRow"><button class="btn ghost" id="tipsBtn" type="button">TIPS</button></div>' +
+        '<div class="menuRow"><button class="btn ghost" id="tipsBtn" type="button">TIPS</button>' +
+        '<button class="btn ghost" id="careerBtn" type="button">CAREER</button></div>' +
         '</div>'
       );
       document.getElementById('playBtn').addEventListener('click', function(){ audio(); playSetupCard(); });
-      document.getElementById('practiceBtn').addEventListener('click', function(){ audio(); startPractice(); });
+      document.getElementById('practiceBtn').addEventListener('click', function(){ audio(); practicePickCard(); });
+      document.getElementById('endlessBtn').addEventListener('click', function(){ audio(); startEndless(); });
       document.getElementById('lanBtn').addEventListener('click', function(){ audio(); lanHomeCard(); });
       document.getElementById('changeHouseBtn').addEventListener('click', function(){ audio(); housePickerCard(true); });
       document.getElementById('tipsBtn').addEventListener('click', function(){ audio(); tipsCard(); });
+      document.getElementById('careerBtn').addEventListener('click', function(){ audio(); careerCard(); });
     }
     /* ---------- Play setup (v2.6) ----------
        PLAY on the title screen opens this setup screen: the
@@ -4097,15 +4242,66 @@
         '<li><b>Scoring</b> — shield 1 · breast 2 · helm 3. Most points after five passes wins the match; a tie rides one more pass to settle it.</li>' +
         '<li><b>Unhorsing</b> — a solid scoring strike can knock a rider clean off his horse, and that ends the match at a stroke — yours on him, or his on you. When a rider falls, the crowd roars.</li>' +
         '<li><b>Tournament</b> — sixty knights ride in twelve rounds of five: the first two rounds are the original ladders, then ten more rounds of new knights. Every round ends with a champion — the fifth knight, marked ★ CHAMPION ★ in gold — who rides faster, aims truer and hits harder. Clear all twelve rounds to take the wreath.</li>' +
-        '<li><b>Practice</b> — unlimited passes against the knight you face. Winning a pass pays 5 coin, but no Renown and no tournament progress, and an unhorsing just means fresh lances. Leave any time with END PRACTICE.</li>' +
-        '<li><b>LAN 1v1</b> — joust a friend on the same WiFi: create a room, share the 6-digit code, and ride best-of-five with the same scoring and controls, each in your own real gear and colours. Whoever created the room picks the arena, and both phones ride in it. The winner takes 3× coin and 3× Renown; tournament progress is untouched.</li>' +
+        '<li><b>Practice</b> — unlimited passes against a foe you pick: any knight or champion by name, at any rank from 1 to 60 — or the knight you face, or a surprise foe. The ★ CHAMPIONS ★ sit at the top of the list. Winning a pass pays 5 coin, but no Renown and no tournament progress, and an unhorsing just means fresh lances. Leave any time with END PRACTICE.</li>' +
+        '<li><b>Endless</b> — ride foe after foe from Rank 1: beat a foe and the rank climbs and the next foe rides harder; lose on points and you ride on at the same rank. The run ends only when you are unhorsed. Winning a pass pays 5 coin, no Renown, no tournament progress. Leave any time with END ENDLESS.</li>' +
+        '<li><b>LAN 1v1</b> — joust a friend on the same WiFi: create a room, share the 6-digit code, and ride best-of-five passes with the same scoring and controls, each in your own real gear and colours. Whoever created the room picks the arena and the series length — best of three or best of five matches — and both phones ride in it; the first to 2 (or 3) match wins takes the series. The winner of each match takes 3× coin and 3× Renown; tournament progress is untouched.</li>' +
         '<li><b>Difficulty</b> — Easy, Normal, Hard or Nightmare, picked in Play setup when you press PLAY. Harder foes read your shield faster, aim truer and hit harder; Nightmare never stops shifting guard and aim. Your pick is remembered.</li>' +
         '<li><b>Rewards</b> — a match win pays coin by difficulty (20 · 25 · 30 · 50) and clearing a ladder pays a bonus on top (250 · 500 · 750 · 2000). Wins also earn Renown trophies. Spend coin and trophies in the Armoury on lance, shield, caparison, horse and plume colours and champion honours — paint only, never an edge in the lists.</li>' +
+        '<li><b>Career</b> — the CAREER button on the title screen shows your record: wins, unhorsings, your best streak, and where your hits land — shield, breast or helm.</li>' +
         '</ol>' +
         '<p class="small">Your house flies on your flag, shield and cloth — change it any time with CHANGE HOUSE. Before each match the camera circles your knight; tap SKIP to ride straight in. Coin, trophies, gear and your place in the tournament are saved on this device.</p>' +
         '<button class="btn" id="tipsBackBtn" type="button">BACK</button>'
       );
       document.getElementById('tipsBackBtn').addEventListener('click', function(){ audio(); titleCard(); });
+    }
+    /* ---------- Career stats page (v4.4) ----------
+       CAREER on the title screen opens this record: wins,
+       unhorsings, best streak and the hit-location split — shield
+       vs breast vs helm — all read from G.career, which
+       recordCareerPass / recordCareerWin / recordCareerLoss keep
+       as you ride and saveProgress keeps on this device. A rider
+       with nothing recorded yet gets an honest empty record, not
+       invented numbers. BACK returns to the title screen. */
+    function careerCard(){
+      G.state = 'title';
+      G.practice = false;
+      if(el.practiceExitBtn) el.practiceExitBtn.classList.add('hidden');
+      if(el.endlessExitBtn) el.endlessExitBtn.classList.add('hidden');
+      if(el.lanExitBtn) el.lanExitBtn.classList.add('hidden');
+      if(!G.career) G.career = defaultCareer();
+      var C = G.career;
+      var matches = C.wins + C.losses;
+      var totalHits = C.hitsShield + C.hitsBreast + C.hitsHelm;
+      var hitPoints = C.hitsShield * 1 + C.hitsBreast * 2 + C.hitsHelm * 3;
+      function pct(n){ return totalHits ? Math.round(n / totalHits * 100) : 0; }
+      function hitRow(name, ptsLabel, count, cls){
+        var p = pct(count);
+        return '<div class="hitRow"><div class="hitTop"><span class="hitName">' + name + '</span><span class="hitPts">' + ptsLabel + '</span>' +
+          '<span class="hitCount"><b>' + count + '</b> hits · ' + p + '%</span></div>' +
+          '<div class="hitBar"><i class="' + cls + '" style="width:' + p + '%"></i></div></div>';
+      }
+      showCard(
+        '<div class="menuKicker">CAREER</div>' +
+        '<div class="howtoTitle" style="margin-top:6px;">YOUR RECORD</div><div class="rule"></div>' +
+        '<div class="statsGrid">' +
+        '<div class="statTile"><div class="num">' + C.wins + '</div><div class="lab">Wins</div><div class="sub">' + (matches ? C.losses + (C.losses === 1 ? ' loss' : ' losses') + ' · ' + Math.round(C.wins / matches * 100) + '% of decided matches' : 'No matches decided yet') + '</div></div>' +
+        '<div class="statTile"><div class="num">' + C.unhorsedFoe + '</div><div class="lab">Unhorsings</div><div class="sub">Foes you have knocked from the saddle · you have been unhorsed ' + C.unhorsedYou + (C.unhorsedYou === 1 ? ' time' : ' times') + '</div></div>' +
+        '<div class="statTile"><div class="num">' + C.bestStreak + '</div><div class="lab">Best streak</div><div class="sub">Wins in a row at your best · current streak: ' + C.curStreak + '</div></div>' +
+        '<div class="statTile"><div class="num">' + matches + '</div><div class="lab">Matches</div><div class="sub">Decided in the tournament, Endless and LAN 1v1</div></div>' +
+        '</div>' +
+        '<div class="menuLabel">WHERE YOUR HITS LAND</div>' +
+        (totalHits === 0
+          ? '<p>No scoring hits yet. Land one — on his shield, breast or helm — and it will be counted here.</p>'
+          : '<div class="hitRows">' +
+            hitRow('SHIELD', '1 point', C.hitsShield, 'sh') +
+            hitRow('BREAST', '2 points', C.hitsBreast, 'br') +
+            hitRow('HELM', '3 points', C.hitsHelm, 'he') +
+            '</div>' +
+            '<p class="small">' + totalHits + (totalHits === 1 ? ' scoring hit' : ' scoring hits') + ' in all · ' + hitPoints + ' points scored from those hits.</p>') +
+        '<p class="small">Wins and streaks count decided matches — tournament, Endless foes beaten and LAN 1v1. Practice passes are not matches, but their hits and unhorsings count here like any other. Counting began with v4.4, and the record is saved on this device.</p>' +
+        '<button class="btn" id="careerBackBtn" type="button">BACK</button>'
+      );
+      document.getElementById('careerBackBtn').addEventListener('click', function(){ audio(); titleCard(); });
     }
     /* Difficulty picker on the Play setup screen: the buttons and the
        line under them always show the current pick. Tapping one saves
@@ -4146,11 +4342,178 @@
        throughout every pass — returns to the title screen, and because
        G.foeIndex is untouched, ENTER THE LISTS then resumes the
        tournament exactly where it was. */
+    /* ---------- pick-your-foe Practice (v4.2) ----------
+       PRACTICE on the title screen now opens a picker first: any
+       knight or champion by name from the home roster (the regular
+       pool and the champion pool — identity only; the run's shuffled
+       order is never touched), the current tournament foe, or a
+       surprise foe drawn at ride time — plus the rank he rides at,
+       any slot from Rank 1 to Rank 60. The pick lives in
+       G.practiceKnight / G.practiceRank for the length of the
+       Practice visit only: never saved, and every combat read that
+       used to go through G.foeIndex goes through statSlot() /
+       activeFoeBase() / combatFoe() / effectiveFoe() instead, which
+       answer with the pick only while G.practice is set. The moment
+       Practice ends, the tournament foe and his rank are exactly
+       what they were. Picking the current foe at your current rank
+       is the old Practice, unchanged — it stores no pick at all. */
+    function practicePicked(){ return !!(G.practice && G.practiceKnight && typeof G.practiceRank === 'number'); }
+    /* ---------- Endless helpers (v4.3) ----------
+       An Endless run holds its current knight in G.endlessKnight
+       and its climb in G.endlessLevel (0 = Rank 1), session-only
+       like a Practice pick and never saved: the tournament foe,
+       his rank and every saved field stay exactly as they were,
+       and the moment the run ends the lists are the tournament's
+       again. Stats come from the run's rank through the same
+       rank scaling as everything else, capped at the top slot —
+       past Rank 60 the displayed rank keeps climbing while the
+       foe rides at full top-rank strength. */
+    function endlessActive(){ return !!(G.endless && G.endlessKnight); }
+    function endlessStatSlot(){ return Math.max(0, Math.min(FOES.length - 1, G.endlessLevel || 0)); }
+    function statSlot(){ return endlessActive() ? endlessStatSlot() : practicePicked() ? G.practiceRank : G.foeIndex; }
+    function activeFoeBase(){ return endlessActive() ? G.endlessKnight : practicePicked() ? G.practiceKnight : FOES[G.foeIndex]; }
+    function rankDesc(slot){
+      if(slot < 12) return 'Slow and loose — a gentle ride.';
+      if(slot < 24) return 'Steady, and finding his aim.';
+      if(slot < 36) return 'Quick and keen — a real test.';
+      if(slot < 48) return 'Fast and helm-hungry — dangerous.';
+      return 'Fastest, truest and hardest-hitting in the lists.';
+    }
+    var pickSrc = 'current'; // 'current' | 'random' | a roster knight object
+    var pickRank = null;     // slot 0..59 the picked foe rides at; set when the picker first opens
+    var PICK_ALL = null;     // REG_POOL then CHAMP_POOL, built on first use — the picker's roster
+    function pickAll(){
+      if(!PICK_ALL) PICK_ALL = REG_POOL.concat(CHAMP_POOL);
+      return PICK_ALL;
+    }
+    function pickRowHtml(K, i){
+      return '<button class="pickRow" type="button" role="option" data-foeidx="' + i + '">' +
+        '<span class="nm">' + K.name + '</span><span class="tt">' + K.title + '</span>' +
+        (K.champ ? '<span class="ch">★ CHAMPION ★</span>' : '') + '</button>';
+    }
+    function paintPracticePick(){
+      var srcBtns = el.cardBox.querySelectorAll('[data-picksrc]');
+      for(var i=0;i<srcBtns.length;i++) srcBtns[i].classList.toggle('on', srcBtns[i].getAttribute('data-picksrc') === pickSrc);
+      var rows = el.cardBox.querySelectorAll('[data-foeidx]');
+      for(var j=0;j<rows.length;j++) rows[j].classList.toggle('on', typeof pickSrc === 'object' && pickAll()[+rows[j].getAttribute('data-foeidx')] === pickSrc);
+      var chips = el.cardBox.querySelectorAll('[data-rankpick]');
+      for(var c=0;c<chips.length;c++){
+        var cp = chips[c].getAttribute('data-rankpick');
+        chips[c].classList.toggle('on', cp === 'you' ? pickRank === G.foeIndex : (+cp - 1) === pickRank);
+      }
+      var rn = document.getElementById('rankNum');
+      if(rn) rn.textContent = 'RANK ' + (pickRank + 1);
+      var sum = document.getElementById('pickSummary');
+      if(sum){
+        var who = pickSrc === 'current' ? 'Current foe — ' + FOES[G.foeIndex].name + ', ' + FOES[G.foeIndex].title + (FOES[G.foeIndex].champ ? ' · ★ CHAMPION ★' : '')
+          : pickSrc === 'random' ? 'Surprise foe — a knight or champion drawn when you ride'
+          : pickSrc.name + ', ' + pickSrc.title + (pickSrc.champ ? ' · ★ CHAMPION ★' : '');
+        sum.innerHTML = 'Facing: <b style="color:#ffe9a8;">' + who + '</b><br />Riding at <b style="color:#ffe9a8;">Rank ' + (pickRank + 1) + '</b> — ' + rankDesc(pickRank);
+      }
+    }
+    function practicePickCard(){
+      // The picker is a title-side card: any practice in progress
+      // ends the way END PRACTICE ends it — lists quiet, HUD away,
+      // tournament untouched — before the card opens.
+      G.practice = false;
+      G.endless = false; G.endlessKnight = null;
+      if(el.practiceExitBtn) el.practiceExitBtn.classList.add('hidden');
+      if(el.endlessExitBtn) el.endlessExitBtn.classList.add('hidden');
+      if(el.menuExitBtn) el.menuExitBtn.classList.add('hidden');
+      hideBanner();
+      G.speed = 0; G.slowT = 0; G.timeScale = 1; G.result = null;
+      G.state = 'title'; G.started = false;
+      el.hud.classList.add('hidden');
+      mountFoe(G.foeIndex); resetPositions(); refreshHUD();
+      if(pickRank === null || pickSrc === 'current') pickRank = G.foeIndex;
+      // v4.3 fix: the ★ CHAMPIONS ★ ride at the TOP of the list,
+      // not under fifty knights of scrolling — Sir Jaren the Slim
+      // and Sir Mih the Goldfih are the first two rows the picker
+      // shows, visible the moment it opens, with every champion's
+      // full name and title on his own tappable row. The knights
+      // follow below, in the same list, in the same order as ever.
+      var ALL = pickAll(), rows = '<div class="pickHead">★ CHAMPIONS ★</div>';
+      for(var j=0;j<CHAMP_POOL.length;j++) rows += pickRowHtml(CHAMP_POOL[j], REG_POOL.length + j);
+      rows += '<div class="pickHead">KNIGHTS</div>';
+      for(var i=0;i<REG_POOL.length;i++) rows += pickRowHtml(REG_POOL[i], i);
+      showCard(
+        '<div class="kick">PRACTICE · PICK YOUR FOE</div>' +
+        '<h2>Choose your foe</h2><div class="rule"></div>' +
+        '<p>Pick any knight or champion by name — or ride against the foe you currently face, or a surprise foe — and choose the rank he rides at. The same knight is a gentle ride at Rank 1 and a terror at Rank 60. The ★ CHAMPIONS ★ sit at the top of the list: Sir Jaren the Slim, Sir Mih the Goldfih and the rest, all pickable.</p>' +
+        '<div class="arenaPicker" role="group" aria-label="Quick foe choices">' +
+        '<button class="arenaBtn" type="button" data-picksrc="current">CURRENT FOE</button>' +
+        '<button class="arenaBtn" type="button" data-picksrc="random">SURPRISE ME</button>' +
+        '<button class="arenaBtn" type="button" id="champJumpBtn">★ CHAMPIONS ★</button>' +
+        '</div>' +
+        '<div class="pickList" role="listbox" aria-label="Choose a knight or champion">' + rows + '</div>' +
+        '<div class="menuLabel">RANK HE RIDES AT</div>' +
+        '<div class="rankCtl">' +
+        '<button class="arenaBtn" type="button" id="rankDownBtn" aria-label="Lower the rank">−</button>' +
+        '<div class="rankNum" id="rankNum">RANK 1</div>' +
+        '<button class="arenaBtn" type="button" id="rankUpBtn" aria-label="Raise the rank">+</button>' +
+        '</div>' +
+        '<div class="arenaPicker" role="group" aria-label="Quick ranks">' +
+        '<button class="arenaBtn" type="button" data-rankpick="1">RANK 1</button>' +
+        '<button class="arenaBtn" type="button" data-rankpick="15">15</button>' +
+        '<button class="arenaBtn" type="button" data-rankpick="30">30</button>' +
+        '<button class="arenaBtn" type="button" data-rankpick="45">45</button>' +
+        '<button class="arenaBtn" type="button" data-rankpick="60">60</button>' +
+        '<button class="arenaBtn" type="button" data-rankpick="you">YOUR RANK</button>' +
+        '</div>' +
+        '<p class="small" id="pickSummary"></p>' +
+        '<button class="btn" id="pickRideBtn" type="button">FACE HIM</button>' +
+        '<button class="btn ghost" id="pickBackBtn" type="button">BACK</button>'
+      );
+      paintPracticePick();
+      // The ★ CHAMPIONS ★ quick button: the champions head the
+      // list, so this simply brings the list back to its top,
+      // where Sir Jaren, Sir Mih and the rest are waiting.
+      var champJump = document.getElementById('champJumpBtn');
+      if(champJump) champJump.addEventListener('click', function(){
+        audio();
+        var list = el.cardBox.querySelector('.pickList');
+        if(list) list.scrollTop = 0;
+      });
+      var srcBtns = el.cardBox.querySelectorAll('[data-picksrc]');
+      for(var s=0;s<srcBtns.length;s++) srcBtns[s].addEventListener('click', function(){
+        audio(); pickSrc = this.getAttribute('data-picksrc');
+        if(pickSrc === 'current') pickRank = G.foeIndex;
+        paintPracticePick();
+      });
+      var rowBtns = el.cardBox.querySelectorAll('[data-foeidx]');
+      for(var r=0;r<rowBtns.length;r++) rowBtns[r].addEventListener('click', function(){
+        audio(); pickSrc = pickAll()[+this.getAttribute('data-foeidx')]; paintPracticePick();
+      });
+      var chipBtns = el.cardBox.querySelectorAll('[data-rankpick]');
+      for(var k=0;k<chipBtns.length;k++) chipBtns[k].addEventListener('click', function(){
+        audio();
+        var cp = this.getAttribute('data-rankpick');
+        pickRank = cp === 'you' ? G.foeIndex : (+cp - 1);
+        paintPracticePick();
+      });
+      document.getElementById('rankDownBtn').addEventListener('click', function(){ audio(); pickRank = Math.max(0, pickRank - 1); paintPracticePick(); });
+      document.getElementById('rankUpBtn').addEventListener('click', function(){ audio(); pickRank = Math.min(FOES.length - 1, pickRank + 1); paintPracticePick(); });
+      document.getElementById('pickBackBtn').addEventListener('click', function(){ audio(); titleCard(); });
+      document.getElementById('pickRideBtn').addEventListener('click', function(){
+        audio();
+        if(drawChampionFor(G.foeIndex)) saveProgress();
+        var knight;
+        if(pickSrc === 'random'){ var ALL2 = pickAll(); knight = ALL2[(Math.random()*ALL2.length)|0]; }
+        else if(pickSrc === 'current') knight = FOES[G.foeIndex];
+        else knight = pickSrc;
+        // The current foe at your own rank is Practice exactly as it
+        // always was — no pick is stored, so nothing else can see it.
+        var isDefault = knight === FOES[G.foeIndex] && pickRank === G.foeIndex;
+        G.practiceKnight = isDefault ? null : knight;
+        G.practiceRank = isDefault ? null : pickRank;
+        startPractice();
+      });
+    }
     function startPractice(){
       if(drawChampionFor(G.foeIndex)) saveProgress();
+      G.practice = true;
       rollFoeLook(G.foeIndex); // v3.3: a fresh look for this Practice facing
       var foe = effectiveFoe(G.foeIndex);
-      G.practice = true;
       G.pass = 1; G.youScore = 0; G.foeScore = 0; G.youLances = 0; G.foeLances = 0;
       G.playerDown = false; G.foeDown = false; G.result = null;
       G.started = true;
@@ -4160,16 +4523,21 @@
       mountFoe(G.foeIndex); resetPositions(); refreshHUD();
       G.state = 'practiceIntro';
       showCard(
-        '<div class="kick">PRACTICE · NO STAKES</div>' +
+        '<div class="kick">PRACTICE · NO STAKES' + (practicePicked() ? ' · RANK ' + (G.practiceRank + 1) : '') + '</div>' +
         (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
         foeHeraldHtml(foe) +
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
+        (practicePicked() ? '<p>' + foe.intro + '</p>' : '') +
         '<p>Unlimited passes to work on your aim — same lance, same shield, same scoring: shield 1 · breast 2 · helm 3. Winning a pass pays 5 coin; no Renown, no ladder bonus, no tournament progress, and an unhorsing either way just means fresh lances for the next pass.</p>' +
+        (practicePicked() ? '<p class="small" style="color:#ffe9a8;">Your pick — he rides at <b>Rank ' + (G.practiceRank + 1) + '</b> strength: ' + rankDesc(G.practiceRank) + '</p>' : '') +
         '<p class="small">Leave any time with END PRACTICE at the top right, or after any pass.</p>' +
         '<button class="btn" id="practiceGoBtn" type="button">RIDE A PASS</button>' +
+        (practicePicked() ? '<button class="btn ghost" id="practiceChangeBtn" type="button">CHANGE FOE</button>' : '') +
         '<button class="btn ghost" id="practiceBackBtn" type="button">BACK</button>'
       );
       document.getElementById('practiceGoBtn').addEventListener('click', function(){ audio(); startPass(); });
+      var changeBtn = document.getElementById('practiceChangeBtn');
+      if(changeBtn) changeBtn.addEventListener('click', function(){ audio(); practicePickCard(); });
       document.getElementById('practiceBackBtn').addEventListener('click', function(){ audio(); exitPractice(); });
     }
     function exitPractice(){
@@ -4186,6 +4554,99 @@
       // keep a tap on END PRACTICE from also steering the lance
       el.practiceExitBtn.addEventListener('pointerdown', function(e){ e.stopPropagation(); });
       el.practiceExitBtn.addEventListener('click', function(e){ e.stopPropagation(); audio(); if(G.practice) exitPractice(); });
+    }
+    /* ---------- Endless mode (v4.3) ----------
+       ENDLESS on the title screen starts a run with no tournament
+       at stake: foe after foe rides in — any knight or ★ CHAMPION ★
+       from the whole roster, drawn fresh each time, in a freshly
+       rolled look — starting at Rank 1. Each foe is a match of up
+       to five passes under the usual scoring (shield 1 · breast 2
+       · helm 3, tiebreak on a draw). Beat a foe — unhorse him, or
+       outscore him over the match — and the rank climbs by one
+       and the next foe rides in harder: rank scaling does the
+       climbing, exactly as in the tournament, and past Rank 60
+       the rank keeps counting while foes ride at top strength.
+       Lose a match on points without falling and the run still
+       goes on at the same rank against a new foe — the run ends
+       only when YOU are unhorsed, and passCard's endless branch
+       shows the run's tally then: foes beaten, rank reached and
+       passes ridden. Winning a pass pays the Practice rate of
+       5 coin; no Renown, no ladder bonus, and G.foeIndex is never
+       touched, so the tournament resumes exactly where it was.
+       END ENDLESS — on the run's cards and as a HUD button visible
+       throughout every pass — leaves the run at any time. */
+    function pickEndlessKnight(){
+      var ALL = pickAll();
+      var K = null, guard = 0;
+      do { K = ALL[(Math.random() * ALL.length) | 0]; guard++; }
+      while(ALL.length > 1 && K === G.endlessKnight && guard < 24);
+      return K;
+    }
+    function startEndless(){
+      G.practice = false; G.practiceKnight = null; G.practiceRank = null;
+      if(el.practiceExitBtn) el.practiceExitBtn.classList.add('hidden');
+      G.endless = true;
+      G.endlessLevel = 0; G.endlessFoes = 0; G.endlessPasses = 0;
+      G.endlessKnight = null;
+      G.endlessKnight = pickEndlessKnight();
+      endlessIntroCard(true);
+    }
+    function endlessIntroCard(first){
+      rollFoeLook(G.foeIndex); // a fresh look for this Endless facing
+      var foe = effectiveFoe(G.foeIndex);
+      G.pass = 1; G.youScore = 0; G.foeScore = 0; G.youLances = 0; G.foeLances = 0;
+      G.playerDown = false; G.foeDown = false; G.result = null;
+      G.started = true;
+      el.hud.classList.remove('hidden');
+      if(el.menuExitBtn) el.menuExitBtn.classList.add('hidden');
+      if(el.endlessExitBtn) el.endlessExitBtn.classList.remove('hidden');
+      mountFoe(G.foeIndex); resetPositions(); refreshHUD();
+      G.state = 'endlessIntro';
+      showCard(
+        '<div class="kick">ENDLESS · RANK ' + (G.endlessLevel + 1) + ' · FOES BEATEN ' + G.endlessFoes + '</div>' +
+        (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
+        foeHeraldHtml(foe) +
+        '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
+        '<p>' + foe.intro + '</p>' +
+        (first
+          ? '<p>Keep riding until you are unhorsed. Beat this foe — unhorse him, or outscore him over five passes — and the rank climbs and a harder foe rides in. Lose on points and you ride on at the same rank; only an unhorsing ends the run.</p>'
+          : '<p>A new foe rides in at <b style="color:#ffe9a8">Rank ' + (G.endlessLevel + 1) + '</b> — ' + rankDesc(endlessStatSlot()) + ' Beat him and the rank climbs again; the run ends only when you are unhorsed.</p>') +
+        '<p class="small">Same scoring: shield 1 · breast 2 · helm 3. Winning a pass pays 5 coin; no Renown and no tournament progress. Leave any time with END ENDLESS at the top right, or after any pass.</p>' +
+        '<button class="btn" id="endlessGoBtn" type="button">RIDE A PASS</button>' +
+        '<button class="btn ghost" id="endlessEndBtn" type="button">END ENDLESS</button>'
+      );
+      document.getElementById('endlessGoBtn').addEventListener('click', function(){ audio(); startPass(); });
+      document.getElementById('endlessEndBtn').addEventListener('click', function(){ audio(); exitEndless(); });
+    }
+    function endlessOverCard(r){
+      G.state = 'endlessOver';
+      var foe = activeFoeBase();
+      showCard(
+        '<div class="kick">ENDLESS · THE RUN ENDS</div>' +
+        '<h2>UNHORSED</h2><div class="rule"></div>' +
+        '<p>' + foe.name + ' unhorsed you at <b style="color:#ffe9a8">Rank ' + (G.endlessLevel + 1) + '</b>, and an Endless run ends the moment you fall. Squires help you from the sand.</p>' +
+        '<p style="color:#ffe9a8;font-size:17px;">Foes beaten: <b>' + G.endlessFoes + '</b> · Rank reached: <b>' + (G.endlessLevel + 1) + '</b> · Passes ridden: <b>' + G.endlessPasses + '</b></p>' +
+        '<p class="small">Your purse holds ' + G.coins + ' coin. No Renown was at stake, and your place in the tournament is exactly where it was.</p>' +
+        '<button class="btn" id="endlessAgainBtn" type="button">RIDE AGAIN</button>' +
+        '<button class="btn ghost" id="endlessTitleBtn" type="button">TITLE</button>'
+      );
+      document.getElementById('endlessAgainBtn').addEventListener('click', function(){ audio(); startEndless(); });
+      document.getElementById('endlessTitleBtn').addEventListener('click', function(){ audio(); exitEndless(); });
+    }
+    function exitEndless(){
+      G.endless = false; G.endlessKnight = null;
+      if(el.endlessExitBtn) el.endlessExitBtn.classList.add('hidden');
+      hideBanner();
+      G.speed = 0; G.slowT = 0; G.timeScale = 1; G.result = null;
+      mountFoe(G.foeIndex); resetPositions(); refreshHUD();
+      el.hud.classList.add('hidden');
+      G.started = false;
+      titleCard();
+    }
+    if(el.endlessExitBtn){
+      // keep a tap on END ENDLESS from also steering the lance
+      el.endlessExitBtn.addEventListener('pointerdown', function(e){ e.stopPropagation(); });
+      el.endlessExitBtn.addEventListener('click', function(e){ e.stopPropagation(); audio(); if(G.endless) exitEndless(); });
     }
     /* ---------- exit to menu (v2.9) ----------
        Leave a tournament match at any moment — mid-charge, at the
@@ -4204,6 +4665,7 @@
        the separate way out of a room to the title screen. */
     function exitToMenu(){
       if(G.lan){ lanExitToRoom(); return; }
+      if(G.endless){ exitEndless(); return; }
       if(G.practice){ exitPractice(); return; }
       saveProgress();
       if(el.menuExitBtn) el.menuExitBtn.classList.add('hidden');
@@ -4264,6 +4726,8 @@
     if(el.cineWrap) el.cineWrap.addEventListener('pointerdown', function(){ /* overlay is pointer-events:none except the button */ });
     function matchIntro(){
       G.practice = false;
+      G.endless = false; G.endlessKnight = null;
+      if(el.endlessExitBtn) el.endlessExitBtn.classList.add('hidden');
       // v3.1: a round-end champion is drawn at the moment he is
       // reached — never dealt in advance for the whole run.
       if(drawChampionFor(G.foeIndex)) saveProgress();
@@ -4365,7 +4829,7 @@
       // Champion's Ladder knights set and re-read their shield sooner;
       // difficulty stretches or shortens that first wait (Easy reads
       // later, Hard sooner).
-      G.shieldGuessT = (G.foeIndex >= FIRST_LADDER ? 0.35 : 0.7) * diff.guessIntervalMult;
+      G.shieldGuessT = (statSlot() >= FIRST_LADDER ? 0.35 : 0.7) * diff.guessIntervalMult;
       // Nightmare: how long before he abandons this mark for a fresh
       // one mid-charge — the charge loop counts it down.
       G.foeAimShiftT = 0.35;
@@ -4527,14 +4991,14 @@
       function unhorseChance(zone, attackerIsYou){
         var base = zone==='head' ? 0.68 : zone==='chest' ? 0.38 : zone==='legs' ? 0.12 : zone==='shield' ? 0.12 : 0;
         if(!base) return 0;
-        if(attackerIsYou){ base -= Math.min(G.foeIndex, 10)*0.035; }
+        if(attackerIsYou){ base -= Math.min(statSlot(), 10)*0.035; }
         else {
           // Rank scaling (v4.1): his unhorsing power climbs smoothly
           // with rank — a touch soft in the opening slots, heaviest
           // at the last — whoever was drawn into the slot. (This
           // replaces the old speed threshold and ladder steps, which
           // rode on the drawn knight's own numbers.)
-          base += rankFoeStats(G.foeIndex).unhorseAdd;
+          base += rankFoeStats(statSlot()).unhorseAdd;
           // Difficulty: his hits land softer on Easy, harder on Hard
           // (Normal adds nothing). Only his power changes — the zones
           // and the unhorsing rule itself are untouched, and your own
@@ -4554,6 +5018,7 @@
       if(him.pts > 0) G.foeLances += 1;
       G.result = { you:you, him:him, youDown:youDown, foeDown:foeDown, blocked:blocked };
       G.playerDown = youDown; G.foeDown = foeDown;
+      recordCareerPass(you, foeDown, youDown); // v4.4: this pass's hit + any unhorsing enter the career record
       // effects
       var clash = new THREE.Vector3(-1.1, 2.1, 0.5);
       if(you.pts > 0){
@@ -4578,7 +5043,7 @@
       refreshHUD();
       // banner text
       var big, sub, cls = '';
-      if(foeDown){ big = 'HE IS DOWN!'; sub = 'Your lance finds the ' + zoneName(you.zone) + ' — ' + FOES[G.foeIndex].name + ' is unhorsed!'; cls = 'good'; }
+      if(foeDown){ big = 'HE IS DOWN!'; sub = 'Your lance finds the ' + zoneName(you.zone) + ' — ' + activeFoeBase().name + ' is unhorsed!'; cls = 'good'; }
       else if(youDown){ big = 'UNHORSED!'; sub = 'His lance takes you in the ' + zoneName(him.zone) + ' and the world turns over.'; cls = 'bad'; }
       else if(you.pts > 0 && him.pts > 0){ big = 'LANCES SHATTER!'; sub = 'You strike his ' + zoneName(you.zone) + ' (+' + you.pts + ') — he answers on your ' + zoneName(him.zone) + ' (+' + him.pts + ').'; cls = 'good'; }
       else if(you.pts > 0 && him.zone === 'short'){ big = hitTitle(you.zone); sub = 'Your lance breaks on his ' + zoneName(you.zone) + ' (+' + you.pts + '). His point comes up short of you — no reach, no score.'; cls = 'good'; }
@@ -4596,8 +5061,87 @@
     function zoneName(z){ return z==='head' ? 'helm' : z==='chest' ? 'breast' : z==='shield' ? 'shield' : z; }
     function hitTitle(z){ return z==='head' ? 'HELM STRUCK!' : z==='chest' ? 'BREAST STRUCK!' : 'SHIELD SPLINTERED!'; }
     function passCard(){
-      var r = G.result, foe = FOES[G.foeIndex];
+      var r = G.result, foe = activeFoeBase();
       if(G.lan){ lanPassCard(); return; }
+      if(G.endless){
+        // Endless (v4.3): the run ends only when YOU are unhorsed.
+        // Beating a foe — unhorsing him, or outscoring him over
+        // the match — climbs the rank by one and deals the next
+        // foe; losing a match on points deals a new foe at the
+        // same rank, because you stayed in the saddle. A winning
+        // pass pays the Practice rate of 5 coin, once per pass,
+        // saved like any coin award; no Renown, no ladder bonus,
+        // and the tournament is never touched.
+        G.state = 'passcard';
+        G.endlessPasses++;
+        var eWin = r.foeDown || (!r.youDown && r.you.pts > r.him.pts);
+        var ePay = 0;
+        if(eWin){ ePay = PRACTICE_WIN_PAY; G.coins += ePay; refreshHUD(); saveProgress(); }
+        var ePayLine = ePay
+          ? '<p class="small" style="color:#ffe9a8;">Pass won — purse +' + ePay + ' coin, you hold ' + G.coins + ' coin. No Renown, and your place in the tournament is untouched.</p>'
+          : '<p class="small">No coin for that pass — win a pass (outscore him, or unhorse him) to earn 5 coin.</p>';
+        if(r.youDown){ recordCareerLoss(); endlessOverCard(r); return; }
+        var foeBeaten = r.foeDown || (G.pass >= MAX_PASSES && G.youScore > G.foeScore);
+        if(foeBeaten){
+          recordCareerWin(); // v4.4: an Endless foe beaten is a career win
+          G.endlessFoes++; G.endlessLevel++;
+          showCard(
+            '<div class="kick">ENDLESS · FOE BEATEN · RANK ' + (G.endlessLevel + 1) + '</div>' +
+            '<h2>' + G.youScore + ' — ' + G.foeScore + '</h2><div class="rule"></div>' +
+            (r.foeDown
+              ? '<p>Your lance unhorsed ' + foe.name + ' — foe beaten.</p>'
+              : '<p>You outscored ' + foe.name + ' over the match — foe beaten.</p>') +
+            '<p style="color:#ffe9a8;font-size:17px;">The rank climbs to <b>Rank ' + (G.endlessLevel + 1) + '</b>. Foes beaten: <b>' + G.endlessFoes + '</b> · Passes ridden: <b>' + G.endlessPasses + '</b>. The next foe rides harder.</p>' +
+            ePayLine +
+            '<button class="btn" id="endlessNextBtn" type="button">NEXT FOE</button>' +
+            '<button class="btn ghost" id="endlessEndBtn2" type="button">END ENDLESS</button>'
+          );
+          document.getElementById('endlessNextBtn').addEventListener('click', function(){ audio(); G.endlessKnight = pickEndlessKnight(); endlessIntroCard(false); });
+          document.getElementById('endlessEndBtn2').addEventListener('click', function(){ audio(); exitEndless(); });
+          return;
+        }
+        if(G.pass >= MAX_PASSES && G.youScore === G.foeScore){
+          showCard(
+            '<div class="kick">ENDLESS · A DRAWN MATCH</div>' +
+            '<h2>' + G.youScore + ' — ' + G.foeScore + '</h2><div class="rule"></div>' +
+            '<p>Honours even against ' + foe.name + '. The marshal calls for one more pass to settle this foe.</p>' +
+            ePayLine +
+            '<button class="btn" id="endlessTieBtn" type="button">RIDE THE TIEBREAK</button>' +
+            '<button class="btn ghost" id="endlessEndBtn3" type="button">END ENDLESS</button>'
+          );
+          document.getElementById('endlessTieBtn').addEventListener('click', function(){ audio(); G.pass = MAX_PASSES; startPass(); });
+          document.getElementById('endlessEndBtn3').addEventListener('click', function(){ audio(); exitEndless(); });
+          return;
+        }
+        if(G.pass >= MAX_PASSES){
+          // Beaten on points, but still in the saddle: the run
+          // goes on at the same rank against a fresh foe.
+          recordCareerLoss(); // v4.4: a foe lost on points breaks the streak, though the run goes on
+          showCard(
+            '<div class="kick">ENDLESS · BEATEN ON POINTS</div>' +
+            '<h2>' + G.youScore + ' — ' + G.foeScore + '</h2><div class="rule"></div>' +
+            '<p>' + foe.name + ' takes the match on points — but he did not unhorse you, so the run goes on. A new foe rides in at the same <b style="color:#ffe9a8">Rank ' + (G.endlessLevel + 1) + '</b>.</p>' +
+            ePayLine +
+            '<button class="btn" id="endlessNextBtn2" type="button">NEXT FOE</button>' +
+            '<button class="btn ghost" id="endlessEndBtn4" type="button">END ENDLESS</button>'
+          );
+          document.getElementById('endlessNextBtn2').addEventListener('click', function(){ audio(); G.endlessKnight = pickEndlessKnight(); endlessIntroCard(false); });
+          document.getElementById('endlessEndBtn4').addEventListener('click', function(){ audio(); exitEndless(); });
+          return;
+        }
+        showCard(
+          '<div class="kick">ENDLESS · RANK ' + (G.endlessLevel + 1) + ' · END OF PASS ' + G.pass + '</div>' +
+          '<h2>' + G.youScore + ' — ' + G.foeScore + '</h2><div class="rule"></div>' +
+          '<p>' + passSummary(r) + '</p>' +
+          '<p class="small">' + (MAX_PASSES - G.pass) + (MAX_PASSES - G.pass === 1 ? ' pass remains' : ' passes remain') + ' against ' + foe.name + '. Foes beaten: ' + G.endlessFoes + ' · the run ends only when you are unhorsed.</p>' +
+          ePayLine +
+          '<button class="btn" id="nextBtn" type="button">NEXT PASS</button>' +
+          '<button class="btn ghost" id="endlessEndBtn5" type="button">END ENDLESS</button>'
+        );
+        document.getElementById('nextBtn').addEventListener('click', function(){ audio(); G.pass++; startPass(); });
+        document.getElementById('endlessEndBtn5').addEventListener('click', function(){ audio(); exitEndless(); });
+        return;
+      }
       if(G.practice){
         // Practice never ends on a pass: no match win or loss, no
         // unhorsing finish, no Renown, no tournament change — just
@@ -4622,9 +5166,12 @@
             ? '<p class="small" style="color:#ffe9a8;">Practice pass won — purse +' + practicePay + ' coin, you hold ' + G.coins + ' coin. No Renown, no ladder bonus, and your place in the tournament is untouched.</p>'
             : '<p class="small">No coin for that pass — win a practice pass (outscore him, or unhorse him) to earn 5 coin. No Renown, and your place in the tournament is untouched.</p>') +
           '<button class="btn" id="nextBtn" type="button">NEXT PASS</button>' +
+          (practicePicked() ? '<button class="btn ghost" id="practiceChangeBtn2" type="button">CHANGE FOE</button>' : '') +
           '<button class="btn ghost" id="practiceEndBtn" type="button">END PRACTICE</button>'
         );
         document.getElementById('nextBtn').addEventListener('click', function(){ audio(); G.pass++; startPass(); });
+        var changeBtn2 = document.getElementById('practiceChangeBtn2');
+        if(changeBtn2) changeBtn2.addEventListener('click', function(){ audio(); practicePickCard(); });
         document.getElementById('practiceEndBtn').addEventListener('click', function(){ audio(); exitPractice(); });
         return;
       }
@@ -4654,6 +5201,7 @@
         return;
       }
       if(youWin){
+        recordCareerWin(); // v4.4
         G.renown += 1;
         // 'last' means the final knight of the whole roster — the
         // 60th knight (index 59), never a round's champion before
@@ -4712,6 +5260,7 @@
           if(last){ saveProgress(); tourneyEnd(true); }
           else { if(isBlackKnight) lastLadderBonus = null; G.foeIndex = Math.min(G.foeIndex + 1, FOES.length - 1); saveProgress(); matchIntro(); } });
       } else {
+        recordCareerLoss(); // v4.4
         showCard(
           '<div class="kick">' + (r.youDown ? 'UNHORSED' : 'BEATEN ON POINTS') + (foe.champ ? ' · BY THE ★ CHAMPION ★' : '') + '</div>' +
           '<h2>DEFEAT</h2><div class="rule"></div>' +
@@ -4832,7 +5381,25 @@
     var lanSyncLast = 0;
     var lanMatchNo = 1;                             // increments per match so ready-keys never repeat
     var lanRoomGen = 0;                             // bumped whenever a match is abandoned back to the room, so a start timer already running cannot restart it
-    G.lanFoe = null; G._lanRewardPaid = false;
+    /* Rematch series (v4.5): a LAN meeting is a series of matches,
+       not one-and-done. The host picks the length on the room
+       screen — best of three (first to 2 match wins) or best of
+       five (first to 3) — and the pick travels like the arena pick:
+       with the host's hello, with a 'series' message when changed,
+       and with every host 'go', so both phones ride the same
+       series. Match wins are tallied on each phone from the match
+       result both phones already settle identically, so the series
+       score stays in step with no extra traffic. The tally lives
+       only in the room: EXIT TO ROOM or leaving ends the series,
+       and a decided series offers NEW SERIES, which zeroes the
+       tally on each phone as its rider taps it, before the shared
+       ready-key starts the fresh series' first match. Each match
+       still pays its own 3x rewards and counts in the career
+       record exactly as before; the series itself is for honour. */
+    var lanSeriesTarget = 2;                        // match wins that take the series: 2 = best of three, 3 = best of five
+    var lanSeriesYou = 0, lanSeriesFoe = 0;         // matches won in the current series, this phone's view
+    var lanSeriesActive = false;                    // a series is under way (first match started, not yet back in the room)
+    G.lanFoe = null; G._lanRewardPaid = false; G._lanCareerCounted = false; G._lanSeriesCounted = false;
     G._lanReadyKey = null; G._lanRemoteReadyKey = null;
     G._lanMyStrike = null; G._lanRemoteStrike = null;
     G._lanImpactDone = false; G._lanApplied = false;
@@ -4974,6 +5541,55 @@
       lanArenaShown = false;
       lanSetArena(G.arena, G.arenaIdx);
     }
+    /* --- the series length (v4.5): the host picks it, both ride it ---
+       Mirrors the room's arena: the host chooses best of three or
+       best of five on the room screens, the pick rides with the
+       host's hello, with a 'series' message when changed, and with
+       every host 'go' — a guest's phone never sets it. */
+    function lanSeriesDisplayName(){
+      return lanSeriesTarget === 3 ? 'Best of five — first to 3 match wins takes the series' : 'Best of three — first to 2 match wins takes the series';
+    }
+    function lanSeriesShort(){
+      return lanSeriesTarget === 3 ? 'BEST OF FIVE' : 'BEST OF THREE';
+    }
+    function lanSeriesLine(){
+      return 'Series: you ' + lanSeriesYou + ' — ' + lanSeriesFoe + ' your friend · ' + lanSeriesShort().toLowerCase() + ', first to ' + lanSeriesTarget + '.';
+    }
+    function lanSeriesReset(){
+      lanSeriesYou = 0; lanSeriesFoe = 0; lanSeriesActive = false;
+      G._lanSeriesCounted = false;
+    }
+    function lanSetSeriesTarget(n, notify){
+      lanSeriesTarget = (+n === 3) ? 3 : 2;
+      paintLanSeriesPicker();
+      var nameEl = document.getElementById('lanSeriesName');
+      if(nameEl) nameEl.textContent = lanSeriesDisplayName();
+      if(notify) lanSend({ t:'series', seriesTarget:lanSeriesTarget });
+    }
+    function lanSeriesPickerHtml(){
+      return '<div class="menuLabel">SERIES — HOST\'S CHOICE</div>' +
+        '<div class="arenaPicker" role="group" aria-label="Choose the series length for this room">' +
+        '<button class="arenaBtn" type="button" data-lan-series="2">BEST OF THREE</button>' +
+        '<button class="arenaBtn" type="button" data-lan-series="3">BEST OF FIVE</button></div>' +
+        '<p class="small" id="lanSeriesDesc"></p>';
+    }
+    function paintLanSeriesPicker(){
+      var btns = el.cardBox.querySelectorAll('[data-lan-series]');
+      for(var i=0;i<btns.length;i++) btns[i].classList.toggle('on', +btns[i].getAttribute('data-lan-series') === lanSeriesTarget);
+      var d = document.getElementById('lanSeriesDesc');
+      if(d) d.textContent = lanSeriesDisplayName() + '. Each match is best of five passes, and your friend rides the same series.';
+    }
+    function wireLanSeriesPicker(){
+      paintLanSeriesPicker();
+      var btns = el.cardBox.querySelectorAll('[data-lan-series]');
+      for(var i=0;i<btns.length;i++){
+        btns[i].addEventListener('click', function(){
+          if(lanRole !== 'host') return; // the joining player never sets the room's series
+          audio();
+          lanSetSeriesTarget(+this.getAttribute('data-lan-series'), true);
+        });
+      }
+    }
     function lanArenaPickerHtml(){
       return '<div class="menuLabel">ARENA — HOST\'S CHOICE</div>' +
         '<div class="arenaPicker" role="group" aria-label="Choose the arena for this room">' +
@@ -5059,7 +5675,8 @@
       // phone sets its lists to the host's pick the moment they meet.
       lanSend({ t:'hello', house:G.house, name:currentHouse().name, gear:lanLocalGear(),
         arena:(lanRole === 'host' ? lanArenaPick : undefined),
-        arenaIdx:(lanRole === 'host' ? lanArenaIdx : undefined) });
+        arenaIdx:(lanRole === 'host' ? lanArenaIdx : undefined),
+        seriesTarget:(lanRole === 'host' ? lanSeriesTarget : undefined) });
     }
     function lanSendGear(){ lanSend({ t:'gear', gear:lanLocalGear() }); }
     function lanCleanupConn(){
@@ -5087,7 +5704,11 @@
         // The host's arena rules the room: a joining phone adopts it
         // (a host reading a guest's hello finds no arena in it).
         if(lanRole === 'guest' && msg.arena) lanSetArena(msg.arena, msg.arenaIdx);
+        if(lanRole === 'guest' && msg.seriesTarget) lanSetSeriesTarget(msg.seriesTarget, false);
         lanIntroCard();
+      } else if(msg.t === 'series'){
+        // Only the host's pick counts, and only the guest applies it.
+        if(lanRole === 'guest' && msg.seriesTarget) lanSetSeriesTarget(msg.seriesTarget, false);
       } else if(msg.t === 'arena'){
         // Only the host's pick counts, and only the guest applies it.
         if(lanRole === 'guest' && msg.arena) lanSetArena(msg.arena, msg.arenaIdx);
@@ -5112,6 +5733,7 @@
         // its lists up with the host's pick (Rotate already resolved
         // to the same index on the host) before the charge begins.
         if(lanRole === 'guest' && msg.arena) lanSetArena(msg.arena, msg.arenaIdx);
+        if(lanRole === 'guest' && msg.seriesTarget) lanSetSeriesTarget(msg.seriesTarget, false);
         // The host starts 850 ms after sending; the guest starts
         // 700 ms after the message lands (a few tens of ms on the
         // same WiFi), so both charges begin together — phone clocks
@@ -5167,6 +5789,8 @@
     /* --- room cards --- */
     function lanHomeCard(){
       G.lan = true; G.state = 'title'; G.practice = false;
+      G.endless = false; G.endlessKnight = null;
+      if(el.endlessExitBtn) el.endlessExitBtn.classList.add('hidden');
       lanGone = false; lanOpp = null; lanOppGear = null; lanRole = null;
       if(el.practiceExitBtn) el.practiceExitBtn.classList.add('hidden');
       if(el.menuExitBtn) el.menuExitBtn.classList.add('hidden');
@@ -5174,7 +5798,7 @@
         '<div class="kick">LAN 1v1 · SAME WIFI</div>' +
         '<h1 style="font-size:clamp(26px,6vw,36px)">JOUST A FRIEND</h1><div class="rule"></div>' +
         '<p>Two riders, two phones, one WiFi. One of you creates a room and gets a <b style="color:#ffe9a8">6-digit code</b> — send it to your friend, they type in just those 6 digits, and the phones connect <b style="color:#ffe9a8">directly to each other</b>. A short-code relay only helps the phones find each other; no server holds the match.</p>' +
-        '<p>You will see your friend in his <b style="color:#ffe9a8">real gear</b> — his house colours and sigil, lance, shield, caparison, horse, plume and banner are sent to your phone when you connect — lance point glowing, just as a knight\'s does. Best-of-five passes, the same scoring (shield 1 · breast 2 · helm 3), the same controls, and an unhorsing ends it — each of you riding from your own saddle, with the same view and the same controls, nothing flipped. The winner takes <b style="color:#ffe9a8">3× coin and 3× Renown</b>. Your tournament progress is untouched.</p>' +
+        '<p>You will see your friend in his <b style="color:#ffe9a8">real gear</b> — his house colours and sigil, lance, shield, caparison, horse, plume and banner are sent to your phone when you connect — lance point glowing, just as a knight\'s does. Best-of-five passes, the same scoring (shield 1 · breast 2 · helm 3), the same controls, and an unhorsing ends a match — each of you riding from your own saddle, with the same view and the same controls, nothing flipped. And it is a series, not one-and-done: the host picks <b style="color:#ffe9a8">best of three or best of five</b> matches in the room, and the first to 2 (or 3) match wins takes the series. The winner of each match takes <b style="color:#ffe9a8">3× coin and 3× Renown</b>. Your tournament progress is untouched.</p>' +
         '<button class="btn" id="lanCreateBtn" type="button">CREATE ROOM</button>' +
         '<button class="btn" id="lanJoinBtn" type="button">JOIN ROOM</button>' +
         '<button class="btn ghost" id="lanBackBtn" type="button">BACK</button>'
@@ -5497,6 +6121,9 @@
     }
     function lanIntroCard(){
       if(!G.lan || lanGone) return;
+      // Back in the room means no series is running: the next READY
+      // opens a fresh one at 0 — 0 (the host's length pick is kept).
+      lanSeriesReset();
       mountLanFoe(); resetPositions(); refreshHUD();
       var gear = lanOppGear;
       var H = houseById(gear ? gear.house : (lanOpp && lanOpp.house));
@@ -5508,14 +6135,16 @@
         lanGearListHtml(gear) +
         '<p>That is the kit your friend actually rides in — his lance, shield, caparison, horse and plume in his own colours, his banner over his end of the lists, and the point of his lance glowing as he charges, same as any knight\'s. You ride for <b style="color:#ffe9a8">' + currentHouse().name + '</b>, and he sees your real gear the same way.</p>' +
         '<p>Best of five passes — shield 1 · breast 2 · helm 3 — and an unhorsing ends the match at a stroke. You each see the lists from your own saddle: same first-person view, same LANCE stick and SHIELD slider, nothing flipped or mirrored.</p>' +
-        '<p class="small">Winner takes <b style="color:#ffe9a8">3× rewards</b>: 3× the coin win pay for your difficulty, and Renown +3. Tournament progress is not touched. When you are both ready, the charge begins.</p>' +
+        '<p>And it is a <b style="color:#ffe9a8">series</b>, not one-and-done: matches are tallied as you ride them, and the first rider to the target takes the series.</p>' +
+        '<p class="small">Winner of each match takes <b style="color:#ffe9a8">3× rewards</b>: 3× the coin win pay for your difficulty, and Renown +3. Tournament progress is not touched. When you are both ready, the charge begins.</p>' +
         (lanRole === 'host'
-          ? lanArenaPickerHtml()
-          : '<p>Arena: <b id="lanArenaName" style="color:#ffe9a8">' + lanArenaDisplayName() + '</b> — chosen by the host of this room.</p>') +
+          ? lanSeriesPickerHtml() + lanArenaPickerHtml()
+          : '<p>Series: <b id="lanSeriesName" style="color:#ffe9a8">' + lanSeriesDisplayName() + '</b> — chosen by the host of this room.</p>' +
+            '<p>Arena: <b id="lanArenaName" style="color:#ffe9a8">' + lanArenaDisplayName() + '</b> — chosen by the host of this room.</p>') +
         '<button class="btn" id="lanReadyBtn" type="button">READY — TO THE CHARGE</button>' +
         '<button class="btn ghost" id="lanLeaveBtn3" type="button">LEAVE ROOM</button>'
       );
-      if(lanRole === 'host') wireLanArenaPicker();
+      if(lanRole === 'host'){ wireLanSeriesPicker(); wireLanArenaPicker(); }
       document.getElementById('lanReadyBtn').addEventListener('click', function(){
         audio();
         this.disabled = true; this.textContent = 'WAITING FOR YOUR FRIEND…';
@@ -5545,7 +6174,7 @@
         lanSetArena(lanArenaPick, lanArenaIdx);
       }
       var at = Date.now() + 850;
-      lanSend({ t:'go', key:key, at:at, gear:lanLocalGear(), arena:lanArenaPick, arenaIdx:lanArenaIdx });
+      lanSend({ t:'go', key:key, at:at, gear:lanLocalGear(), arena:lanArenaPick, arenaIdx:lanArenaIdx, seriesTarget:lanSeriesTarget });
       var gen0 = lanRoomGen;
       setTimeout(function(){ if(G.lan && gen0 === lanRoomGen) lanStartFromKey(key); }, 850);
     }
@@ -5562,9 +6191,12 @@
       lanSendGear();
       if(parts[0] === 'match'){
         lanMatchNo++;
+        // v4.5: the first match started from the room opens a fresh
+        // series; later matches of the series keep the tally running.
+        if(!lanSeriesActive){ lanSeriesYou = 0; lanSeriesFoe = 0; lanSeriesActive = true; }
         G.pass = 1; G.youScore = 0; G.foeScore = 0; G.youLances = 0; G.foeLances = 0;
         G.playerDown = false; G.foeDown = false; G.result = null;
-        G._lanRewardPaid = false;
+        G._lanRewardPaid = false; G._lanCareerCounted = false; G._lanSeriesCounted = false;
         G.started = true;
         el.hud.classList.remove('hidden');
         if(el.lanExitBtn){ el.lanExitBtn.classList.remove('hidden'); el.lanExitBtn.classList.add('below'); }
@@ -5652,6 +6284,7 @@
       if(him.pts > 0) G.foeLances += 1;
       G.result = { you:you, him:him, youDown:youDown, foeDown:foeDown, blocked:false };
       G.playerDown = youDown; G.foeDown = foeDown;
+      recordCareerPass(you, foeDown, youDown); // v4.4: LAN strikes count in the career record too
       // the same hit feedback as a match against a knight
       var clash = new THREE.Vector3(-1.1, 2.1, 0.5);
       if(you.pts > 0){
@@ -5700,6 +6333,7 @@
           '<div class="kick">LAN 1v1 · END OF PASS ' + G.pass + '</div>' +
           '<h2>' + G.youScore + ' — ' + G.foeScore + '</h2><div class="rule"></div>' +
           '<p>' + passSummary(r) + '</p>' +
+          '<p class="small">' + lanSeriesLine() + '</p>' +
           '<p class="small">' + (MAX_PASSES - G.pass) + (MAX_PASSES - G.pass === 1 ? ' pass remains.' : ' passes remain.') + ' The next pass starts when you are both ready.</p>' +
           '<button class="btn" id="lanNextBtn" type="button">NEXT PASS</button>' +
           '<button class="btn ghost" id="lanRoomBtn" type="button">EXIT TO ROOM</button>' +
@@ -5720,6 +6354,7 @@
           '<div class="kick">LAN 1v1 · A DRAWN MATCH</div>' +
           '<h2>HONOURS EVEN</h2><div class="rule"></div>' +
           '<p>Level at ' + G.youScore + ' — ' + G.foeScore + ' after five passes. One more pass settles it — when you are both ready.</p>' +
+          '<p class="small">' + lanSeriesLine() + '</p>' +
           '<button class="btn" id="lanTieBtn" type="button">RIDE THE TIEBREAK</button>' +
           '<button class="btn ghost" id="lanRoomBtn2" type="button">EXIT TO ROOM</button>' +
           '<button class="btn ghost" id="lanLeaveBtn5" type="button">LEAVE ROOM</button>'
@@ -5734,6 +6369,14 @@
         return;
       }
       var youWin = r.foeDown || (!r.youDown && G.youScore > G.foeScore);
+      // v4.5: this match enters the series tally — once, from the
+      // result both phones settled identically, so both tallies
+      // agree. First to the target (2 or 3) takes the series.
+      if(!G._lanSeriesCounted){
+        G._lanSeriesCounted = true;
+        if(youWin) lanSeriesYou++; else lanSeriesFoe++;
+      }
+      var seriesOver = lanSeriesYou >= lanSeriesTarget || lanSeriesFoe >= lanSeriesTarget;
       if(youWin){
         // 3x rewards: three times the normal match win — 3x the coin
         // win pay for the difficulty in effect, and Renown +3 instead
@@ -5742,39 +6385,51 @@
         var diffWin = currentDifficulty();
         var coinAward = diffWin.winPay * 3;
         if(!G._lanRewardPaid){
-          G._lanRewardPaid = true;
+          G._lanRewardPaid = true; G._lanCareerCounted = true;
+          recordCareerWin(); // v4.4: a LAN 1v1 win is a career win
           G.coins += coinAward; G.renown += 3;
           refreshHUD(); saveProgress();
         }
         showCard(
           '<div class="kick">LAN 1v1 · ' + (r.foeDown ? 'BY UNHORSING' : 'ON POINTS') + '</div>' +
-          '<h2>VICTORY</h2><div class="rule"></div>' +
-          '<p>You take the 1v1 against ' + foeName + ', ' + G.youScore + ' — ' + G.foeScore + '. The herald calls your name across the lists.</p>' +
+          '<h2>' + (seriesOver ? 'SERIES VICTORY' : 'VICTORY') + '</h2><div class="rule"></div>' +
+          '<p>You take the match against ' + foeName + ', ' + G.youScore + ' — ' + G.foeScore + '. The herald calls your name across the lists.</p>' +
           '<p style="color:#ffe9a8;font-size:17px;"><b>3× REWARDS!</b> Purse +' + coinAward + ' coin (3 × ' + diffWin.winPay + ' ' + diffWin.name + ' win pay) — you hold ' + G.coins + ' coin.<br />Renown +3 trophies (3 × 1) — you hold ' + G.renown + '.</p>' +
+          '<p><b style="color:#ffe9a8">' + lanSeriesLine() + '</b></p>' +
+          (seriesOver
+            ? '<p>You take the series ' + lanSeriesYou + ' — ' + lanSeriesFoe + '. Start a new series when you are both ready, or step back to the room.</p>'
+            : '<p class="small">The series is not decided yet — ride the next match when you are both ready.</p>') +
           '<p class="small">LAN 1v1 pays no ladder bonus, and your place in the tournament is exactly where it was.</p>' +
-          '<button class="btn" id="lanRematchBtn" type="button">REMATCH</button>' +
+          '<button class="btn" id="lanRematchBtn" type="button">' + (seriesOver ? 'NEW SERIES' : 'NEXT MATCH') + '</button>' +
           '<button class="btn ghost" id="lanRoomBtn3" type="button">EXIT TO ROOM</button>' +
           '<button class="btn ghost" id="lanLeaveBtn6" type="button">LEAVE ROOM</button>'
         );
         document.getElementById('lanRematchBtn').addEventListener('click', function(){
           audio();
           this.disabled = true; this.textContent = 'WAITING FOR YOUR FRIEND…';
+          if(seriesOver) lanSeriesReset(); // a fresh series starts at 0 — 0 on both phones, each reset by its own rider's tap
           lanSignalReady('match:' + lanMatchNo);
         });
         document.getElementById('lanLeaveBtn6').addEventListener('click', function(){ audio(); exitLan(); });
         document.getElementById('lanRoomBtn3').addEventListener('click', function(){ audio(); lanExitToRoom(); });
       } else {
+        if(!G._lanCareerCounted){ G._lanCareerCounted = true; recordCareerLoss(); } // v4.4
         showCard(
           '<div class="kick">LAN 1v1 · ' + (r.youDown ? 'UNHORSED' : 'BEATEN ON POINTS') + '</div>' +
-          '<h2>DEFEAT</h2><div class="rule"></div>' +
-          '<p>' + foeName + ' takes the 1v1 ' + G.foeScore + ' — ' + G.youScore + ', and with it the 3× rewards. Your purse, Renown and tournament place are unchanged.</p>' +
-          '<button class="btn" id="lanRematchBtn2" type="button">REMATCH</button>' +
+          '<h2>' + (seriesOver ? 'SERIES DEFEAT' : 'DEFEAT') + '</h2><div class="rule"></div>' +
+          '<p>' + foeName + ' takes the match ' + G.foeScore + ' — ' + G.youScore + ', and with it the 3× rewards. Your purse, Renown and tournament place are unchanged.</p>' +
+          '<p><b style="color:#ffe9a8">' + lanSeriesLine() + '</b></p>' +
+          (seriesOver
+            ? '<p>Your friend takes the series ' + lanSeriesFoe + ' — ' + lanSeriesYou + '. Start a new series when you are both ready, or step back to the room.</p>'
+            : '<p class="small">The series is not decided yet — ride the next match when you are both ready.</p>') +
+          '<button class="btn" id="lanRematchBtn2" type="button">' + (seriesOver ? 'NEW SERIES' : 'NEXT MATCH') + '</button>' +
           '<button class="btn ghost" id="lanRoomBtn4" type="button">EXIT TO ROOM</button>' +
           '<button class="btn ghost" id="lanLeaveBtn7" type="button">LEAVE ROOM</button>'
         );
         document.getElementById('lanRematchBtn2').addEventListener('click', function(){
           audio();
           this.disabled = true; this.textContent = 'WAITING FOR YOUR FRIEND…';
+          if(seriesOver) lanSeriesReset(); // a fresh series starts at 0 — 0 on both phones, each reset by its own rider's tap
           lanSignalReady('match:' + lanMatchNo);
         });
         document.getElementById('lanLeaveBtn7').addEventListener('click', function(){ audio(); exitLan(); });
@@ -5826,6 +6481,7 @@
       lanSend({ t:'bye' });
       lanRoomGen++;
       lanCleanupConn();
+      lanSeriesReset(); // v4.5: leaving the room ends any series with it
       G.lan = false; G.lanFoe = null; lanOpp = null; lanOppGear = null; lanRole = null; lanRoomCode = null;
       lanMountedGearSig = '';
       // The room's arena dies with the room: your own saved arena
@@ -5994,11 +6650,12 @@
       // settles the clash, and once entered it holds until impact so
       // the slow stretch never flickers on and off.
       if(G.state === 'charge'){
-        var preFoe = FOES[G.foeIndex];
+        var preFoe = activeFoeBase();
         // v4.1: the foe closes at his rank-scaled speed, so the
         // one-second slow-mo window is judged on the speed he
-        // actually charges at.
-        var closeRate = G.speed + (G.lan ? 12.8 : (preFoe ? rankFoeStats(G.foeIndex).speed : 12.8));
+        // actually charges at. v4.2: in picked Practice that is the
+        // picked rank's speed (statSlot), not the tournament slot's.
+        var closeRate = G.speed + (G.lan ? 12.8 : (preFoe ? rankFoeStats(statSlot()).speed : 12.8));
         if(closeRate > 1){
           var eta = Infinity;
           if(tipPlaneZ !== null) eta = Math.min(eta, (tipPlaneZ - (G.foeZ + 0.05)) / closeRate);
@@ -6111,7 +6768,7 @@
         }
         if(charging && !G.lan){
           var diffNow = currentDifficulty();
-          var ease = Math.min(1, sdt * (1.6 + Math.min(G.foeIndex, 12) * 0.14) * diffNow.trackMult);
+          var ease = Math.min(1, sdt * (1.6 + Math.min(statSlot(), 12) * 0.14) * diffNow.trackMult);
           G.foeAimX += (G.foeTargetX + Math.sin(t*1.9)*0.05 - G.foeAimX) * ease;
           G.foeAimY += (G.foeTargetY + Math.cos(t*1.6)*0.04 - G.foeAimY) * ease;
           // He works his shield as he charges, guessing where your point
@@ -6124,9 +6781,9 @@
           if(G.shieldGuessT <= 0){
             // Difficulty: Easy waits longer between reads and reads
             // true less often; Hard re-reads sooner and surer.
-            G.shieldGuessT = (G.foeIndex >= FIRST_LADDER ? 0.20 + Math.random()*0.22 : 0.45 + Math.random()*0.45) * diffNow.guessIntervalMult;
+            G.shieldGuessT = (statSlot() >= FIRST_LADDER ? 0.20 + Math.random()*0.22 : 0.45 + Math.random()*0.45) * diffNow.guessIntervalMult;
             var guess = G.aimY > 0.32 ? 'up' : G.aimY < -0.32 ? 'down' : 'mid';
-            var skill = Math.max(0.05, Math.min(0.97, 0.35 + G.foeIndex * 0.13 + diffNow.guessSkillAdd));
+            var skill = Math.max(0.05, Math.min(0.97, 0.35 + statSlot() * 0.13 + diffNow.guessSkillAdd));
             if(Math.random() < skill) G.foeShieldPos = guess;
             else if(Math.random() < 0.45) G.foeShieldPos = ['up','mid','down'][(Math.random()*3)|0];
           }
