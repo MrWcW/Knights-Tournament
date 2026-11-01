@@ -259,13 +259,26 @@
         font-size:11.5px; padding:5px 11px 6px; opacity:.94; }
       body.pillAway #versionBtn:active{ transform:translateY(1px); }
       #versionBtn .vdot{ color:#cbbd97; font-weight:400; letter-spacing:.02em; }
-      #logWrap{ position:fixed; inset:0; z-index:40; display:flex; align-items:center; justify-content:center; padding:14px; background:rgba(6,4,2,.62); }
+      /* Update log fit (v4.9): the wrap is pinned to the DYNAMIC
+         viewport height — the part of the screen actually visible —
+         not the taller layout viewport plain vh measures on phones,
+         and its padding keeps the card clear of the notch and home
+         indicator. The card is a flex column capped at the wrap's
+         own height, so it can never be taller than the screen: the
+         header and the CLOSE row stay put, and only the entry list
+         scrolls, all the way to the first entry and the last. */
+      #logWrap{ position:fixed; left:0; right:0; top:0; height:100vh; height:100dvh; z-index:40; display:flex; align-items:center; justify-content:center;
+        padding:calc(10px + env(safe-area-inset-top)) 12px calc(10px + env(safe-area-inset-bottom)); background:rgba(6,4,2,.62); }
       #logWrap.hidden{ display:none; }
-      #logBox{ text-align:left; touch-action:pan-y; -webkit-overflow-scrolling:touch; }
-      #logXBtn, #settingsXBtn{ position:absolute; top:calc(12px + env(safe-area-inset-top)); right:12px; z-index:5; width:46px; height:46px; border-radius:50%;
+      #logBox{ display:flex; flex-direction:column; text-align:left; overflow:hidden;
+        max-height:calc(100vh - 20px); max-height:calc(100dvh - 20px); max-height:100%; }
+      #logBox > *{ flex:0 0 auto; }
+      #logBox .logList{ flex:1 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden;
+        touch-action:pan-y; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+      #logXBtn, #settingsXBtn, #shopXBtn{ position:absolute; top:calc(12px + env(safe-area-inset-top)); right:12px; z-index:5; width:46px; height:46px; border-radius:50%;
         display:flex; align-items:center; justify-content:center; background:var(--plate); border:1px solid var(--gold); box-shadow:0 2px 10px rgba(0,0,0,.55);
         color:#f2d492; font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:20px; line-height:1; cursor:pointer; }
-      #logXBtn:active, #settingsXBtn:active{ transform:translateY(1px); }
+      #logXBtn:active, #settingsXBtn:active, #shopXBtn:active{ transform:translateY(1px); }
       /* ---------- Settings (v3.0) ----------
          The gear rides in the top-right corner of every screen —
          title, menus and mid-match alike — clear of the version
@@ -533,6 +546,87 @@
       .houseBannerBox{ margin:4px auto 2px; line-height:0; }
       .houseLine{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; letter-spacing:.18em; font-size:14.5px; color:#ffe9a8; margin-top:2px; }
       .houseSub{ font-size:12.5px; letter-spacing:.1em; text-transform:uppercase; color:#b7a67f; margin-top:2px; }
+      /* ---------- One-screen cards (v5.0): LAN 1v1, Practice, Endless ----------
+         These cards never scroll: showCard() wraps every LAN,
+         Practice and Endless card in .oneScreen (the Practice picker
+         wraps its own), and the card swaps its scrolling for a
+         compact fit — tighter type, gaps and buttons — so every
+         button, picker and line sits on a single phone screen, the
+         same treatment the title menu and PLAY setup already use.
+         Shorter screens tighten further rather than scrolling. */
+      #cardWrap:has(.oneScreen){ padding:6px; }
+      .card:has(.oneScreen){ padding:12px 14px 10px; overflow:hidden; max-height:calc(100vh - 12px); max-height:calc(100dvh - 12px); }
+      .oneScreen .kick, .oneScreen .menuKicker{ font-size:11px; }
+      .oneScreen h1{ font-size:clamp(23px,6vw,30px) !important; }
+      .oneScreen h2{ font-size:clamp(18px,4.8vw,22px); }
+      .oneScreen .rule{ margin:5px auto; }
+      .oneScreen p{ font-size:13px; line-height:1.32; margin:4px 0; }
+      .oneScreen p.small{ font-size:11.5px; line-height:1.3; }
+      .oneScreen .btn{ min-height:40px; padding:8px 16px; font-size:15px; margin-top:7px; }
+      .oneScreen .btn.ghost{ min-height:36px; padding:7px 12px; font-size:13px; }
+      .oneScreen .btn.small{ min-height:32px; padding:5px 12px; font-size:12px; }
+      .oneScreen .menuLabel{ margin-top:7px; font-size:11px; }
+      .oneScreen .arenaPicker{ display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin:5px 0 0; }
+      .oneScreen .arenaPicker:has([data-lan-series]){ grid-template-columns:1fr 1fr; }
+      .oneScreen .arenaBtn{ min-height:30px; padding:5px 4px; font-size:11.5px; letter-spacing:.02em; }
+      .oneScreen .herald{ width:50px; height:60px; margin:2px auto 0; }
+      .oneScreen .herald span{ font-size:21px; }
+      .oneScreen .champBanner{ font-size:14px; padding:5px 8px; margin:4px auto 0; }
+      .oneScreen .foeLine{ font-size:14px; }
+      /* Practice picker (v5.0): a paged grid, never a scrolling list.
+         Six foes at a time — the ★ CHAMPIONS ★ first, Sir Jaren the
+         Slim and Sir Mih the Goldfih the first two cells — with
+         PREV / NEXT paging through every knight and champion. */
+      .practiceFit .pickList{ max-height:none; overflow:hidden; display:grid; grid-template-columns:1fr 1fr; gap:5px; padding:5px; margin:6px 0 0; touch-action:manipulation; }
+      .practiceFit .pickRow{ flex-direction:column; align-items:flex-start; justify-content:center; gap:1px; padding:6px 7px; border:1px solid rgba(217,164,65,.14); min-height:47px; }
+      .practiceFit .pickRow .nm{ font-size:12px; white-space:normal; line-height:1.15; }
+      .practiceFit .pickRow .tt{ font-size:11px; line-height:1.15; }
+      .practiceFit .pickRow .ch{ margin-left:0; font-size:9.5px; }
+      .pickPager{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:5px; }
+      .pickPager .arenaBtn{ flex:0 0 auto; min-width:92px; min-height:32px; }
+      .pickPageLabel{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:700; font-size:12px; letter-spacing:.14em; color:#e3c878; white-space:nowrap; }
+      .practiceFit .rankCtl{ margin-top:4px; gap:8px; }
+      .practiceFit .rankCtl .arenaBtn{ min-width:46px; font-size:18px; padding:4px 8px; }
+      .practiceFit .rankNum{ font-size:19px; min-width:104px; }
+      /* LAN fit: the big room code, long-code boxes and gear list all
+         shrink to the one-screen measure. */
+      .lanFit .lanBigCode{ font-size:clamp(30px,8.5vw,40px); margin:4px 0 0; }
+      .lanFit .lanCode{ min-height:44px; margin-top:5px; font-size:10px; padding:6px; resize:none; }
+      .lanFit .lanCodeInput{ font-size:24px; padding:6px 4px; margin-top:5px; }
+      .lanFit .lanLabel{ margin-top:7px; font-size:10.5px; }
+      .lanFit .lanGearList{ font-size:12.5px; line-height:1.35; margin:5px auto 0; }
+      .lanFit #lanStatus{ min-height:16px; }
+      @media (max-height:740px){
+        .card:has(.oneScreen){ padding:9px 11px 8px; }
+        .oneScreen p{ font-size:12px; line-height:1.28; margin:3px 0; }
+        .oneScreen p.small{ font-size:11px; }
+        .oneScreen .btn{ min-height:36px; padding:7px 12px; font-size:14px; margin-top:5px; }
+        .oneScreen .btn.ghost{ min-height:32px; font-size:12.5px; }
+        .oneScreen .arenaBtn{ min-height:27px; font-size:10.5px; }
+        .oneScreen .herald{ width:42px; height:50px; }
+        .oneScreen .herald span{ font-size:18px; }
+        .practiceFit .pickRow{ min-height:42px; padding:5px 6px; }
+        .lanFit .lanBigCode{ font-size:30px; }
+        .lanFit .lanCode{ min-height:38px; }
+      }
+      @media (max-height:620px){
+        .card:has(.oneScreen){ padding:7px 10px 6px; }
+        .oneScreen p{ font-size:11px; line-height:1.24; margin:2px 0; }
+        .oneScreen p.small{ font-size:10.5px; line-height:1.24; }
+        .oneScreen h2{ font-size:17px; }
+        .oneScreen .rule{ margin:3px auto; }
+        .oneScreen .herald{ width:34px; height:41px; }
+        .oneScreen .herald span{ font-size:15px; }
+        .oneScreen .btn{ min-height:32px; padding:5px 10px; font-size:13px; margin-top:4px; }
+        .oneScreen .btn.ghost{ min-height:29px; font-size:12px; }
+        .oneScreen .btn.small{ min-height:28px; }
+        .oneScreen .arenaBtn{ min-height:25px; }
+        .oneScreen .menuLabel{ margin-top:5px; }
+        .practiceFit .pickRow{ min-height:38px; }
+        .practiceFit .rankNum{ font-size:17px; }
+        .lanFit .lanBigCode{ font-size:26px; }
+        .lanFit .lanCodeInput{ font-size:20px; }
+      }
       /* ---------- Pre-match cinematic ---------- */
       #cineWrap{ position:fixed; inset:0; z-index:20; pointer-events:none; }
       #cineWrap.hidden{ display:none; }
@@ -676,7 +770,7 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 4.8 — tap to see update history">v4.8 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 5.0 — tap to see update history">v5.0 <span class="vdot">· Updates</span></button>
 
     <button id="settingsBtn" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
@@ -709,8 +803,10 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v4.8</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v5.0</b></p>
         <ul class="logList">
+          <li><span class="vtag major">v5.0</span><span class="vtext"><b>Armoury ✕ + no more scrolling.</b> The Armoury now has a ✕ at the top to close it. LAN 1v1, Practice and Endless fit on one screen with no scrolling — the Practice roster is paged six foes at a time, champions first.</span></li>
+          <li><span class="vtag">v4.9</span><span class="vtext"><b>Update log fits the screen.</b> This log now fits fully on phone screens — the What's New header, the ✕ and CLOSE always in reach — and the list scrolls from the very first entry to the very last.</span></li>
           <li><span class="vtag">v4.8</span><span class="vtext"><b>Title menu fits one screen.</b> The joust menu is tightened up so every button — PLAY, PRACTICE, ENDLESS, the Armoury, TIPS and CAREER — sits on a single screen on phone sizes, with no scrolling.</span></li>
           <li><span class="vtag">v4.7</span><span class="vtext"><b>Dingus Interactive preload.</b> A studio splash now opens the game — sponsor strip, the game version and © 2026 along the bottom — then fades into the lists. Tap it to skip ahead.</span></li>
           <li><span class="vtag">v4.6</span><span class="vtext"><b>Helm fix.</b> The helm hit zone is a touch wider, and the game now tells you where it sits: his helm rides just above centre, not at the top of the stick — a new TIPS note and a hint in the slow-mo second say so.</span></li>
@@ -778,6 +874,7 @@
     </div>
 
     <div id="shopWrap" class="hidden" role="dialog" aria-modal="true" aria-labelledby="shopTitle">
+      <button id="shopXBtn" type="button" aria-label="Close the Armoury">✕</button>
       <div class="card" id="shopBox">
         <div class="kick">THE ARMOURY</div>
         <h2 id="shopTitle">Lances, Shields &amp; Paint</h2>
@@ -3617,9 +3714,9 @@
 
     /* ================= UI ================= */
     var el = {};
-    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','endlessExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow'].forEach(function(id){ el[id] = document.getElementById(id); });
+    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','shopXBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','endlessExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '4.8';
+    var CURRENT_VERSION = '5.0';
     /* v4.7: the version is written from this one source everywhere
        it shows — the version pill, the log's "You are on" line and
        the preload splash — so a bump here updates all three and
@@ -3633,7 +3730,7 @@
       var pv = document.getElementById('preloadVersion'); if(pv) pv.textContent = label;
       var yv = document.getElementById('youAreOnVer'); if(yv) yv.textContent = label;
     })();
-    function openLog(){ el.logWrap.classList.remove('hidden'); refreshPill(); }
+    function openLog(){ el.logWrap.classList.remove('hidden'); var ll = el.logWrap.querySelector('.logList'); if(ll) ll.scrollTop = 0; refreshPill(); }
     function closeLog(){ el.logWrap.classList.add('hidden'); refreshPill(); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
     /* ---- lance shop ---- */
@@ -3868,6 +3965,11 @@
     });
     function overlayOpen(){ return logIsOpen() || shopIsOpen() || settingsIsOpen(); }
     el.shopCloseBtn.addEventListener('click', function(){ audio(); closeShop(); });
+    // v5.0: the Armoury's top-corner ✕ — same perch and dress as the
+    // update log's ✕, always in reach however far the shop list has
+    // scrolled. It runs the same closeShop() as CLOSE, so it returns
+    // to the screen the Armoury was opened from.
+    if(el.shopXBtn) el.shopXBtn.addEventListener('click', function(){ audio(); closeShop(); });
     el.shopWrap.addEventListener('pointerdown', function(e){ if(e.target === el.shopWrap) closeShop(); });
     el.shopList.addEventListener('click', function(e){
       var t = e.target, buy = null, eq = null;
@@ -3977,6 +4079,15 @@
       document.body.classList.toggle('pillAway', !!away);
     }
     function showCard(html){
+      // v5.0: every LAN 1v1, Practice and Endless card wears the
+      // one-screen fit — the .oneScreen wrap the CSS above keys on —
+      // so none of those screens scrolls. The mode flags are already
+      // set by the time any of those cards is shown; the Practice
+      // picker is the one exception (it opens with G.practice clear)
+      // and wraps its own markup instead, so a card already wrapped
+      // is never wrapped twice.
+      var fit = G.lan ? 'lanFit' : G.endless ? 'endlessFit' : G.practice ? 'practiceFit' : null;
+      if(fit && html.indexOf('oneScreen') === -1) html = '<div class="oneScreen ' + fit + '">' + html + '</div>';
       el.cardBox.innerHTML = html; el.cardWrap.classList.remove('hidden');
       refreshPill();
     }
@@ -4509,6 +4620,27 @@
       if(!PICK_ALL) PICK_ALL = REG_POOL.concat(CHAMP_POOL);
       return PICK_ALL;
     }
+    /* Paged roster (v5.0): the picker no longer scrolls through
+       sixty rows. The roster is ordered champions first (the v4.3
+       order — Sir Jaren the Slim and Sir Mih the Goldfih the first
+       two cells), then every knight, and is shown six at a time in
+       a two-column grid; PREV / NEXT page through the whole roster,
+       wrapping at the ends, so every knight and champion is still
+       reachable by name with no scrolling anywhere. Each entry
+       carries its index into pickAll(), which is what data-foeidx
+       and pickSrc have always used. */
+    var PICK_PAGE_SIZE = 6;
+    var pickPage = 0;        // which page of the roster grid is showing
+    var PICK_ORDER = null;   // [{ K:knight, idx:pickAll index }], champions first
+    function pickOrdered(){
+      if(!PICK_ORDER){
+        PICK_ORDER = [];
+        for(var j=0;j<CHAMP_POOL.length;j++) PICK_ORDER.push({ K:CHAMP_POOL[j], idx:REG_POOL.length + j });
+        for(var i=0;i<REG_POOL.length;i++) PICK_ORDER.push({ K:REG_POOL[i], idx:i });
+      }
+      return PICK_ORDER;
+    }
+    function pickPageCount(){ return Math.max(1, Math.ceil(pickOrdered().length / PICK_PAGE_SIZE)); }
     function pickRowHtml(K, i){
       return '<button class="pickRow" type="button" role="option" data-foeidx="' + i + '">' +
         '<span class="nm">' + K.name + '</span><span class="tt">' + K.title + '</span>' +
@@ -4549,17 +4681,19 @@
       el.hud.classList.add('hidden');
       mountFoe(G.foeIndex); resetPositions(); refreshHUD();
       if(pickRank === null || pickSrc === 'current') pickRank = G.foeIndex;
-      // v4.3 fix: the ★ CHAMPIONS ★ ride at the TOP of the list,
-      // not under fifty knights of scrolling — Sir Jaren the Slim
-      // and Sir Mih the Goldfih are the first two rows the picker
-      // shows, visible the moment it opens, with every champion's
-      // full name and title on his own tappable row. The knights
-      // follow below, in the same list, in the same order as ever.
-      var ALL = pickAll(), rows = '<div class="pickHead">★ CHAMPIONS ★</div>';
-      for(var j=0;j<CHAMP_POOL.length;j++) rows += pickRowHtml(CHAMP_POOL[j], REG_POOL.length + j);
-      rows += '<div class="pickHead">KNIGHTS</div>';
-      for(var i=0;i<REG_POOL.length;i++) rows += pickRowHtml(REG_POOL[i], i);
+      // v4.3 fix, kept: the ★ CHAMPIONS ★ ride at the TOP of the
+      // roster — Sir Jaren the Slim and Sir Mih the Goldfih are the
+      // first two cells the picker shows, with every champion's full
+      // name and title on his own tappable cell. v5.0: the roster is
+      // a paged grid, not a scrolling list — six foes at a time, the
+      // knights following the champions in the same order as ever,
+      // PREV / NEXT paging through all of them (see pickOrdered).
+      var ORDER = pickOrdered();
+      if(typeof pickSrc === 'object' && pickSrc){
+        for(var oi=0; oi<ORDER.length; oi++){ if(ORDER[oi].K === pickSrc){ pickPage = Math.floor(oi / PICK_PAGE_SIZE); break; } }
+      }
       showCard(
+        '<div class="oneScreen practiceFit">' +
         '<div class="kick">PRACTICE · PICK YOUR FOE</div>' +
         '<h2>Choose your foe</h2><div class="rule"></div>' +
         '<p>Pick any knight or champion by name — or ride against the foe you currently face, or a surprise foe — and choose the rank he rides at. The same knight is a gentle ride at Rank 1 and a terror at Rank 60. The ★ CHAMPIONS ★ sit at the top of the list: Sir Jaren the Slim, Sir Mih the Goldfih and the rest, all pickable.</p>' +
@@ -4568,7 +4702,12 @@
         '<button class="arenaBtn" type="button" data-picksrc="random">SURPRISE ME</button>' +
         '<button class="arenaBtn" type="button" id="champJumpBtn">★ CHAMPIONS ★</button>' +
         '</div>' +
-        '<div class="pickList" role="listbox" aria-label="Choose a knight or champion">' + rows + '</div>' +
+        '<div class="pickList" id="pickGridBox" role="listbox" aria-label="Choose a knight or champion"></div>' +
+        '<div class="pickPager">' +
+        '<button class="arenaBtn" type="button" id="pickPrevBtn" aria-label="Previous page of foes">‹ PREV</button>' +
+        '<span class="pickPageLabel" id="pickPageLabel"></span>' +
+        '<button class="arenaBtn" type="button" id="pickNextBtn" aria-label="Next page of foes">NEXT ›</button>' +
+        '</div>' +
         '<div class="menuLabel">RANK HE RIDES AT</div>' +
         '<div class="rankCtl">' +
         '<button class="arenaBtn" type="button" id="rankDownBtn" aria-label="Lower the rank">−</button>' +
@@ -4585,27 +4724,50 @@
         '</div>' +
         '<p class="small" id="pickSummary"></p>' +
         '<button class="btn" id="pickRideBtn" type="button">FACE HIM</button>' +
-        '<button class="btn ghost" id="pickBackBtn" type="button">BACK</button>'
+        '<button class="btn ghost" id="pickBackBtn" type="button">BACK</button>' +
+        '</div>'
       );
-      paintPracticePick();
+      // The paged roster: renderPickPage() fills the grid with the
+      // current page's six foes, wires their taps and labels the
+      // pager. Paging wraps at both ends, so the last page is one
+      // PREV tap from the first and the first one NEXT from the last.
+      function renderPickPage(){
+        var box = document.getElementById('pickGridBox');
+        if(!box) return;
+        var pages = pickPageCount();
+        pickPage = Math.max(0, Math.min(pages - 1, pickPage));
+        var start = pickPage * PICK_PAGE_SIZE, html = '';
+        for(var gi=start; gi<Math.min(start + PICK_PAGE_SIZE, ORDER.length); gi++) html += pickRowHtml(ORDER[gi].K, ORDER[gi].idx);
+        box.innerHTML = html;
+        var lbl = document.getElementById('pickPageLabel');
+        if(lbl) lbl.textContent = 'PAGE ' + (pickPage + 1) + ' / ' + pages;
+        var cells = box.querySelectorAll('[data-foeidx]');
+        for(var ci=0;ci<cells.length;ci++) cells[ci].addEventListener('click', function(){
+          audio(); pickSrc = pickAll()[+this.getAttribute('data-foeidx')]; paintPracticePick();
+        });
+        paintPracticePick();
+      }
+      renderPickPage();
       // The ★ CHAMPIONS ★ quick button: the champions head the
-      // list, so this simply brings the list back to its top,
+      // roster, so this brings the grid back to its first page,
       // where Sir Jaren, Sir Mih and the rest are waiting.
       var champJump = document.getElementById('champJumpBtn');
       if(champJump) champJump.addEventListener('click', function(){
-        audio();
-        var list = el.cardBox.querySelector('.pickList');
-        if(list) list.scrollTop = 0;
+        audio(); pickPage = 0; renderPickPage();
+      });
+      var pickPrev = document.getElementById('pickPrevBtn');
+      if(pickPrev) pickPrev.addEventListener('click', function(){
+        audio(); pickPage = (pickPage - 1 + pickPageCount()) % pickPageCount(); renderPickPage();
+      });
+      var pickNext = document.getElementById('pickNextBtn');
+      if(pickNext) pickNext.addEventListener('click', function(){
+        audio(); pickPage = (pickPage + 1) % pickPageCount(); renderPickPage();
       });
       var srcBtns = el.cardBox.querySelectorAll('[data-picksrc]');
       for(var s=0;s<srcBtns.length;s++) srcBtns[s].addEventListener('click', function(){
         audio(); pickSrc = this.getAttribute('data-picksrc');
         if(pickSrc === 'current') pickRank = G.foeIndex;
         paintPracticePick();
-      });
-      var rowBtns = el.cardBox.querySelectorAll('[data-foeidx]');
-      for(var r=0;r<rowBtns.length;r++) rowBtns[r].addEventListener('click', function(){
-        audio(); pickSrc = pickAll()[+this.getAttribute('data-foeidx')]; paintPracticePick();
       });
       var chipBtns = el.cardBox.querySelectorAll('[data-rankpick]');
       for(var k=0;k<chipBtns.length;k++) chipBtns[k].addEventListener('click', function(){
