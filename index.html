@@ -23,6 +23,12 @@
         --plate:rgba(16,12,7,.82); --plate-edge:rgba(217,164,65,.55);
         --red:#a02c22; --good:#7fae4c; --bad:#c8452f;
         --crimson:#8c2f26; --crimson-deep:#571209; --royal:#31456e; --stone:#241b10;
+        /* Safe areas (v5.1): the notch / status-bar insets, read once
+           here so every overlay wrap and card cap below can keep its
+           top clear of them in standalone web-app mode. In a normal
+           browser tab these resolve to 0 and nothing changes. */
+        --sat:env(safe-area-inset-top, 0px); --sar:env(safe-area-inset-right, 0px);
+        --sab:env(safe-area-inset-bottom, 0px); --sal:env(safe-area-inset-left, 0px);
       }
       *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
       html,body{ margin:0; padding:0; height:100%; overflow:hidden; background:#0d0b08; }
@@ -177,14 +183,25 @@
       #vignette.hurt{ background:radial-gradient(ellipse at center, transparent 42%, rgba(120,10,0,.55) 100%); }
 
       /* ---------- Cards ---------- */
-      #cardWrap{ position:fixed; inset:0; z-index:10; display:flex; align-items:center; justify-content:center; padding:14px; }
+      /* Card wrap (v5.1): every card in the game lives in here —
+         title menu, PLAY setup, house picker, TIPS, Career, the
+         Practice / LAN / Endless one-screen cards and all match
+         cards. Its padding now carries the safe-area insets, the
+         same treatment the update log got in v4.9, so in standalone
+         web-app mode no card's top can slide under the notch or the
+         translucent status bar (where iOS blurs whatever passes
+         beneath it), and a card capped at the visible height below
+         can always be scrolled back to its very top. */
+      #cardWrap{ position:fixed; inset:0; z-index:10; display:flex; align-items:center; justify-content:center;
+        padding:calc(14px + var(--sat)) calc(14px + var(--sar)) calc(14px + var(--sab)) calc(14px + var(--sal)); }
       #cardWrap.hidden{ display:none; }
       /* ---------- Cards (v2.7): royal tournament dress ----------
          Every card wears a crimson-and-gold banner band across its
          top and a double gold frame, like a framed proclamation hung
          in the hall; headings are set in Cinzel, the rule carries a
          gold diamond at its heart. */
-      .card{ width:min(480px,94vw); max-height:92vh; overflow:auto;
+      .card{ width:min(480px,94vw); max-height:92vh; max-height:min(92dvh, calc(100dvh - 28px - var(--sat) - var(--sab))); overflow:auto;
+        -webkit-overflow-scrolling:touch; touch-action:pan-y; overscroll-behavior:contain;
         background:linear-gradient(90deg,#571209,#8c2f26 22%,#d9a441 50%,#8c2f26 78%,#571209) top left/100% 5px no-repeat,
           radial-gradient(120% 90% at 50% 0%, rgba(217,164,65,.08), rgba(0,0,0,0) 55%),
           linear-gradient(168deg, rgba(32,23,13,.97), rgba(13,10,6,.98));
@@ -275,23 +292,48 @@
       #logBox > *{ flex:0 0 auto; }
       #logBox .logList{ flex:1 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden;
         touch-action:pan-y; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
-      #logXBtn, #settingsXBtn, #shopXBtn{ position:absolute; top:calc(12px + env(safe-area-inset-top)); right:12px; z-index:5; width:46px; height:46px; border-radius:50%;
+      #logXBtn, #settingsXBtn, #shopXBtn, #cardXBtn{ position:absolute; top:calc(12px + env(safe-area-inset-top)); right:12px; z-index:5; width:46px; height:46px; border-radius:50%;
         display:flex; align-items:center; justify-content:center; background:var(--plate); border:1px solid var(--gold); box-shadow:0 2px 10px rgba(0,0,0,.55);
         color:#f2d492; font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:20px; line-height:1; cursor:pointer; }
-      #logXBtn:active, #settingsXBtn:active, #shopXBtn:active{ transform:translateY(1px); }
-      /* ---------- Settings (v3.0) ----------
-         The gear rides in the top-right corner of every screen —
-         title, menus and mid-match alike — clear of the version
-         pill (bottom centre / top-left dock) and of every BACK
-         button (card feet). The tournament plate in the HUD shifts
-         left to make room for it during a match. The panel itself
-         is a card like the Armoury and the update log. */
+      #logXBtn:active, #settingsXBtn:active, #shopXBtn:active, #cardXBtn:active{ transform:translateY(1px); }
+      /* Card ✕ (v5.3 · corner perch v5.5): one fixed ✕ for every
+         card shown in the card wrap — Practice, LAN 1v1, Endless,
+         Career, TIPS, PLAY setup, the house picker, match and pass
+         cards alike — in the same dress as the Armoury / log /
+         Settings ✕ buttons, with the same safe-area top offset so
+         it stays clear of the notch in standalone web-app mode.
+         Since v5.5 it sits IN the top-right corner, exactly where
+         the settings gear used to perch (right:10px, same top) —
+         not inset from it. In the four play modes, where the gear
+         still shows beside it, syncGear() shifts the gear one
+         button-width left (right:64px, .gearShift) so the ✕ keeps
+         the corner and both stay visible and tappable. It rides at
+         z 35, below the Armoury, log and Settings wraps (z 40 /
+         46), which bring their own ✕ to the corner perch when
+         they open over a card. syncCardX() shows it only while a
+         closable card is up — never on the title menu itself,
+         which is the screen every ✕ returns to. */
+      #cardXBtn{ position:fixed; z-index:35; right:10px; top:calc(10px + env(safe-area-inset-top)); }
+      #cardXBtn.hidden{ display:none; }
+      /* ---------- Settings (v3.0 · v5.4) ----------
+         The gear rides in the top-right corner — but only inside
+         the four play modes (v5.4): Play, Practice, LAN 1v1 and
+         Endless, cards and mid-match alike. On the title menu and
+         on every other tab / card it is removed completely
+         (syncGear() toggles .hidden); Settings stays reachable
+         there from the menu's SETTINGS button (v5.3). The panel
+         itself is a card like the Armoury and the update log. */
       #settingsBtn{ position:fixed; right:10px; top:calc(10px + env(safe-area-inset-top)); z-index:30; width:46px; height:46px; border-radius:50%;
         display:flex; align-items:center; justify-content:center; cursor:pointer; pointer-events:auto;
         background:linear-gradient(180deg,#7d2115,#571209); border:1px solid var(--gold); color:#f2d492;
         box-shadow:0 2px 10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,220,160,.3); }
+      #settingsBtn.hidden{ display:none; }
+      /* v5.5: when a card's ✕ is up in the corner, the gear shifts
+         one button-width left so the two never overlap. */
+      #settingsBtn.gearShift{ right:64px; }
       #settingsBtn:active{ transform:translateY(1px); }
-      #settingsWrap{ position:fixed; inset:0; z-index:46; display:flex; align-items:center; justify-content:center; padding:14px; background:rgba(6,4,2,.62); }
+      #settingsWrap{ position:fixed; inset:0; z-index:46; display:flex; align-items:center; justify-content:center;
+        padding:calc(14px + var(--sat)) calc(14px + var(--sar)) calc(14px + var(--sab)) calc(14px + var(--sal)); background:rgba(6,4,2,.62); }
       #settingsWrap.hidden{ display:none; }
       #settingsBox .btnRow{ text-align:center; }
       #fpsVal{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:24px; color:#ffe9a8; margin-top:8px; letter-spacing:.06em; }
@@ -312,7 +354,11 @@
       .logList .vtext b{ color:#ffe9a8; font-weight:700; }
       #logBox .btnRow{ text-align:center; }
       /* ---------- Lance shop ---------- */
-      #shopWrap{ position:fixed; inset:0; z-index:40; display:flex; align-items:center; justify-content:center; padding:14px; background:rgba(6,4,2,.62); }
+      /* Armoury wrap (v5.1): safe-area padding like the card wrap,
+         so the shop card's top and its ✕ stay clear of the notch in
+         standalone mode and the card can scroll to its very top. */
+      #shopWrap{ position:fixed; inset:0; z-index:40; display:flex; align-items:center; justify-content:center;
+        padding:calc(14px + var(--sat)) calc(14px + var(--sar)) calc(14px + var(--sab)) calc(14px + var(--sal)); background:rgba(6,4,2,.62); }
       #shopWrap.hidden{ display:none; }
       #shopBox .btnRow{ text-align:center; }
       .shopList{ list-style:none; margin:10px 0 2px; padding:0; text-align:left; }
@@ -342,7 +388,7 @@
       .btn[disabled]{ opacity:.42; cursor:default; }
       .btn[disabled]:hover{ background:linear-gradient(180deg,#9c352a,#6d1a12 55%,#571209); }
       .btn[disabled]:active{ transform:none; }
-      #errBox{ position:fixed; left:10px; right:10px; bottom:10px; z-index:99; background:#5c1408; color:#ffd9c9; border:1px solid #ff8a70; padding:10px 12px; font-size:14px; display:none; white-space:pre-wrap; }
+      #errBox{ position:fixed; left:10px; right:10px; bottom:calc(10px + var(--sab)); z-index:99; background:#5c1408; color:#ffd9c9; border:1px solid #ff8a70; padding:10px 12px; font-size:14px; display:none; white-space:pre-wrap; }
       @media (max-width:560px){
         #scorePlate{ min-width:0; padding:6px 9px; } #scorePlate .names{ font-size:11.5px; }
         #scoreNum{ font-size:21px; } #passPlateHide{ display:none; }
@@ -397,6 +443,21 @@
       .statTile .num{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:29px; line-height:1; color:#ffe9a8; font-variant-numeric:tabular-nums; }
       .statTile .lab{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:700; font-size:11.5px; letter-spacing:.18em; color:#e3c878; margin-top:5px; text-transform:uppercase; }
       .statTile .sub{ font-size:13px; color:#b7a67f; margin-top:2px; line-height:1.35; }
+      /* ---------- Win rate hero (v5.2) ----------
+         The CAREER card opens with the win rate writ large: a
+         full-width panel above the stat tiles — a big gold
+         percentage, a bar showing the share of decided matches
+         won, and the wins · losses · matches line beneath. A
+         rider with no decided matches yet gets a dash and a
+         plain note, never an invented number. */
+      .winRateHero{ margin-top:10px; border:1px solid rgba(217,164,65,.6); background:linear-gradient(180deg, rgba(217,164,65,.13), rgba(10,8,5,.55) 70%); padding:13px 14px 12px; text-align:center; box-shadow:inset 0 1px 0 rgba(233,201,121,.18), 0 2px 10px rgba(0,0,0,.35); }
+      .winRateHero .wrLab{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:700; font-size:12.5px; letter-spacing:.32em; color:#e3c878; text-transform:uppercase; }
+      .winRateHero .wrNum{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:62px; line-height:1.05; color:#ffe9a8; font-variant-numeric:tabular-nums; }
+      .winRateHero .wrNum .wrPct{ font-size:34px; margin-left:2px; }
+      .winRateHero .wrBar{ height:10px; margin:8px auto 0; max-width:340px; background:#241b0e; border:1px solid rgba(217,164,65,.4); overflow:hidden; }
+      .winRateHero .wrBar i{ display:block; height:100%; min-width:0; background:linear-gradient(90deg,#b9862f,#e9c979); }
+      .winRateHero .wrSub{ font-size:14px; color:#ddd0ab; margin-top:8px; font-variant-numeric:tabular-nums; }
+      .winRateHero .wrSub b{ color:#ffe9a8; }
       .hitRows{ margin-top:8px; text-align:left; }
       .hitRow{ margin:10px 0; }
       .hitRow .hitTop{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
@@ -431,8 +492,8 @@
          The PLAY card never scrolls: compact pickers in tight grids,
          short description lines, ENTER THE LISTS and BACK side by
          side — everything on screen at once, phone or desktop. */
-      #cardWrap:has(.playSetup){ padding:8px; }
-      .card:has(.playSetup){ padding:14px 16px 12px; overflow:hidden; max-height:97vh; }
+      #cardWrap:has(.playSetup){ padding:calc(8px + var(--sat)) calc(8px + var(--sar)) calc(8px + var(--sab)) calc(8px + var(--sal)); }
+      .card:has(.playSetup){ padding:14px 16px 12px; overflow:hidden; max-height:97vh; max-height:min(97dvh, calc(100dvh - 16px - var(--sat) - var(--sab))); }
       .playSetup .crownBox svg{ width:36px; height:23px; }
       .playSetup h1{ font-size:27px !important; }
       .playSetup .rule{ margin:6px auto; }
@@ -460,8 +521,8 @@
          banner and title included. Shorter screens tighten further,
          and a landscape-height phone drops the decorative pieces
          rather than any button. */
-      #cardWrap:has(.titleMenu){ padding:8px; }
-      .card:has(.titleMenu){ padding:16px 18px 14px; overflow:hidden; max-height:97vh; }
+      #cardWrap:has(.titleMenu){ padding:calc(8px + var(--sat)) calc(8px + var(--sar)) calc(8px + var(--sab)) calc(8px + var(--sal)); }
+      .card:has(.titleMenu){ padding:16px 18px 14px; overflow:hidden; max-height:97vh; max-height:min(97dvh, calc(100dvh - 16px - var(--sat) - var(--sab))); }
       .titleMenu .crownBox svg{ width:44px; height:28px; }
       .titleMenu h1{ font-size:clamp(26px,6vw,34px); }
       .titleMenu .rule{ margin:6px auto; }
@@ -505,8 +566,8 @@
          the grid is always two compact columns (three rows), and each
          house keeps its shield, flag, name, motto and colours in a
          tight tile whose whole area — not just its button — picks it. */
-      .card:has(.houseGrid){ padding:16px 16px 12px; overflow:hidden; max-height:96vh; }
-      #cardWrap:has(.houseGrid){ padding:8px; }
+      .card:has(.houseGrid){ padding:16px 16px 12px; overflow:hidden; max-height:96vh; max-height:min(96dvh, calc(100dvh - 16px - var(--sat) - var(--sab))); }
+      #cardWrap:has(.houseGrid){ padding:calc(8px + var(--sat)) calc(8px + var(--sar)) calc(8px + var(--sab)) calc(8px + var(--sal)); }
       .houseGrid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
       .houseCard{ border:1px solid var(--gold-dim); border-radius:6px; background:linear-gradient(180deg, rgba(52,38,20,.6), rgba(20,16,10,.6)); padding:8px 8px 7px; text-align:center;
         box-shadow:inset 0 0 0 1px rgba(0,0,0,.5), inset 0 1px 0 rgba(233,201,121,.12); }
@@ -554,8 +615,8 @@
          button, picker and line sits on a single phone screen, the
          same treatment the title menu and PLAY setup already use.
          Shorter screens tighten further rather than scrolling. */
-      #cardWrap:has(.oneScreen){ padding:6px; }
-      .card:has(.oneScreen){ padding:12px 14px 10px; overflow:hidden; max-height:calc(100vh - 12px); max-height:calc(100dvh - 12px); }
+      #cardWrap:has(.oneScreen){ padding:calc(6px + var(--sat)) calc(6px + var(--sar)) calc(6px + var(--sab)) calc(6px + var(--sal)); }
+      .card:has(.oneScreen){ padding:12px 14px 10px; overflow:hidden; max-height:calc(100vh - 12px); max-height:calc(100dvh - 12px); max-height:calc(100dvh - 12px - var(--sat) - var(--sab)); }
       .oneScreen .kick, .oneScreen .menuKicker{ font-size:11px; }
       .oneScreen h1{ font-size:clamp(23px,6vw,30px) !important; }
       .oneScreen h2{ font-size:clamp(18px,4.8vw,22px); }
@@ -770,9 +831,11 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 5.0 — tap to see update history">v5.0 <span class="vdot">· Updates</span></button>
+    <button id="cardXBtn" class="hidden" type="button" aria-label="Close this page and go back">✕</button>
 
-    <button id="settingsBtn" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 5.5 — tap to see update history">v5.5 <span class="vdot">· Updates</span></button>
+
+    <button id="settingsBtn" class="hidden" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
     <div id="settingsWrap" class="hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
       <button id="settingsXBtn" type="button" aria-label="Close settings">✕</button>
@@ -803,8 +866,13 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v5.0</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v5.5</b></p>
         <ul class="logList">
+          <li><span class="vtag">v5.5</span><span class="vtext"><b>✕ in the corner.</b> The ✕ on every tab now sits in the top-right corner, where the Settings gear was. In Play, Practice, LAN 1v1 and Endless the gear shifts left beside it, so both stay in reach.</span></li>
+          <li><span class="vtag">v5.4</span><span class="vtext"><b>Gear only in the lists.</b> The Settings gear is gone from the title menu and every other tab — it now shows only in Play, Practice, LAN 1v1 and Endless. SETTINGS in the menu still opens Settings from the title screen.</span></li>
+          <li><span class="vtag">v5.3</span><span class="vtext"><b>✕ on every tab, Settings in the menu.</b> Every page you open — Practice, LAN 1v1, Endless, Career, TIPS, Settings, PLAY setup, the house picker and the rest — now has a ✕ at the top to close it and go back. SETTINGS is in the main menu too, in case the corner gear is ever covered.</span></li>
+          <li><span class="vtag">v5.2</span><span class="vtext"><b>Big win rate on Career.</b> CAREER now opens with your win rate in big numbers at the top of the page — wins, losses and matches decided beneath it. Every other Career stat is unchanged.</span></li>
+          <li><span class="vtag">v5.1</span><span class="vtext"><b>Web app top fix.</b> As a home-screen app, no screen's top hides under the notch or status bar now — every tab clears the safe area, fits the visible screen, and scrolls all the way up, with no blurry overlap.</span></li>
           <li><span class="vtag major">v5.0</span><span class="vtext"><b>Armoury ✕ + no more scrolling.</b> The Armoury now has a ✕ at the top to close it. LAN 1v1, Practice and Endless fit on one screen with no scrolling — the Practice roster is paged six foes at a time, champions first.</span></li>
           <li><span class="vtag">v4.9</span><span class="vtext"><b>Update log fits the screen.</b> This log now fits fully on phone screens — the What's New header, the ✕ and CLOSE always in reach — and the list scrolls from the very first entry to the very last.</span></li>
           <li><span class="vtag">v4.8</span><span class="vtext"><b>Title menu fits one screen.</b> The joust menu is tightened up so every button — PLAY, PRACTICE, ENDLESS, the Armoury, TIPS and CAREER — sits on a single screen on phone sizes, with no scrolling.</span></li>
@@ -3714,9 +3782,9 @@
 
     /* ================= UI ================= */
     var el = {};
-    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','shopXBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','endlessExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow'].forEach(function(id){ el[id] = document.getElementById(id); });
+    ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','shopXBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','endlessExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow','cardXBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '5.0';
+    var CURRENT_VERSION = '5.5';
     /* v4.7: the version is written from this one source everywhere
        it shows — the version pill, the log's "You are on" line and
        the preload splash — so a bump here updates all three and
@@ -3914,7 +3982,7 @@
         '<li><span class="swatch bannerSw"></span><span class="sname"><b>Champion\'s Banner</b><span class="stag">' + bTag + '</span></span>' + bBtn + '</li>' +
         '<li><span class="swatch titleSw">✦</span><span class="sname"><b>Champion of the Lists</b><span class="stag">' + tTag + '</span></span>' + tBtn + '</li>';
     }
-    function openShop(){ renderShop(); el.shopWrap.classList.remove('hidden'); refreshPill(); }
+    function openShop(){ renderShop(); el.shopWrap.classList.remove('hidden'); var sb = document.getElementById('shopBox'); if(sb) sb.scrollTop = 0; refreshPill(); }
     function closeShop(){ el.shopWrap.classList.add('hidden'); if(G.state === 'title') titleCard(); refreshPill(); }
     function shopIsOpen(){ return !el.shopWrap.classList.contains('hidden'); }
     /* ---- settings (v3.0) ----
@@ -3924,7 +3992,7 @@
        has to set G.fps, because the render loop reads it every
        frame. Both are saved with the rest of the progress. */
     function settingsIsOpen(){ return !!(el.settingsWrap && !el.settingsWrap.classList.contains('hidden')); }
-    function openSettings(){ paintSettings(); el.settingsWrap.classList.remove('hidden'); refreshPill(); }
+    function openSettings(){ paintSettings(); el.settingsWrap.classList.remove('hidden'); var gb = document.getElementById('settingsBox'); if(gb) gb.scrollTop = 0; refreshPill(); }
     function closeSettings(){ el.settingsWrap.classList.add('hidden'); refreshPill(); }
     function paintSettings(){
       if(!el.settingsWrap) return;
@@ -4073,10 +4141,97 @@
        match cards), the Armoury or the update log — so it can never
        sit over a BACK, LEAVE or CLOSE button. On the title screen,
        and in play with no card open, it returns to the bottom centre. */
+    /* ---------- Settings gear visibility (v5.4) ----------
+       The top-right gear is removed completely from the title
+       menu and from every other tab / card — Career, TIPS, the
+       house picker, the Armoury, the update log and the rest —
+       and shows only once the player has pressed one of the
+       four play modes: Play, Practice, LAN 1v1 or Endless. In
+       those modes it appears on their setup / picker / room
+       cards, on their match and pass cards, in the cinematic
+       and mid-charge, and opens Settings exactly as before.
+       Everywhere else Settings is still reachable from the
+       title menu's SETTINGS button (v5.3). While the Armoury,
+       the log or Settings itself is open the gear stays hidden
+       under that overlay, as the card ✕ does. syncGear() runs
+       from refreshPill(), which showCard(), hideCard() and the
+       overlay open / close paths all call, so every screen
+       change re-decides it. */
+    function syncGear(){
+      if(!el.settingsBtn) return;
+      var show = false;
+      var onTitle = !el.cardWrap.classList.contains('hidden') && !!document.getElementById('playBtn');
+      if(!overlayOpen() && !onTitle){
+        if(document.getElementById('careerBackBtn') || document.getElementById('tipsBackBtn') || document.querySelector('.houseGrid')) show = false;
+        else if(G.lan || G.endless || G.practice) show = true;
+        else if(!el.cardWrap.classList.contains('hidden')){
+          if(document.querySelector('.playSetup') || document.getElementById('startBtn')) show = true;
+          else if(document.getElementById('pickRideBtn') || document.getElementById('pickGridBox')) show = true;
+          else if(G.started && G.state !== 'title') show = true;
+        } else if(G.started && G.state !== 'title') show = true;
+      }
+      el.settingsBtn.classList.toggle('hidden', !show);
+      // v5.5: the card ✕ owns the top-right corner now. When the
+      // gear shows alongside it (the four play modes, with a card
+      // up), shift the gear one button-width left so neither
+      // covers the other; with no card ✕ up the gear keeps the
+      // corner itself. syncCardX() runs just before this in
+      // refreshPill(), so the ✕ state read here is current.
+      var xUp = !!(el.cardXBtn && !el.cardXBtn.classList.contains('hidden'));
+      el.settingsBtn.classList.toggle('gearShift', !!(show && xUp));
+    }
     function refreshPill(){
       var away = logIsOpen() || shopIsOpen() || settingsIsOpen() ||
         (!el.cardWrap.classList.contains('hidden') && !document.getElementById('playBtn'));
       document.body.classList.toggle('pillAway', !!away);
+      syncCardX();
+      syncGear();
+    }
+    /* ---------- Card ✕ (v5.3) ----------
+       Every card the game opens in the card wrap — Practice and
+       its foe picker, LAN 1v1 (home, rooms and match cards),
+       Endless, Career, TIPS, PLAY setup, the house picker, and the
+       tournament's match, pass and result cards — gets the one
+       fixed ✕ at the top of the screen, in the same dress as the
+       Armoury, update-log and Settings ✕ buttons, sitting in the
+       top-right corner where the settings gear used to perch
+       (v5.5) — in the four play modes the gear shifts one
+       button-width left beside it, so both stay tappable. It shows
+       whenever such a card is up: never on the title menu itself
+       (the screen every ✕ returns to — the title card is the one
+       card carrying #playBtn), never with no card open, and never
+       while the Armoury, the log or Settings is open over the
+       card, since each of those brings its own ✕. Tapping it
+       runs the same way out the card itself
+       offers — its BACK, LEAVE or EXIT button — so the ✕ always
+       lands where that button lands:
+         · in a LAN match, back to the connected room
+           (lanExitToRoom, like the cards' EXIT TO ROOM);
+         · anywhere else in LAN — home, create / join, the room
+           screen, a lost connection — out of LAN to the title
+           screen (exitLan, like LEAVE ROOM / BACK);
+         · everywhere else, exitToMenu(), which already routes
+           Endless and Practice through their own exits and, for
+           the menu tabs and tournament cards alike, saves, tidies
+           the lists and lands on the title screen. */
+    function syncCardX(){
+      if(!el.cardXBtn) return;
+      var show = !el.cardWrap.classList.contains('hidden') &&
+        !document.getElementById('playBtn') && !overlayOpen();
+      el.cardXBtn.classList.toggle('hidden', !show);
+    }
+    function closeCurrentCard(){
+      if(G.lan){
+        if(G.state === 'passcard' && !lanGone) lanExitToRoom();
+        else exitLan();
+        return;
+      }
+      exitToMenu();
+    }
+    if(el.cardXBtn){
+      // keep a tap on the ✕ from also steering the lance
+      el.cardXBtn.addEventListener('pointerdown', function(e){ e.stopPropagation(); });
+      el.cardXBtn.addEventListener('click', function(e){ e.stopPropagation(); audio(); closeCurrentCard(); });
     }
     function showCard(html){
       // v5.0: every LAN 1v1, Practice and Endless card wears the
@@ -4089,6 +4244,10 @@
       var fit = G.lan ? 'lanFit' : G.endless ? 'endlessFit' : G.practice ? 'practiceFit' : null;
       if(fit && html.indexOf('oneScreen') === -1) html = '<div class="oneScreen ' + fit + '">' + html + '</div>';
       el.cardBox.innerHTML = html; el.cardWrap.classList.remove('hidden');
+      // v5.1: every card opens scrolled to its very top, like the
+      // update log has since v4.9 — no card can open mid-scroll
+      // with its head out of reach.
+      el.cardBox.scrollTop = 0;
       refreshPill();
     }
     function hideCard(){ el.cardWrap.classList.add('hidden'); refreshPill(); }
@@ -4385,6 +4544,10 @@
         '<button class="btn ghost" id="changeHouseBtn" type="button">CHANGE HOUSE</button></div>' +
         '<div class="menuRow"><button class="btn ghost" id="tipsBtn" type="button">TIPS</button>' +
         '<button class="btn ghost" id="careerBtn" type="button">CAREER</button></div>' +
+        // v5.3: SETTINGS rides in the menu itself, so it stays
+        // reachable even when the top-right gear is covered (the
+        // notch / status bar in web-app mode). The gear stays too.
+        '<button class="btn ghost" id="settingsMenuBtn" type="button">SETTINGS</button>' +
         '</div></div>'
       );
       document.getElementById('playBtn').addEventListener('click', function(){ audio(); playSetupCard(); });
@@ -4394,6 +4557,7 @@
       document.getElementById('changeHouseBtn').addEventListener('click', function(){ audio(); housePickerCard(true); });
       document.getElementById('tipsBtn').addEventListener('click', function(){ audio(); tipsCard(); });
       document.getElementById('careerBtn').addEventListener('click', function(){ audio(); careerCard(); });
+      document.getElementById('settingsMenuBtn').addEventListener('click', function(){ audio(); openSettings(); });
     }
     /* ---------- Play setup (v2.6) ----------
        PLAY on the title screen opens this setup screen: the
@@ -4505,6 +4669,7 @@
       if(!G.career) G.career = defaultCareer();
       var C = G.career;
       var matches = C.wins + C.losses;
+      var winRate = matches ? Math.round(C.wins / matches * 100) : null;
       var totalHits = C.hitsShield + C.hitsBreast + C.hitsHelm;
       var hitPoints = C.hitsShield * 1 + C.hitsBreast * 2 + C.hitsHelm * 3;
       function pct(n){ return totalHits ? Math.round(n / totalHits * 100) : 0; }
@@ -4517,6 +4682,15 @@
       showCard(
         '<div class="menuKicker">CAREER</div>' +
         '<div class="howtoTitle" style="margin-top:6px;">YOUR RECORD</div><div class="rule"></div>' +
+        '<div class="winRateHero">' +
+        '<div class="wrLab">Win rate</div>' +
+        (winRate === null
+          ? '<div class="wrNum">—</div>' +
+            '<div class="wrSub">No matches decided yet — win your first match and your win rate stands here.</div>'
+          : '<div class="wrNum">' + winRate + '<span class="wrPct">%</span></div>' +
+            '<div class="wrBar"><i style="width:' + winRate + '%"></i></div>' +
+            '<div class="wrSub"><b>' + C.wins + '</b> ' + (C.wins === 1 ? 'win' : 'wins') + ' · <b>' + C.losses + '</b> ' + (C.losses === 1 ? 'loss' : 'losses') + ' · <b>' + matches + '</b> ' + (matches === 1 ? 'match' : 'matches') + ' decided</div>') +
+        '</div>' +
         '<div class="statsGrid">' +
         '<div class="statTile"><div class="num">' + C.wins + '</div><div class="lab">Wins</div><div class="sub">' + (matches ? C.losses + (C.losses === 1 ? ' loss' : ' losses') + ' · ' + Math.round(C.wins / matches * 100) + '% of decided matches' : 'No matches decided yet') + '</div></div>' +
         '<div class="statTile"><div class="num">' + C.unhorsedFoe + '</div><div class="lab">Unhorsings</div><div class="sub">Foes you have knocked from the saddle · you have been unhorsed ' + C.unhorsedYou + (C.unhorsedYou === 1 ? ' time' : ' times') + '</div></div>' +
