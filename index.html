@@ -523,7 +523,7 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 3.7 — tap to see update history">v3.7 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 4.1 — tap to see update history">v4.1 <span class="vdot">· Updates</span></button>
 
     <button id="settingsBtn" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
@@ -556,8 +556,10 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v3.7</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v4.1</b></p>
         <ul class="logList">
+          <li><span class="vtag">v4.1</span><span class="vtext"><b>The knight gets better as your rank climbs.</b> No more tiers — the order is a plain random shuffle, and whoever you draw rides at your rank's strength: slow and loose in the early ranks, then faster, tighter-aiming and more helm-hungry the higher you climb, and likelier to unhorse you near the top.</span></li>
+          <li><span class="vtag major">v4.0</span><span class="vtext"><b>Major: slow motion before the clash.</b> In the last second before the lances meet, the charge slows to about half speed so you can settle your aim — then it's straight back to normal speed the moment of impact.</span></li>
           <li><span class="vtag">v3.7</span><span class="vtext"><b>A champion renamed.</b> Sir Mih the Goldfish now rides as Sir Mih the Goldfih — same speed, same aim, same deep blue and gold.</span></li>
           <li><span class="vtag">v3.6</span><span class="vtext"><b>A champion renamed.</b> Sir Mic the Fih now rides as Sir Mih the Goldfish — same speed, same aim, same deep blue and gold.</span></li>
           <li><span class="vtag">v3.5</span><span class="vtext"><b>Random order, steady climb.</b> The regular shuffle is now banded by tier: early fights draw only the slowest, loosest knights, and the fastest, tightest wait for the late rounds — so who you face is still random, but the difficulty climbs like it used to. The first knight is still never Sir Bors, and a save's remaining knights are re-dealt inside their own tier — beaten knights stay beaten, and your purse, Renown, gear, house and progress are untouched.</span></li>
@@ -823,7 +825,7 @@
       if(isChamp(idx)) return '★ CHAMPION ★ · Round ' + roundNo(idx) + ' · Final Match';
       return 'Round ' + roundNo(idx) + ' · Match ' + (idx % 5 + 1) + ' of 5';
     }
-    /* ================= TRULY RANDOM KNIGHTS (v3.1 · v3.4 · v3.5) =================
+    /* ================= TRULY RANDOM KNIGHTS (v3.1 · v3.4 · v4.1) =================
        Why v2.11 still looked fixed: it shuffled only the ten
        champions, only when JOUST AGAIN started a fresh run, and any
        save already carrying an order kept that order for the whole
@@ -855,16 +857,14 @@
            away for every round still to come, and the regular
            knights still to be faced are shuffled among the
            remaining regular slots.
-       (4) TIER BANDS (v3.5): v3.4's shuffle ranged over all fifty
-           regulars at once, so an early slot could hold one of the
-           fastest, tightest knights in the lists and the opening
-           fights stopped being opening fights. The shuffle is now
-           banded by stat tier (see the tier block below): a knight
-           only ever shuffles within the band of slots belonging to
-           his own tier — slowest/loosest first, fastest/tightest
-           last — so the order stays random while the difficulty
-           still climbs, and the migration of a save's remaining
-           regulars re-deals them banded the same way.
+       (4) TIER BANDS (v3.5, retired in v4.1): v3.5 banded the
+           shuffle by stat tier, so a knight only shuffled within
+           his own tier's band of slots. v4.1 replaces that with
+           RANK SCALING (see the rank block below): the shuffle is
+           a plain full shuffle again, and difficulty is set by
+           the slot's rank instead of the drawn knight's own
+           stats — the knight gets better as your rank climbs,
+           smoothly and monotonically, whoever he is.
        The whole knight — name, title, colours, horse, stats, intro
        and champ flag — moves with the shuffle/draw, so every
        existing display (gold CHAMPION banner on the intro card,
@@ -912,98 +912,68 @@
       } while(n > 1 && guard < 60 && (permIs(o, identityPerm(n)) || (avoid && permIs(o, avoid))));
       return o;
     }
-    /* ---- stat tiers (v3.5): the shuffle is banded, so the
-       difficulty ramp survives the randomness ----
-       Every regular is scored on all three fight stats — speed
-       (faster is harder), sigma (tighter scatter is harder) and
-       headAim (more helm-hunting is harder) — ranked on each, and
-       the fifty are dealt into five tiers of ten from that
-       combined rank, slowest/loosest first. The fifty regular
-       slots, in the order they are faced, fall into the same five
-       bands of ten, and a shuffle only ever moves a knight WITHIN
-       his own tier's band of slots: early slots draw only from
-       the slowest/loosest tier (the Bors-class knights — the
-       tier's fastest rides 14.3, so no 15.4+ speed regular can
-       ever open a run), late slots only from the fastest/
-       tightest. Order inside a band is still a true shuffle and
-       every one of the fifty regulars still rides exactly once
-       in a run. Hit judging, lance reach, wobble and aim speed
-       are untouched — only WHO stands in each slot changed. */
-    var REG_TIERS = 5;
-    var REG_TIER_SIZE = Math.ceil(REG_POOL.length / REG_TIERS); // ten
-    function regDifficulty(pi){
-      // combined rank of pool knight pi across the three stats:
-      // one point for every regular he out-rides, out-aims in
-      // tightness, or out-hunts for the helm
-      var foe = REG_POOL[pi], score = 0, q, other;
-      for(q = 0; q < REG_POOL.length; q++){
-        if(q === pi) continue;
-        other = REG_POOL[q];
-        if(other.speed < foe.speed) score++;
-        if(other.sigma > foe.sigma) score++;
-        if(other.headAim < foe.headAim) score++;
-      }
-      return score;
+    /* ---- rank scaling (v4.1): the knight gets better as your
+       rank climbs — the v3.5 tier bands are gone ----
+       v3.5 banded the shuffle by each knight's own stats, so how
+       hard a fight was still depended on which knight happened to
+       be drawn into its band. v4.1 turns that around: the regular
+       order is a plain full shuffle again (see shuffleRegulars),
+       and a knight's effective fight stats no longer travel with
+       the knight at all — they are set by the rank he is faced at
+       (his slot, G.foeIndex, 0..59). Whichever knight is drawn
+       into a slot rides with that slot's stats, and every stat
+       climbs smoothly and monotonically with the slot: speed
+       rises from an easy 10.6 in the opening slot to 16.4 at the
+       last, the aim scatter (sigma) tightens from a loose 0.44
+       to 0.055, helm-hunting (headAim) rises from 0.11 to 0.66,
+       and his unhorsing power rises with it (unhorseAdd below,
+       spent in resolveImpact). Low ranks are easy no matter who
+       is drawn; high ranks are hard no matter who is drawn; a
+       round-end champion is simply the highest slot of his round
+       so far, so he still rides hardest in it. The roster's own
+       speed/sigma/headAim numbers now serve only as the authored
+       home list — combat never reads them. Difficulty-setting
+       multipliers still apply on top of the scaled stats exactly
+       as before, and hit judging, lance reach, wobble and aim
+       speed are untouched. LAN is untouched too: a friend still
+       rides at the fixed honest gallop, never a scaled stat. */
+    function rankFoeStats(idx){
+      var t = FOES.length > 1 ? Math.max(0, Math.min(1, idx / (FOES.length - 1))) : 0;
+      return {
+        speed: 10.6 + (16.4 - 10.6) * t,        // faster as rank climbs
+        sigma: 0.44 + (0.055 - 0.44) * t,       // tighter aim scatter
+        headAim: 0.11 + (0.66 - 0.11) * t,      // more helm hunting
+        unhorseAdd: -0.03 + 0.26 * t            // likelier to unhorse
+      };
     }
-    var REG_SCORE = []; // REG_SCORE[poolIndex] = combined difficulty rank score
-    var REG_TIER = [];  // REG_TIER[poolIndex] = tier 0 (easiest) .. REG_TIERS-1 (hardest)
-    for(var rsi = 0; rsi < REG_POOL.length; rsi++) REG_SCORE.push(regDifficulty(rsi));
-    (function(){
-      var ranked = identityPerm(REG_POOL.length);
-      ranked.sort(function(a, b){ var d = REG_SCORE[a] - REG_SCORE[b]; return d !== 0 ? d : a - b; });
-      for(var ri = 0; ri < ranked.length; ri++)
-        REG_TIER[ranked[ri]] = Math.min(REG_TIERS - 1, Math.floor(ri / REG_TIER_SIZE));
-    })();
-    function regTierOfPos(pos){ return Math.min(REG_TIERS - 1, Math.floor(pos / REG_TIER_SIZE)); }
-    // Is every knight in this order standing in a slot of his own
-    // tier's band? A v3.5 order always is; a v3.4 order almost
-    // never is — that is how the settle code tells them apart.
-    function regOrderBanded(o){
-      if(!validRegOrder(o)) return false;
-      for(var bi = 0; bi < o.length; bi++) if(REG_TIER[o[bi]] !== regTierOfPos(bi)) return false;
-      return true;
-    }
-    // One banded shuffle of the whole field: each tier's knights
-    // are shuffled among that tier's band of slots, and nothing
-    // crosses a band edge. The result is never the order it
-    // replaces.
-    function bandedRegOrder(prev){
-      var out = new Array(REG_POOL.length), guard = 0, band, members, posns, j, k, t;
-      do {
-        for(band = 0; band < REG_TIERS; band++){
-          members = []; posns = [];
-          for(j = 0; j < REG_POOL.length; j++) if(REG_TIER[j] === band) members.push(j);
-          for(j = 0; j < REG_SLOTS.length; j++) if(regTierOfPos(j) === band) posns.push(j);
-          for(j = members.length - 1; j > 0; j--){ k = Math.floor(Math.random() * (j + 1)); t = members[j]; members[j] = members[k]; members[k] = t; }
-          for(j = 0; j < posns.length; j++) out[posns[j]] = members[j];
-        }
-        guard++;
-      } while(guard < 60 && prev && permIs(out, prev));
+    // The knight in slot idx as he actually fights: his own name,
+    // title, colours, horse, intro and champ flag, wearing the
+    // rank's scaled speed, scatter and helm hunger. Combat code
+    // reads the foe through here, never the raw roster numbers.
+    function combatFoe(idx){
+      var base = FOES[idx];
+      if(!base) return base;
+      var s = rankFoeStats(idx), out = {}, k;
+      for(k in base) out[k] = base[k];
+      out.speed = s.speed; out.sigma = s.sigma; out.headAim = s.headAim;
       return out;
     }
-    // Re-deal only the knights still to be faced, banded the same
-    // way (the migration path): the remaining slots, in the order
-    // they will be faced, are split into consecutive bands and the
-    // remaining knights — sorted easiest to hardest by the same
-    // score — into matching bands, then shuffled within each
-    // band. Beaten knights are not in the remaining set at all, so
-    // none can be resurrected, every knight still to come rides
-    // exactly once, and the fights ahead climb in difficulty
-    // again instead of landing at random.
-    function bandedRedealRemaining(order, foeIndex){
+    // Re-deal only the knights still to be faced (the migration
+    // path for older saves): a plain shuffle of the remaining
+    // occupants among the remaining slots. Beaten knights are
+    // not in the remaining set at all, so none can be
+    // resurrected, and every knight still to come rides exactly
+    // once. Their difficulty needs no banding any more — rank
+    // scaling sets it from the slot, whoever stands there.
+    function redealRemainingRandom(order, foeIndex){
       var remPos = [], remOcc = [], rp;
       for(rp = 0; rp < REG_SLOTS.length; rp++)
         if(REG_SLOTS[rp] >= foeIndex){ remPos.push(rp); remOcc.push(order[rp]); }
       if(remOcc.length < 2) return;
-      var sorted = remOcc.slice().sort(function(a, b){ var d = REG_SCORE[a] - REG_SCORE[b]; return d !== 0 ? d : a - b; });
-      var per = Math.ceil(remPos.length / REG_TIERS), s, e, chunk, m, k2, t2;
-      for(var band = 0; band < REG_TIERS; band++){
-        s = band * per; if(s >= remPos.length) break;
-        e = Math.min(remPos.length, s + per);
-        chunk = sorted.slice(s, e);
-        for(m = chunk.length - 1; m > 0; m--){ k2 = Math.floor(Math.random() * (m + 1)); t2 = chunk[m]; chunk[m] = chunk[k2]; chunk[k2] = t2; }
-        for(m = s; m < e; m++) order[remPos[m]] = chunk[m - s];
+      for(var m = remOcc.length - 1; m > 0; m--){
+        var k2 = Math.floor(Math.random() * (m + 1)), t2 = remOcc[m]; remOcc[m] = remOcc[k2]; remOcc[k2] = t2;
       }
+      for(var w = 0; w < remPos.length; w++) order[remPos[w]] = remOcc[w];
     }
     /* ---- regulars: one saved shuffled order per run ---- */
     var regOrder = null; // regOrder[slotPosition] = index into REG_POOL
@@ -1014,15 +984,18 @@
     }
     function shuffleRegulars(){
       var prevFirst = regOrder ? regOrder[0] : -1;
-      regOrder = bandedRegOrder(regOrder);
-      // The start of the run (v3.4 · v3.5): the first slot never
-      // holds Sir Bors (pool 0 — the knight every run used to open
-      // with) and never repeats the previous run's opening knight,
-      // so no two runs ever begin with the same knight by default.
-      // The swap stays inside the first band, so the opener is
-      // still always drawn from the slowest, loosest tier.
+      // v4.1: a plain full shuffle of all fifty regulars — no
+      // tiers, no bands. Difficulty no longer needs the order to
+      // carry it: rank scaling (above) sets how hard each slot
+      // rides, whoever is shuffled into it.
+      regOrder = shuffledPerm(REG_POOL.length, regOrder);
+      // The start of the run (v3.4): the first slot never holds
+      // Sir Bors (pool 0 — the knight every run used to open
+      // with) and never repeats the previous run's opening
+      // knight, so no two runs ever begin with the same knight
+      // by default. The swap partner can be any later slot now.
       if(regOrder.length > 1 && (regOrder[0] === 0 || regOrder[0] === prevFirst)){
-        for(var fi = 1; fi < regOrder.length && regTierOfPos(fi) === 0; fi++){
+        for(var fi = 1; fi < regOrder.length; fi++){
           if(regOrder[fi] !== 0 && regOrder[fi] !== prevFirst){
             var ft = regOrder[0]; regOrder[0] = regOrder[fi]; regOrder[fi] = ft; break;
           }
@@ -1543,7 +1516,7 @@
       foeIndex:0, pass:1, youScore:0, foeScore:0, youLances:0, foeLances:0,
       aimX:0, aimY:0, aimTX:0, aimTY:0, speed:0, chargeT:0, stateT:0,
       playerZ:56, foeZ:-56, foeAimX:0, foeAimY:0, foeTargetX:0, foeTargetY:2.05,
-      result:null, shake:0, timeScale:1, slowT:0, hoofPhase:0, lastHoofStep:0,
+      result:null, shake:0, timeScale:1, slowT:0, preSlow:false, hoofPhase:0, lastHoofStep:0,
       playerDown:false, foeDown:false, camFall:0, started:false, practice:false, shieldPos:'mid', shieldKnock:0, foeTargetZone:'chest', renown:0,
       coins:0, ownedLances:{ ash:true }, lanceSkin:'ash', ownedShields:{ house:true }, shieldSkin:'house',
       ownedCaparisons:{ house:true }, caparisonSkin:'house', ownedHorseSkins:{ bay:true }, horseSkin:'bay',
@@ -1710,40 +1683,42 @@
       G.houseChosen = s.houseChosen === true;
     }
     loadProgress();
-    // Settle this run's random knights (v3.1 · v3.4 · v3.5):
-    // — a v3.5 save mid-run (its regular order is tier-banded)
-    //   restores its shuffled regulars and its drawn champions
-    //   exactly, so a run in progress keeps its knights across
-    //   closes and reopens, while champions still to come are
-    //   drawn fresh when their round-end is reached;
+    // Settle this run's random knights (v3.1 · v3.4 · v4.1):
+    // — a save mid-run that carries a regular order and its
+    //   drawn champions (any v3.1+ save — banded v3.5 order,
+    //   unbanded v3.4/v4.0 order, or a v4.1 order alike) restores
+    //   its shuffled regulars and its drawn champions exactly,
+    //   so a run in progress keeps its knights across closes and
+    //   reopens, while champions still to come are drawn fresh
+    //   when their round-end is reached. Since v4.1 the order no
+    //   longer carries difficulty — rank scaling sets each
+    //   slot's stats — so any saved order is safe to keep as is;
     // — a save still at the very start of a run (foeIndex 0, no
     //   knight beaten yet) is reshuffled on load (v3.4): its whole
-    //   regular order is dealt again, banded by tier (v3.5) —
-    //   never opening with Sir Bors or with the knight the save
-    //   last had first — and its champion pool starts empty, as a
-    //   fresh run's does. Coins, Renown, owned gear, house,
-    //   difficulty, arena and progress are untouched, and the
-    //   reshuffle is saved straight away;
-    // — an older save mid-run (pre-v3.1, a v3.1 save whose regular
-    //   order covered only Rounds 3–12, or a v3.4 save whose order
-    //   is not tier-banded) is migrated: champions already beaten
-    //   stay beaten (a v3.1+ save's drawn champions are restored
-    //   as drawn; a pre-v3.1 save's passed champions are recorded
-    //   under the order it was playing, kept only as an "avoid"
-    //   list so no slot's fresh draw simply repeats the champion
-    //   it used to hold), the regular knights already beaten stay
-    //   where they fell, and the regulars still to be faced — the
-    //   first ladders' included — are re-dealt among the remaining
-    //   regular slots banded by tier (v3.5), so the fights ahead
-    //   climb in difficulty again;
-    // — a brand-new player gets a fresh banded regular shuffle
-    //   and an empty champion pool.
+    //   regular order is dealt again — never opening with Sir
+    //   Bors or with the knight the save last had first — and its
+    //   champion pool starts empty, as a fresh run's does. Coins,
+    //   Renown, owned gear, house, difficulty, arena and progress
+    //   are untouched, and the reshuffle is saved straight away;
+    // — an older save mid-run (pre-v3.1, or a v3.1 save whose
+    //   regular order covered only Rounds 3–12) is migrated:
+    //   champions already beaten stay beaten (a v3.1+ save's
+    //   drawn champions are restored as drawn; a pre-v3.1 save's
+    //   passed champions are recorded under the order it was
+    //   playing, kept only as an "avoid" list so no slot's fresh
+    //   draw simply repeats the champion it used to hold), the
+    //   regular knights already beaten stay where they fell, and
+    //   the regulars still to be faced — the first ladders'
+    //   included — are plainly reshuffled among the remaining
+    //   regular slots, their difficulty set by rank as they come;
+    // — a brand-new player gets a fresh regular shuffle and an
+    //   empty champion pool.
     if(hadSave && G.foeIndex === 0){
       if(savedRegOrder) regOrder = savedRegOrder; // kept only so the reshuffle avoids its opening knight
       shuffleRegulars();
       resetChampionDraws();
       saveProgress();
-    } else if(savedRegOrder && savedChampDrawn && regOrderBanded(savedRegOrder)){
+    } else if(savedRegOrder && savedChampDrawn){
       regOrder = savedRegOrder; applyRegOrder();
       champDrawn = savedChampDrawn; champAvoid = savedChampAvoid; applyChampDrawn();
     } else if(hadSave){
@@ -1758,18 +1733,19 @@
         applyChampDrawn();
       }
       // Convert the arrangement the save was playing into the
-      // full fifty-knight pool: a saved v3.4 order is already in
+      // full fifty-knight pool: a saved v3.4+ order is already in
       // pool terms; a v3.1 order placed its forty regulars among
       // the Rounds 3–12 slots (positions and pool indices both
       // shift by the ten first-ladder regulars now included); an
       // older save played the authored order. Beaten regulars
       // keep the occupants they fell to; the regulars still to be
-      // faced are then re-dealt banded by tier (v3.5).
+      // faced are then plainly reshuffled among the remaining
+      // slots (v4.1 — no tiers; rank scaling sets their strength).
       var conv = savedRegOrder ? savedRegOrder.slice() : identityPerm(REG_POOL.length), cj;
       if(!savedRegOrder && savedRegOrderOld)
         for(cj = 0; cj < savedRegOrderOld.length; cj++) conv[cj + 10] = savedRegOrderOld[cj] + 10;
       regOrder = conv;
-      bandedRedealRemaining(regOrder, G.foeIndex);
+      redealRemainingRandom(regOrder, G.foeIndex);
       applyRegOrder();
       saveProgress();
     } else {
@@ -3416,7 +3392,7 @@
     var el = {};
     ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '3.7';
+    var CURRENT_VERSION = '4.1';
     function openLog(){ el.logWrap.classList.remove('hidden'); refreshPill(); }
     function closeLog(){ el.logWrap.classList.add('hidden'); refreshPill(); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
@@ -4342,6 +4318,7 @@
     }
     function resetPositions(){
       G.playerZ = 56; G.foeZ = -56; G.speed = 0; G.camFall = 0;
+      G.preSlow = false;
       G.foeDown = false; G.playerDown = false; foeTipZ = null;
       if(foeGroup){ foeGroup.position.set(-1.8, 0, G.foeZ); foeGroup.rotation.set(0, 0, 0);
         foeGroup.userData.rider.position.set(0, 1.86, -0.05); foeGroup.userData.rider.rotation.set(0,0,0);
@@ -4361,7 +4338,7 @@
        mid-charge (repickFoeTarget below), so his point never stays
        where you last read it. */
     function pickFoeTarget(){
-      var foe = FOES[G.foeIndex];
+      var foe = combatFoe(G.foeIndex); // v4.1: rank-scaled stats, not the roster's own
       var diff = currentDifficulty();
       // Difficulty shifts how often he hunts the helm and how widely
       // his point scatters around the mark he picks (sigmaMult) — the
@@ -4516,7 +4493,7 @@
       fl.quaternion.copy(_fpq.invert().multiply(_fq));
     }
     function resolveImpact(wobX, wobY){
-      var foe = FOES[G.foeIndex];
+      var foe = combatFoe(G.foeIndex); // v4.1: rank-scaled stats, not the roster's own
       // Judge from the lance point itself: project the real 3D tip and
       // strike that ray against the foe rider's plane. The hit lands
       // exactly where the point was riding on his body at impact — the
@@ -4552,10 +4529,12 @@
         if(!base) return 0;
         if(attackerIsYou){ base -= Math.min(G.foeIndex, 10)*0.035; }
         else {
-          base += (foe.speed > 12.4 ? 0.06 : 0) - 0.03;
-          // Champion's Ladder knights hit harder: each rung adds weight
-          // behind the lance, so the same scoring strike unhorses more often.
-          if(G.foeIndex >= FIRST_LADDER) base += 0.05 + Math.min(G.foeIndex - FIRST_LADDER, 5) * 0.03;
+          // Rank scaling (v4.1): his unhorsing power climbs smoothly
+          // with rank — a touch soft in the opening slots, heaviest
+          // at the last — whoever was drawn into the slot. (This
+          // replaces the old speed threshold and ladder steps, which
+          // rode on the drawn knight's own numbers.)
+          base += rankFoeStats(G.foeIndex).unhorseAdd;
           // Difficulty: his hits land softer on Easy, harder on Hard
           // (Normal adds nothing). Only his power changes — the zones
           // and the unhorsing rule itself are untouched, and your own
@@ -4592,7 +4571,9 @@
       }
       if(blocked && !foeDown){ G.shake = Math.max(G.shake, 0.2); G.shieldKnock = 1; sfxThud(); }
       if(you.pts > 0 && !foeDown) G.shake = Math.max(G.shake, 0.22);
-      G.timeScale = reducedMotion ? 0.55 : 0.16; G.slowT = 0.75;
+      // v4.0: the slow stretch ends with the clash — normal speed
+      // again from the moment of impact.
+      G.timeScale = 1; G.slowT = 0; G.preSlow = false;
       G.state = 'impact'; G.stateT = 0;
       refreshHUD();
       // banner text
@@ -5624,6 +5605,9 @@
     function lanImpact(){
       if(G._lanImpactDone) return;
       G._lanImpactDone = true;
+      // v4.0: contact made — the pre-impact slow stretch ends here,
+      // normal speed again while the clash is settled.
+      G.timeScale = 1; G.slowT = 0; G.preSlow = false;
       G._lanMyStrike = computeMyStrike();
       var s = G._lanMyStrike;
       lanSend({ t:'k', pass:G.pass, tx:s.tx, ty:s.ty, reach:s.reach, sh:s.sh });
@@ -5684,7 +5668,7 @@
         if(youDown) el.vignette.classList.add('hurt');
       }
       if(you.pts > 0 && !foeDown) G.shake = Math.max(G.shake, 0.22);
-      G.timeScale = reducedMotion ? 0.55 : 0.16; G.slowT = 0.75;
+      G.timeScale = 1; G.slowT = 0; G.preSlow = false;
       G.state = 'impact'; G.stateT = 0;
       refreshHUD();
       var big, sub, cls = '';
@@ -6002,13 +5986,33 @@
       }
     }
     function update(dt, t){
-      // timescale (slow-motion on impact)
+      // timescale (v4.0): in the last second before the lances meet,
+      // the charge eases to about half speed so the final aim can be
+      // settled — and the moment impact lands it is straight back to
+      // normal speed. The window is judged from the real lance points
+      // and the riders' closing speed, the same reach test that
+      // settles the clash, and once entered it holds until impact so
+      // the slow stretch never flickers on and off.
+      if(G.state === 'charge'){
+        var preFoe = FOES[G.foeIndex];
+        // v4.1: the foe closes at his rank-scaled speed, so the
+        // one-second slow-mo window is judged on the speed he
+        // actually charges at.
+        var closeRate = G.speed + (G.lan ? 12.8 : (preFoe ? rankFoeStats(G.foeIndex).speed : 12.8));
+        if(closeRate > 1){
+          var eta = Infinity;
+          if(tipPlaneZ !== null) eta = Math.min(eta, (tipPlaneZ - (G.foeZ + 0.05)) / closeRate);
+          if(foeTipZ !== null) eta = Math.min(eta, ((G.playerZ - 0.05) - foeTipZ) / closeRate);
+          eta = Math.min(eta, (G.playerZ - G.foeZ - 1.6) / closeRate);
+          if(eta <= 1) G.preSlow = true;
+        }
+      } else if(G.state !== 'lanwait') G.preSlow = false;
       if(G.slowT > 0) G.slowT -= dt;
-      var targetTs = G.slowT > 0 ? (reducedMotion ? 0.5 : 0.16) : 1;
+      var targetTs = G.slowT > 0 ? (reducedMotion ? 0.5 : 0.16) : (G.preSlow && G.state === 'charge' ? (reducedMotion ? 0.75 : 0.5) : 1);
       G.timeScale += (targetTs - G.timeScale) * Math.min(1, dt*10);
       var sdt = dt * G.timeScale;
       G.stateT += dt;
-      var foe = FOES[G.foeIndex];
+      var foe = combatFoe(G.foeIndex); // v4.1: rank-scaled speed for the charge
       var charging = (G.state === 'charge'), ready = (G.state === 'ready');
 
       // --- pre-match cinematic: orbit your knight, then hand over ---
