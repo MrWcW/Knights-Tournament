@@ -74,6 +74,9 @@
       #speedBar{ height:9px; margin-top:5px; background:#241b0e; border:1px solid rgba(217,164,65,.35); position:relative; overflow:hidden; }
       #speedFill{ position:absolute; inset:0; width:30%; background:linear-gradient(90deg,#7fae4c,#d9a441 70%,#c8452f); transform-origin:left; }
       #aimHint{ position:absolute; left:50%; transform:translateX(-50%); bottom:calc(48px + env(safe-area-inset-bottom)); font-size:14.5px; color:rgba(232,220,192,.85); text-shadow:0 1px 4px #000; letter-spacing:.03em; text-align:center; white-space:nowrap; }
+      /* v4.6: during the slow-mo final second the hint becomes the
+         helm hint, lit gold so it reads as the one thing to heed. */
+      #aimHint.helmHint{ color:#ffe9a8; font-weight:700; }
       /* practice exit — pinned under the tournament plate, in reach at
          any moment of a practice pass without crowding the controls */
       #practiceExitBtn{ pointer-events:auto; position:absolute; top:calc(74px + env(safe-area-inset-top)); right:10px;
@@ -340,6 +343,9 @@
         #joystick{ width:104px; height:104px; right:10px; }
         #joyKnob{ width:48px; height:48px; margin:-24px 0 0 -24px; }
         #aimHint{ display:none; }
+        /* v4.6: the helm hint still shows on small screens, lifted
+           clear of the stick and shield for that one slow second. */
+        #aimHint.helmHint{ display:block; bottom:calc(168px + env(safe-area-inset-bottom)); font-size:12.5px; white-space:normal; width:76vw; }
         .card{ padding:18px 16px 16px; }
       }
       /* ---------- Arena picker (title screen) ---------- */
@@ -432,6 +438,54 @@
         .playSetup #difficultyDesc, .playSetup #arenaDesc{ font-size:11.5px; }
         .playSetup .playBtns .btn{ min-height:40px; }
       }
+      /* ---------- Title menu: one screen, no scrolling (v4.8) ----------
+         The main joust menu never scrolls: the title card swaps its
+         scrolling for a compact fit — smaller crown and house banner,
+         tighter type and gaps, and buttons a touch shorter — so PLAY,
+         PRACTICE, LAN 1v1, ENDLESS, ARMOURY, CHANGE HOUSE, TIPS and
+         CAREER are all on screen at once on phone sizes, champion
+         banner and title included. Shorter screens tighten further,
+         and a landscape-height phone drops the decorative pieces
+         rather than any button. */
+      #cardWrap:has(.titleMenu){ padding:8px; }
+      .card:has(.titleMenu){ padding:16px 18px 14px; overflow:hidden; max-height:97vh; }
+      .titleMenu .crownBox svg{ width:44px; height:28px; }
+      .titleMenu h1{ font-size:clamp(26px,6vw,34px); }
+      .titleMenu .rule{ margin:6px auto; }
+      .titleMenu .champBannerBox{ margin:0 auto; }
+      .titleMenu .champBannerBox svg{ width:48px; height:60px; }
+      .titleMenu .champTitle{ font-size:13px; margin:0 0 2px; }
+      .titleMenu .houseBannerBox{ margin:2px auto 0; }
+      .titleMenu .houseBannerBox svg{ width:52px; height:62px; }
+      .titleMenu .houseLine{ font-size:13.5px; margin-top:1px; }
+      .titleMenu .houseSub{ font-size:11px; }
+      .titleMenu p{ font-size:14.5px; line-height:1.35; margin:5px 0 0; }
+      .titleMenu .menuStack{ gap:7px; margin-top:10px; }
+      .titleMenu .menuRow{ gap:7px; }
+      .titleMenu .menuStack .btn{ min-height:44px; padding:9px 12px; font-size:16px; }
+      .titleMenu .menuStack .btn.ghost{ min-height:38px; padding:7px 10px; font-size:13.5px; }
+      @media (max-height:700px){
+        .card:has(.titleMenu){ padding:10px 12px 9px; }
+        .titleMenu .crownBox{ display:none; }
+        .titleMenu h1{ font-size:26px; }
+        .titleMenu .rule{ margin:4px auto; }
+        .titleMenu .champBannerBox svg{ width:34px; height:42px; }
+        .titleMenu .houseBannerBox svg{ width:38px; height:45px; }
+        .titleMenu p{ font-size:13px; margin-top:3px; }
+        .titleMenu .menuStack{ gap:6px; margin-top:7px; }
+        .titleMenu .menuStack .btn{ min-height:38px; padding:7px 10px; font-size:14.5px; }
+        .titleMenu .menuStack .btn.ghost{ min-height:33px; padding:5px 8px; font-size:12.5px; }
+      }
+      @media (max-height:480px){
+        .card:has(.titleMenu){ padding:8px 12px 7px; }
+        .titleMenu .houseBannerBox, .titleMenu p{ display:none; }
+        .titleMenu .champBannerBox svg{ width:26px; height:32px; }
+        .titleMenu h1{ font-size:22px; }
+        .titleMenu .rule{ margin:3px auto; }
+        .titleMenu .menuStack{ gap:5px; margin-top:6px; }
+        .titleMenu .menuStack .btn{ min-height:32px; padding:5px 8px; font-size:13.5px; }
+        .titleMenu .menuStack .btn.ghost{ min-height:28px; padding:4px 8px; font-size:12px; }
+      }
       /* ---------- House picker (v2.5): one page, no scrolling ----------
          All six houses fit on a single screen at phone and desktop
          sizes alike: the card never scrolls while the grid is showing,
@@ -493,10 +547,61 @@
         font-weight:900; font-size:15px; letter-spacing:.08em; padding:11px 20px; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,.6); }
       #skipCineBtn:active{ transform:translateY(1px); }
       #cineHint{ position:absolute; left:14px; bottom:calc(20px + env(safe-area-inset-bottom)); font-size:12.5px; letter-spacing:.12em; color:rgba(232,220,192,.75); text-transform:uppercase; }
-      @media (prefers-reduced-motion: reduce){ #banner{ transition:none; } }
+      /* ---------- Preload splash (v4.7) ----------
+         The first screen on entry, game-studio style: Dingus
+         Interactive centre stage, a sponsor strip beneath, and
+         the version and © 2026 along the bottom. It sits over
+         everything from first paint, then fades away on its own
+         (or on a tap) once the lists are ready behind it. */
+      #preload{ position:fixed; inset:0; z-index:90; background:radial-gradient(120% 90% at 50% 0%, #1c150c, #0d0b08 62%);
+        display:flex; flex-direction:column; align-items:center; justify-content:space-between;
+        padding:calc(26px + env(safe-area-inset-top)) 20px calc(18px + env(safe-area-inset-bottom)); text-align:center;
+        opacity:1; transition:opacity .6s ease; }
+      #preload.done{ opacity:0; pointer-events:none; }
+      .preCenter{ margin:auto 0; animation:preIn .9s ease both; }
+      @keyframes preIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
+      .preStudio{ font-family:"Cinzel Decorative","Cinzel",Georgia, serif; font-weight:900; font-size:clamp(34px,9vw,58px); line-height:1.04; letter-spacing:.06em; color:#f5e3ae;
+        text-shadow:0 2px 0 rgba(0,0,0,.6), 0 0 30px rgba(217,164,65,.25); }
+      .preStudio span{ display:block; font-size:.52em; letter-spacing:.42em; text-indent:.42em; color:#e9c979; margin-top:6px; }
+      .preRule{ position:relative; height:2px; width:min(300px,64vw); margin:18px auto 12px; background:linear-gradient(90deg, transparent, var(--gold), transparent); }
+      .preRule::after{ content:''; position:absolute; left:50%; top:50%; width:9px; height:9px; transform:translate(-50%,-50%) rotate(45deg); background:var(--gold); border:1px solid #8a6a35; }
+      .prePresents{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-size:12.5px; letter-spacing:.34em; text-indent:.34em; color:#cbbd97; text-transform:uppercase; }
+      .preLoad{ width:min(300px,64vw); height:4px; margin:26px auto 0; background:#241b0e; border:1px solid rgba(217,164,65,.35); overflow:hidden; }
+      .preLoad i{ display:block; height:100%; width:0; background:linear-gradient(90deg,#b9862f,#e9c979); animation:preFill 2.1s ease forwards; }
+      @keyframes preFill{ to{ width:100%; } }
+      .preBottom{ width:100%; max-width:560px; }
+      .preSponsors{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px 22px; padding:14px 6px 12px; border-top:1px solid rgba(217,164,65,.28); }
+      .preSponsors .sp{ color:rgba(240,234,220,.88); white-space:nowrap; line-height:1; }
+      .spAmd{ font-family:Arial, Helvetica, sans-serif; font-weight:900; font-style:italic; font-size:19px; letter-spacing:.02em; }
+      .spNvidia{ font-family:Arial, Helvetica, sans-serif; font-weight:700; font-size:16px; letter-spacing:.14em; }
+      .spIntel{ font-family:Georgia, "Times New Roman", serif; font-style:italic; font-weight:700; font-size:18px; }
+      .spApple{ font-family:Georgia, "Times New Roman", serif; font-size:17px; letter-spacing:.04em; }
+      .spWebgl{ font-family:Arial, Helvetica, sans-serif; font-weight:700; font-size:13.5px; letter-spacing:.22em; color:rgba(203,189,151,.9) !important; }
+      .preVersion{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:700; font-size:13px; letter-spacing:.22em; color:#e3c878; margin-top:2px; }
+      .preCopy{ font-size:12.5px; letter-spacing:.08em; color:#9c8d6a; margin-top:7px; }
+      @media (prefers-reduced-motion: reduce){ #banner{ transition:none; } .preCenter{ animation:none; } .preLoad i{ animation:none; width:100%; } #preload{ transition:none; } }
     </style>
   </head>
   <body>
+    <div id="preload" aria-label="Dingus Interactive — loading the game">
+      <div class="preCenter">
+        <div class="preStudio">DINGUS<span>INTERACTIVE</span></div>
+        <div class="preRule"></div>
+        <div class="prePresents">Presents</div>
+        <div class="preLoad" aria-hidden="true"><i></i></div>
+      </div>
+      <div class="preBottom">
+        <div class="preSponsors" aria-label="Sponsors">
+          <span class="sp spAmd">AMD</span>
+          <span class="sp spNvidia">NVIDIA</span>
+          <span class="sp spIntel">intel</span>
+          <span class="sp spApple">Apple</span>
+          <span class="sp spWebgl">WEBGL</span>
+        </div>
+        <div class="preVersion">VERSION <span id="preloadVersion"></span></div>
+        <div class="preCopy">© 2026 Dingus Interactive. All rights reserved.</div>
+      </div>
+    </div>
     <div id="stage"></div>
     <div id="vignette"></div>
 
@@ -571,7 +676,7 @@
       <div class="card" id="cardBox"></div>
     </div>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 4.5 — tap to see update history">v4.5 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 4.8 — tap to see update history">v4.8 <span class="vdot">· Updates</span></button>
 
     <button id="settingsBtn" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
@@ -604,8 +709,11 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b style="color:#ffe9a8;">v4.5</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v4.8</b></p>
         <ul class="logList">
+          <li><span class="vtag">v4.8</span><span class="vtext"><b>Title menu fits one screen.</b> The joust menu is tightened up so every button — PLAY, PRACTICE, ENDLESS, the Armoury, TIPS and CAREER — sits on a single screen on phone sizes, with no scrolling.</span></li>
+          <li><span class="vtag">v4.7</span><span class="vtext"><b>Dingus Interactive preload.</b> A studio splash now opens the game — sponsor strip, the game version and © 2026 along the bottom — then fades into the lists. Tap it to skip ahead.</span></li>
+          <li><span class="vtag">v4.6</span><span class="vtext"><b>Helm fix.</b> The helm hit zone is a touch wider, and the game now tells you where it sits: his helm rides just above centre, not at the top of the stick — a new TIPS note and a hint in the slow-mo second say so.</span></li>
           <li><span class="vtag">v4.5</span><span class="vtext"><b>LAN rematch series.</b> LAN 1v1 is now a series, not one-and-done: the host picks best of three or best of five on the room screen, match wins are tallied after every match, and the first to 2 (or 3) takes the series — NEXT MATCH rides on, NEW SERIES starts fresh.</span></li>
           <li><span class="vtag">v4.4</span><span class="vtext"><b>Career stats.</b> A new CAREER page on the title screen tracks your wins, unhorsings, best streak and where your hits land — shield, breast or helm. Counting starts now and saves on this device.</span></li>
           <li><span class="vtag">v4.3</span><span class="vtext"><b>Endless mode.</b> Ride foe after foe at a rank that climbs with every knight you beat — the run ends only when you are unhorsed. The Practice picker is fixed too: the ★ CHAMPIONS ★ now sit at the top of the list, Sir Jaren the Slim and Sir Mih the Goldfih first, pickable like any knight.</span></li>
@@ -3511,7 +3619,20 @@
     var el = {};
     ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','endlessExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '4.5';
+    var CURRENT_VERSION = '4.8';
+    /* v4.7: the version is written from this one source everywhere
+       it shows — the version pill, the log's "You are on" line and
+       the preload splash — so a bump here updates all three and
+       the splash can never go stale. */
+    (function(){
+      var label = 'v' + CURRENT_VERSION;
+      if(el.versionBtn){
+        el.versionBtn.innerHTML = label + ' <span class="vdot">· Updates</span>';
+        el.versionBtn.setAttribute('aria-label', 'Game version ' + CURRENT_VERSION + ' — tap to see update history');
+      }
+      var pv = document.getElementById('preloadVersion'); if(pv) pv.textContent = label;
+      var yv = document.getElementById('youAreOnVer'); if(yv) yv.textContent = label;
+    })();
     function openLog(){ el.logWrap.classList.remove('hidden'); refreshPill(); }
     function closeLog(){ el.logWrap.classList.add('hidden'); refreshPill(); }
     function logIsOpen(){ return !el.logWrap.classList.contains('hidden'); }
@@ -4134,6 +4255,7 @@
       if(el.lanExitBtn) el.lanExitBtn.classList.add('hidden');
       if(el.menuExitBtn) el.menuExitBtn.classList.add('hidden');
       showCard(
+        '<div class="titleMenu">' +
         '<div class="menuKicker">THE TOURNAMENT OF THE LISTS</div>' +
         '<div class="crownBox"><svg width="56" height="36" viewBox="0 0 54 34" aria-hidden="true"><path d="M4 26 L2 8 L16 16 L27 4 L38 16 L52 8 L50 26 Z" fill="#d9a441" stroke="#8a6a35" stroke-width="1.5" stroke-linejoin="round"/><rect x="4" y="26" width="46" height="5" fill="#b9862f"/><circle cx="27" cy="20" r="3" fill="#8c2f26"/><circle cx="12" cy="21" r="2.2" fill="#31456e"/><circle cx="42" cy="21" r="2.2" fill="#31456e"/><circle cx="2" cy="7" r="2" fill="#e9c979"/><circle cx="27" cy="3" r="2" fill="#e9c979"/><circle cx="52" cy="7" r="2" fill="#e9c979"/></svg></div>' +
         '<h1>THE JOUST</h1><div class="rule"></div>' +
@@ -4152,7 +4274,7 @@
         '<button class="btn ghost" id="changeHouseBtn" type="button">CHANGE HOUSE</button></div>' +
         '<div class="menuRow"><button class="btn ghost" id="tipsBtn" type="button">TIPS</button>' +
         '<button class="btn ghost" id="careerBtn" type="button">CAREER</button></div>' +
-        '</div>'
+        '</div></div>'
       );
       document.getElementById('playBtn').addEventListener('click', function(){ audio(); playSetupCard(); });
       document.getElementById('practiceBtn').addEventListener('click', function(){ audio(); practicePickCard(); });
@@ -4240,6 +4362,7 @@
         '<li><b>Lance joystick</b> — steer the point with the LANCE stick at bottom right. On a computer, move the mouse or use the arrow keys instead.</li>' +
         '<li><b>Shield slider</b> — slide SHIELD at bottom left up, middle or down (or keys 1·2·3) to guard your helm, breast or legs. He works his own shield the same way, guessing where you will strike — hit where he is not covering, and watch for the glow on his lance point.</li>' +
         '<li><b>Scoring</b> — shield 1 · breast 2 · helm 3. Most points after five passes wins the match; a tie rides one more pass to settle it.</li>' +
+        '<li><b>Helm shots</b> — his helm rides just above your saddle line, near the middle of your view, not up at the top of the stick. Aim a touch above centre and hold it there: pushing all the way up overshoots the helm — and a high point invites his shield up to cover it.</li>' +
         '<li><b>Unhorsing</b> — a solid scoring strike can knock a rider clean off his horse, and that ends the match at a stroke — yours on him, or his on you. When a rider falls, the crowd roars.</li>' +
         '<li><b>Tournament</b> — sixty knights ride in twelve rounds of five: the first two rounds are the original ladders, then ten more rounds of new knights. Every round ends with a champion — the fifth knight, marked ★ CHAMPION ★ in gold — who rides faster, aims truer and hits harder. Clear all twelve rounds to take the wreath.</li>' +
         '<li><b>Practice</b> — unlimited passes against a foe you pick: any knight or champion by name, at any rank from 1 to 60 — or the knight you face, or a surprise foe. The ★ CHAMPIONS ★ sit at the top of the list. Winning a pass pays 5 coin, but no Renown and no tournament progress, and an unhorsing just means fresh lances. Leave any time with END PRACTICE.</li>' +
@@ -4885,7 +5008,10 @@
       var shy0 = shieldPos === 'up' ? 2.80 : shieldPos === 'down' ? 1.82 : 2.30;
       var shx = (tx-0.55)/0.42, shy = (ty-shy0)/0.52;
       if(shx*shx + shy*shy < 1) return { zone:'shield', pts:1 };
-      if(d2(0, 2.80) < 0.30*0.30) return { zone:'head', pts:3 };
+      // v4.6: the helm circle widened 0.30 -> 0.36 — the helm sits
+      // barely above the saddle line, so a point aimed "at the top"
+      // sailed clean over the old, smallest zone.
+      if(d2(0, 2.80) < 0.36*0.36) return { zone:'head', pts:3 };
       if(d2(0, 2.32) < 0.42*0.42) return { zone:'chest', pts:2 };
       if(d2(0, 2.80) < 0.52*0.52 || (Math.abs(shx)<1.4 && Math.abs(shy)<1.35) || d2(0, 2.32) < 0.64*0.64) return { zone:'glance', pts:0 };
       return { zone:'miss', pts:0 };
@@ -6665,6 +6791,19 @@
         }
       } else if(G.state !== 'lanwait') G.preSlow = false;
       if(G.slowT > 0) G.slowT -= dt;
+      // v4.6: while the slow stretch runs, the aim hint becomes a
+      // helm hint — his helm sits just above the saddle line, near
+      // the middle of the view, so a point pushed to the top of the
+      // stick overshoots it. Restored the moment the slow stretch
+      // ends (impact clears preSlow, or the charge state changes).
+      var wantHelmHint = !!(G.preSlow && G.state === 'charge');
+      if(wantHelmHint !== !!G.helmHint){
+        G.helmHint = wantHelmHint;
+        if(el.aimHint){
+          el.aimHint.textContent = wantHelmHint ? 'HELM? Aim just above centre — not the top of the stick' : 'Work the joystick to aim your lance · Slide the shield up, middle or down to guard';
+          el.aimHint.classList.toggle('helmHint', wantHelmHint);
+        }
+      }
       var targetTs = G.slowT > 0 ? (reducedMotion ? 0.5 : 0.16) : (G.preSlow && G.state === 'charge' ? (reducedMotion ? 0.75 : 0.5) : 1);
       G.timeScale += (targetTs - G.timeScale) * Math.min(1, dt*10);
       var sdt = dt * G.timeScale;
@@ -6943,6 +7082,21 @@
     // with no house, which keeps the default house — goes straight
     // to the title card.
     if(!hadSave && !G.houseChosen) housePickerCard(false); else titleCard();
+    // v4.7: the preload splash has been up since first paint. Let
+    // its loading bar run, then fade it into the title screen —
+    // a tap on the splash skips straight ahead.
+    var preEl = document.getElementById('preload');
+    if(preEl){
+      var preDone = false;
+      var dismissPreload = function(){
+        if(preDone) return; preDone = true;
+        preEl.classList.add('done');
+        setTimeout(function(){ preEl.style.display = 'none'; }, 700);
+      };
+      preEl.addEventListener('pointerdown', function(e){ e.stopPropagation(); dismissPreload(); });
+      var preDelay = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ? 900 : 2400;
+      setTimeout(dismissPreload, preDelay);
+    }
     // Defer the first render until after the document has parsed, so a slow
     // first frame in software WebGL can never hold up page load.
     if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ requestAnimationFrame(frame); });
