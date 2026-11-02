@@ -749,6 +749,23 @@
          card looks exactly as it did — every LAN button is
          reachable either way. */
       .card:has(.lanFit){ overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; touch-action:pan-y; overscroll-behavior:contain; }
+      /* ---------- Practice cards scroll when they must (v5.11) ----------
+         The Practice picker and intro cards outgrew the v5.0
+         one-screen fit the same way the LAN room did: the picker —
+         quick choices, the six-champion grid, pager, rank stepper,
+         quick ranks, the summary and FACE HIM — is taller than a
+         phone screen, so with the card's overflow hidden FACE HIM
+         sat below the card's cut edge: impossible to press, and
+         the card could not be scrolled to reach it. The Practice
+         intro card ran tall the same way, pushing a champion's
+         quote and RIDE A PASS out of reach. Practice cards now
+         scroll inside the card whenever their content runs taller
+         than the screen (momentum touch scrolling, like the LAN
+         cards). When the content fits, nothing scrolls and the
+         card looks exactly as it did — every Practice button and
+         every champion quote is reachable either way. Endless
+         keeps its no-scroll fit. */
+      .card:has(.practiceFit){ overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; touch-action:pan-y; overscroll-behavior:contain; }
       /* ---------- Pre-match cinematic ---------- */
       #cineWrap{ position:fixed; inset:0; z-index:20; pointer-events:none; }
       #cineWrap.hidden{ display:none; }
@@ -894,7 +911,7 @@
 
     <button id="cardXBtn" class="hidden" type="button" aria-label="Close this page and go back">✕</button>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 5.10 — tap to see update history">v5.10 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 5.11 — tap to see update history">v5.11 <span class="vdot">· Updates</span></button>
 
     <button id="settingsBtn" class="hidden" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
@@ -927,8 +944,9 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v5.10</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v5.11</b></p>
         <ul class="logList">
+          <li><span class="vtag">v5.11</span><span class="vtext"><b>Practice scrolls, champions speak up.</b> Practice cards now scroll when they run tall, so FACE HIM and RIDE A PASS are always in reach — and a picked champion's quote shows on the picker page and on his intro card when the fight starts.</span></li>
           <li><span class="vtag">v5.10</span><span class="vtext"><b>Ten houses, ten champions.</b> Four new houses — Stormcrown, Frostmere, Starfall and Oakenshield — join the six, and every ★ CHAMPION ★ now rides for one house, named on his tile, his Practice cell and his intro card. The house picker pages six at a time, so all ten fit one screen with no scrolling.</span></li>
           <li><span class="vtag">v5.9</span><span class="vtext"><b>Result words clear of the box.</b> The big result banner — UNHORSED! and its line — now sits below the score box in open space, clear of the box, its RENOWN and PURSE lines and the END PRACTICE button, in every mode.</span></li>
           <li><span class="vtag">v5.8</span><span class="vtext"><b>Champions speak first.</b> Every ★ CHAMPION ★ now shows a quote or taunt before the match — on his intro card in the tournament, Practice and Endless. Sir Mih: "life is how you make it" · Sir Jaren: "here is a long one" · Sir Dingus: "sup dingus it's joe".</span></li>
@@ -3864,7 +3882,7 @@
     var el = {};
     ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','shopXBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','endlessExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow','cardXBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '5.10';
+    var CURRENT_VERSION = '5.11';
     /* v4.7: the version is written from this one source everywhere
        it shows — the version pill, the log's "You are on" line and
        the preload splash — so a bump here updates all three and
@@ -4957,7 +4975,12 @@
         var who = pickSrc === 'current' ? 'Current foe — ' + FOES[G.foeIndex].name + ', ' + FOES[G.foeIndex].title + (FOES[G.foeIndex].champ ? ' · ★ CHAMPION ★' : '') + champHouseSuffix(FOES[G.foeIndex])
           : pickSrc === 'random' ? 'Surprise foe — a random knight drawn when you ride, never a champion'
           : pickSrc.name + ', ' + pickSrc.title + (pickSrc.champ ? ' · ★ CHAMPION ★' : '') + champHouseSuffix(pickSrc);
-        sum.innerHTML = 'Facing: <b style="color:#ffe9a8;">' + who + '</b><br />Riding at <b style="color:#ffe9a8;">Rank ' + (pickRank + 1) + '</b> — ' + rankDesc(pickRank);
+        // v5.11: a picked champion's quote shows right here on the
+        // picker page the moment he is selected (and again on his
+        // intro card when the fight starts).
+        var qFoe = pickSrc === 'current' ? FOES[G.foeIndex] : (typeof pickSrc === 'object' ? pickSrc : null);
+        sum.innerHTML = 'Facing: <b style="color:#ffe9a8;">' + who + '</b><br />Riding at <b style="color:#ffe9a8;">Rank ' + (pickRank + 1) + '</b> — ' + rankDesc(pickRank) +
+          ((qFoe && qFoe.champ && qFoe.quote) ? '<br /><span style="color:#ffe9a8;font-style:italic;">&ldquo;' + qFoe.quote + '&rdquo;</span>' : '');
       }
     }
     function practicePickCard(){
