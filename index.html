@@ -172,8 +172,19 @@
       #joystick .joyLabel{ position:absolute; left:0; right:0; bottom:9px; text-align:center; font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif;
         font-size:9.5px; font-weight:700; letter-spacing:.24em; color:#cbbd97; pointer-events:none; }
 
-      /* center banner */
-      #banner{ position:absolute; left:50%; top:24%; transform:translate(-50%,-50%) scale(.92); text-align:center; opacity:0; transition:opacity .18s, transform .18s; width:min(92vw,560px); }
+      /* center banner — v5.9: dropped clear of the top score box.
+         The banner used to sit centred at 24% of the screen, which
+         on phones put the big result word and its line straight
+         across the score plate (score, CHAMPION badge, RENOWN and
+         PURSE rows) and up against the END PRACTICE button. It now
+         centres at max(35%, 268px + safe-area top): the plate's
+         worst case (champion badge shown, pass label wrapped) ends
+         about 195px + safe-area down, and the exit buttons about
+         165px + safe-area, so the banner's top edge always lands in
+         open space below both — in every mode, since every result
+         banner (tournament, Practice, Endless, LAN, CHARGE!) rides
+         this one element. */
+      #banner{ position:absolute; left:50%; top:max(35%, calc(268px + var(--sat))); transform:translate(-50%,-50%) scale(.92); text-align:center; opacity:0; transition:opacity .18s, transform .18s; width:min(92vw,560px); }
       #banner.show{ opacity:1; transform:translate(-50%,-50%) scale(1); }
       #banner .big{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:clamp(26px,6vw,44px); color:#fff; text-shadow:0 2px 0 #000, 0 0 26px rgba(0,0,0,.65); letter-spacing:.03em; }
       #banner .sub{ font-size:clamp(15px,3.4vw,19px); color:var(--parchment); text-shadow:0 1px 4px #000; margin-top:2px; }
@@ -576,12 +587,15 @@
         .titleMenu .menuStack .btn{ min-height:32px; padding:5px 8px; font-size:13.5px; }
         .titleMenu .menuStack .btn.ghost{ min-height:28px; padding:4px 8px; font-size:12px; }
       }
-      /* ---------- House picker (v2.5): one page, no scrolling ----------
-         All six houses fit on a single screen at phone and desktop
-         sizes alike: the card never scrolls while the grid is showing,
-         the grid is always two compact columns (three rows), and each
-         house keeps its shield, flag, name, motto and colours in a
-         tight tile whose whole area — not just its button — picks it. */
+      /* ---------- House picker (v2.5 · paged v5.10): no scrolling ----------
+         Ten houses since v5.10, shown six at a time in the same
+         two-column grid (three rows) the six-house picker always
+         used, with PREV / NEXT paging between the two pages — the
+         card never scrolls and nothing is squeezed or overlapped
+         at any phone size. Each house keeps its shield, flag, name,
+         motto and colours in a tight tile — plus, since v5.10, the
+         name of its ★ CHAMPION ★ — and the whole tile area, not
+         just its button, picks it. */
       .card:has(.houseGrid){ padding:16px 16px 12px; overflow:hidden; max-height:96vh; max-height:min(96dvh, calc(100dvh - 16px - var(--sat) - var(--sab))); }
       #cardWrap:has(.houseGrid){ padding:calc(8px + var(--sat)) calc(8px + var(--sar)) calc(8px + var(--sab)) calc(8px + var(--sal)); }
       .houseGrid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
@@ -601,11 +615,12 @@
       .houseCard .hName{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:14.5px; line-height:1.12; color:#ffe9a8; margin-top:5px; }
       .houseCard .hMotto{ font-size:12px; line-height:1.2; font-style:italic; color:#ddd0ab; margin-top:1px; }
       .houseCard .hCols{ font-size:10px; line-height:1.3; letter-spacing:.05em; text-transform:uppercase; color:#b7a67f; margin-top:2px; }
+      .houseCard .hChamp{ font-size:10.5px; line-height:1.25; letter-spacing:.04em; color:#e3c878; margin-top:3px; }
       .houseCard .btn{ margin-top:6px; width:100%; min-height:34px; padding:6px 8px; font-size:12.5px; }
       .houseIntro{ font-size:13.5px !important; line-height:1.35 !important; margin:4px 0 0 !important; }
       .houseFoot{ margin-top:8px !important; }
       .houseBackBtn{ min-height:38px !important; padding:8px 22px !important; margin-top:8px !important; margin-left:0 !important; }
-      @media (max-height:700px){
+      @media (max-height:820px){
         .card:has(.houseGrid){ padding:12px 12px 10px; }
         .houseGrid{ gap:6px; margin-top:6px; }
         .houseCard{ padding:6px 7px 6px; }
@@ -616,9 +631,21 @@
         .houseCard .hName{ font-size:13.5px; margin-top:4px; }
         .houseCard .hMotto{ font-size:11px; }
         .houseCard .hCols{ font-size:9.5px; }
+        .houseCard .hChamp{ font-size:9.5px; margin-top:2px; }
         .houseCard .btn{ min-height:30px; margin-top:5px; }
         .houseIntro{ font-size:12px !important; }
         .houseBackBtn{ min-height:34px !important; margin-top:6px !important; }
+        .card:has(.houseGrid) .pickPager{ margin-top:4px; }
+        .card:has(.houseGrid) .pickPager .arenaBtn{ min-height:28px; }
+      }
+      @media (max-height:680px){
+        .houseCard .hShield{ width:29px; height:34px; }
+        .houseCard .hShield span{ font-size:15px; }
+        .houseCard .hFlag{ height:22px; }
+        .houseCard .hFlag .cloth{ height:17px; font-size:11px; }
+        .houseCard .hName{ font-size:12.5px; margin-top:3px; }
+        .houseCard .hMotto{ font-size:10.5px; }
+        .houseCard .btn{ min-height:27px; margin-top:4px; }
       }
       .houseBannerBox{ margin:4px auto 2px; line-height:0; }
       .houseLine{ font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; letter-spacing:.18em; font-size:14.5px; color:#ffe9a8; margin-top:2px; }
@@ -656,9 +683,11 @@
          Mih the Goldfih the first two cells — with PREV / NEXT
          paging through all ten champions. */
       .practiceFit .pickList{ max-height:none; overflow:hidden; display:grid; grid-template-columns:1fr 1fr; gap:5px; padding:5px; margin:6px 0 0; touch-action:manipulation; }
-      .practiceFit .pickRow{ flex-direction:column; align-items:flex-start; justify-content:center; gap:1px; padding:6px 7px; border:1px solid rgba(217,164,65,.14); min-height:47px; }
+      .practiceFit .pickRow{ flex-direction:column; align-items:flex-start; justify-content:center; gap:1px; padding:6px 7px; border:1px solid rgba(217,164,65,.14); min-height:59px; }
       .practiceFit .pickRow .nm{ font-size:12px; white-space:normal; line-height:1.15; }
       .practiceFit .pickRow .tt{ font-size:11px; line-height:1.15; }
+      .practiceFit .pickRow .hs{ font-size:10px; line-height:1.15; letter-spacing:.05em; color:#cbbd97; }
+      .practiceFit .pickRow.on .hs{ color:#ffe9a8; }
       .practiceFit .pickRow .ch{ margin-left:0; font-size:9.5px; }
       .pickPager{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:5px; }
       .pickPager .arenaBtn{ flex:0 0 auto; min-width:92px; min-height:32px; }
@@ -683,7 +712,7 @@
         .oneScreen .arenaBtn{ min-height:27px; font-size:10.5px; }
         .oneScreen .herald{ width:42px; height:50px; }
         .oneScreen .herald span{ font-size:18px; }
-        .practiceFit .pickRow{ min-height:42px; padding:5px 6px; }
+        .practiceFit .pickRow{ min-height:52px; padding:5px 6px; }
         .lanFit .lanBigCode{ font-size:30px; }
         .lanFit .lanCode{ min-height:38px; }
       }
@@ -700,7 +729,7 @@
         .oneScreen .btn.small{ min-height:28px; }
         .oneScreen .arenaBtn{ min-height:25px; }
         .oneScreen .menuLabel{ margin-top:5px; }
-        .practiceFit .pickRow{ min-height:38px; }
+        .practiceFit .pickRow{ min-height:47px; }
         .practiceFit .rankNum{ font-size:17px; }
         .lanFit .lanBigCode{ font-size:26px; }
         .lanFit .lanCodeInput{ font-size:20px; }
@@ -865,7 +894,7 @@
 
     <button id="cardXBtn" class="hidden" type="button" aria-label="Close this page and go back">✕</button>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 5.8 — tap to see update history">v5.8 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 5.10 — tap to see update history">v5.10 <span class="vdot">· Updates</span></button>
 
     <button id="settingsBtn" class="hidden" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
@@ -898,8 +927,10 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v5.8</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v5.10</b></p>
         <ul class="logList">
+          <li><span class="vtag">v5.10</span><span class="vtext"><b>Ten houses, ten champions.</b> Four new houses — Stormcrown, Frostmere, Starfall and Oakenshield — join the six, and every ★ CHAMPION ★ now rides for one house, named on his tile, his Practice cell and his intro card. The house picker pages six at a time, so all ten fit one screen with no scrolling.</span></li>
+          <li><span class="vtag">v5.9</span><span class="vtext"><b>Result words clear of the box.</b> The big result banner — UNHORSED! and its line — now sits below the score box in open space, clear of the box, its RENOWN and PURSE lines and the END PRACTICE button, in every mode.</span></li>
           <li><span class="vtag">v5.8</span><span class="vtext"><b>Champions speak first.</b> Every ★ CHAMPION ★ now shows a quote or taunt before the match — on his intro card in the tournament, Practice and Endless. Sir Mih: "life is how you make it" · Sir Jaren: "here is a long one" · Sir Dingus: "sup dingus it's joe".</span></li>
           <li><span class="vtag">v5.7</span><span class="vtext"><b>Practice: surprise or a champion.</b> Regular knights can no longer be picked by name in Practice — SURPRISE ME draws a random knight instead, never a champion. The ★ CHAMPIONS ★ can still be picked by name, and the rank choice is unchanged.</span></li>
           <li><span class="vtag">v5.6</span><span class="vtext"><b>LAN room fixed.</b> When a friend joins, the connected room card now scrolls, so READY — TO THE CHARGE is always in reach — on phone screens it was cut off at the card's bottom edge, un-pressable.</span></li>
@@ -1119,61 +1150,61 @@
       { name:'SIR BEDWYN',   title:'the Quiet',     main:0x4a5d23, accent:0xd8d3c3, plume:0xd8d3c3, horse:0x3c3226, speed:14.3, sigma:0.125, headAim:0.44, intro:'Bedwyn says nothing before a charge and little after. His point, though, speaks plainly enough.' },
       { name:'SIR CARADOC',  title:'the Tall',      main:0x33506e, accent:0xd9a441, plume:0xd9a441, horse:0x6e6258, speed:14.5, sigma:0.12, headAim:0.46, intro:'Caradoc is tall enough that his helm rides high over the barrier — and his lance hunts just as high.' },
       { name:'SIR HUW',      title:'the Fox',       main:0xc25e1e, accent:0x2e2a26, plume:0xe8a020, horse:0x7a4a26, speed:14.7, sigma:0.11, headAim:0.48, intro:'Huw changes his guard the way a fox changes direction — late, and all at once. Watch his shield, not his eyes.' },
-      { name:'SIR JAREN',    title:'the Slim',      main:0x6d1a12, accent:0xd9a441, plume:0xd9a441, horse:0x2e2a26, speed:15.2, sigma:0.075, headAim:0.56, champ:true, quote:'here is a long one', intro:'Sir Jaren the Slim — thin as a lance shaft and twice as hard to catch. A champion of the new rounds: he reads your shield early, strikes near-true, and hits far above his weight.' },
+      { name:'SIR JAREN',    title:'the Slim',      main:0x6d1a12, accent:0xd9a441, plume:0xd9a441, horse:0x2e2a26, speed:15.2, sigma:0.075, headAim:0.56, champ:true, house:'sunspire', quote:'here is a long one', intro:'Sir Jaren the Slim — thin as a lance shaft and twice as hard to catch. A champion of the new rounds: he reads your shield early, strikes near-true, and hits far above his weight.' },
       // Round 4
       { name:'SIR ALARIC',   title:'the Grim',      main:0x3a3f4a, accent:0x8c2f26, plume:0x8c2f26, horse:0x24202a, speed:14.3, sigma:0.13, headAim:0.44, intro:'Alaric has ridden in forty tournaments and smiled at none of them. His aim is as cheerful as he is.' },
       { name:'SIR BEVIS',    title:'the Boar',      main:0x5d4030, accent:0xd9a441, plume:0x3a2415, horse:0x4a3423, speed:14.5, sigma:0.12, headAim:0.46, intro:'Bevis charges head-down like his namesake. Against him a blocked pass is a won pass — his whole weight rides behind every blow.' },
       { name:'SIR COL',      title:'the Shepherd',  main:0x687f3c, accent:0xe8dcc0, plume:0xe8dcc0, horse:0x8a7a5c, speed:14.7, sigma:0.115, headAim:0.48, intro:'Col herded sheep before he herded squires. Patient, unhurried, and suddenly exactly where you did not want him.' },
       { name:'SIR DAFYDD',   title:'the Bard',      main:0x7a4a8c, accent:0xd9a441, plume:0xd9a441, horse:0x5c4a6e, speed:14.9, sigma:0.105, headAim:0.50, intro:'Dafydd sings his own victories on the ride home. Give him nothing to sing about.' },
-      { name:'SIR MIH',      title:'the Goldfih',  main:0x1f3a5f, accent:0xd9a441, plume:0xe8a020, horse:0x1c1c20, speed:15.4, sigma:0.07, headAim:0.58, champ:true, quote:'life is how you make it', intro:'Sir Mih the Goldfih — nobody at court can say why they call him the Goldfih, and nobody who has faced him asks twice. A champion in deep blue and gold: faster than Jaren, truer than Jaren, and hungrier.' },
+      { name:'SIR MIH',      title:'the Goldfih',  main:0x1f3a5f, accent:0xd9a441, plume:0xe8a020, horse:0x1c1c20, speed:15.4, sigma:0.07, headAim:0.58, champ:true, house:'goldmane', quote:'life is how you make it', intro:'Sir Mih the Goldfih — nobody at court can say why they call him the Goldfih, and nobody who has faced him asks twice. A champion in deep blue and gold: faster than Jaren, truer than Jaren, and hungrier.' },
       // Round 5
       { name:'SIR ELIAS',    title:'the Monk',      main:0x6e6258, accent:0x274a73, plume:0xd8d3c3, horse:0x9a958c, speed:14.5, sigma:0.125, headAim:0.46, intro:'Elias prays before every pass — for your soul, he says. His lance arrives like an answered prayer: quickly.' },
       { name:'SIR FARAMOND', title:'the Proud',     main:0x8c2f26, accent:0xd9a441, plume:0xf2e3ac, horse:0xe3ddcf, speed:14.7, sigma:0.115, headAim:0.48, intro:'Faramond will not ride against a knight he calls beneath him. You are here, so take that as a compliment — and a warning.' },
       { name:'SIR GARETH',   title:'the Gentle',    main:0x2e6b34, accent:0xe8dcc0, plume:0x7fae4c, horse:0x6b4a2f, speed:14.9, sigma:0.11, headAim:0.50, intro:'Gareth apologises to every knight he unhorses. He has had a great deal of practice at apologising.' },
       { name:'SIR HOB',      title:'the Miller',    main:0xb08d57, accent:0x571209, plume:0xe8dcc0, horse:0x7a5c3e, speed:15.1, sigma:0.10, headAim:0.52, intro:'Hob ground corn for twenty years before he picked up a lance. His arms remember the millstones.' },
-      { name:'SIR DINGUS',   title:'the Tall',      main:0x704214, accent:0xd9a441, plume:0xd9a441, horse:0x8a7a5c, speed:15.6, sigma:0.068, headAim:0.59, champ:true, quote:'sup dingus it\'s joe', intro:'Sir Dingus the Tall — the tallest knight in all the lists, a head above every other champion here, with the reach to match. Do not let the name fool you: his point arrives early, high and true, and it has put better knights than you in the sand.' },
+      { name:'SIR DINGUS',   title:'the Tall',      main:0x704214, accent:0xd9a441, plume:0xd9a441, horse:0x8a7a5c, speed:15.6, sigma:0.068, headAim:0.59, champ:true, house:'oakenshield', quote:'sup dingus it\'s joe', intro:'Sir Dingus the Tall — the tallest knight in all the lists, a head above every other champion here, with the reach to match. Do not let the name fool you: his point arrives early, high and true, and it has put better knights than you in the sand.' },
       // Round 6
       { name:'SIR IVO',      title:'the Lean',      main:0x274a73, accent:0xc9cfda, plume:0xc9cfda, horse:0x4a4e57, speed:14.7, sigma:0.12, headAim:0.48, intro:'Ivo eats like a sparrow and rides like a hawk. There is nothing spare on him to hit but helm and shield.' },
       { name:'SIR JOSCELIN', title:'the Fair',      main:0xd8b84a, accent:0x8c2f26, plume:0xf2e3ac, horse:0xcbb489, speed:14.9, sigma:0.11, headAim:0.50, intro:'The stands sigh for Joscelin. His lance, sadly for you, is as handsome as he is — and twice as straight.' },
       { name:'SIR KIT',      title:'the Cutpurse',  main:0x2c4024, accent:0xb08d57, plume:0x3d6b35, horse:0x2e2a26, speed:15.1, sigma:0.105, headAim:0.52, intro:'Kit came to the lists from the road, and the road taught him to strike where a guard is not. Keep your shield honest.' },
       { name:'SIR LIONEL',   title:'the Loud',      main:0xc78f2a, accent:0x571209, plume:0xe8a020, horse:0x8a5a2a, speed:15.3, sigma:0.095, headAim:0.54, intro:'Lionel roars down the whole charge. It is not courage or madness — it is timing, and it works.' },
-      { name:'SIR MORHOLT',  title:'the Giant',     main:0x3a2415, accent:0xd9a441, plume:0xd9a441, horse:0x1f1c1a, speed:15.8, sigma:0.065, headAim:0.60, champ:true, quote:'I have never ducked in my life. Doorways duck for me.', intro:'Morholt stands near seven feet in the saddle and his horse is a siege engine with hooves. Even his shield hits land like tree trunks. Unhorse him if you can — nobody lately has.' },
+      { name:'SIR MORHOLT',  title:'the Giant',     main:0x3a2415, accent:0xd9a441, plume:0xd9a441, horse:0x1f1c1a, speed:15.8, sigma:0.065, headAim:0.60, champ:true, house:'thornwall', quote:'I have never ducked in my life. Doorways duck for me.', intro:'Morholt stands near seven feet in the saddle and his horse is a siege engine with hooves. Even his shield hits land like tree trunks. Unhorse him if you can — nobody lately has.' },
       // Round 7
       { name:'SIR MAEL',     title:'the Salt',      main:0x5a6ea6, accent:0xe8dcc0, plume:0xd8d3c3, horse:0x6e6258, speed:14.9, sigma:0.115, headAim:0.50, intro:'Mael sailed the narrow sea before he ever saw a tilt-yard. He rides a charge like a deck in a gale — loose, rolling, and hard to read.' },
       { name:'SIR NIGEL',    title:'the Ninth',     main:0x4a2c5a, accent:0xd9a441, plume:0xb04a6b, horse:0x34283e, speed:15.1, sigma:0.105, headAim:0.52, intro:'Eight elder brothers fell in the lists before him. Nigel rides with eight ghosts on his shoulders and something to prove to all of them.' },
       { name:'SIR OSRIC',    title:'the One-Eyed',  main:0x1c1c20, accent:0xd8d3c3, plume:0x7a1f1f, horse:0x24202a, speed:15.3, sigma:0.10, headAim:0.54, intro:'Osric lost an eye to a lance and kept the lance. What his sight lost, his seat and his timing more than repaid.' },
       { name:'SIR PEREDUR',  title:'the Piper',     main:0x1f6f6b, accent:0xe8dcc0, plume:0xd9a441, horse:0x5a4632, speed:15.5, sigma:0.09, headAim:0.55, intro:'Peredur plays the pipes at feast and plays the fool at market — then rides like this. The fooling ends at the barrier.' },
-      { name:'SIR ANGOR',    title:'the Ironhand',  main:0x4c4850, accent:0xd9a441, plume:0xd9a441, horse:0x3a3e46, speed:16.0, sigma:0.06, headAim:0.62, champ:true, quote:'The iron hand has never fumbled a lance. The other hand is just along for the ride.', intro:'Angor lost his left hand to a portcullis and had the smiths forge him one of iron. It has never once loosened on the reins — or on a lance.' },
+      { name:'SIR ANGOR',    title:'the Ironhand',  main:0x4c4850, accent:0xd9a441, plume:0xd9a441, horse:0x3a3e46, speed:16.0, sigma:0.06, headAim:0.62, champ:true, house:'ironhold', quote:'The iron hand has never fumbled a lance. The other hand is just along for the ride.', intro:'Angor lost his left hand to a portcullis and had the smiths forge him one of iron. It has never once loosened on the reins — or on a lance.' },
       // Round 8
       { name:'SIR QUENTIN',  title:'the Quarrel',   main:0x7a1f1f, accent:0xe8dcc0, plume:0x8c2f26, horse:0x5c3226, speed:15.0, sigma:0.11, headAim:0.51, intro:'Quentin has quarrelled with every knight at court, half the heralds and one bishop. The lance is where he settles them all.' },
       { name:'SIR ROLAND',   title:'the Rook',      main:0x232c4e, accent:0xc9cfda, plume:0x232c4e, horse:0x2a3040, speed:15.2, sigma:0.10, headAim:0.53, intro:'Roland rides as straight as a rook flies and about as mercifully. There is no feint in him — only arrival.' },
       { name:'SIR SEGER',    title:'the Smith',     main:0x6d5a33, accent:0xe8a020, plume:0xc25e1e, horse:0x4a3423, speed:15.4, sigma:0.095, headAim:0.55, intro:'Seger forged half the armour in this tournament, his own first. He knows where every plate is weak — because he put the strength there.' },
       { name:'SIR TALIESIN', title:'the Dreamer',   main:0x8a9a5b, accent:0x274a73, plume:0xf2e3ac, horse:0x9a958c, speed:15.6, sigma:0.088, headAim:0.56, intro:'Taliesin claims he dreams each match the night before. The unnerving part is how often the dreams are right.' },
-      { name:'SIR LOHENGRIN', title:'the Swan',     main:0xd8d3c3, accent:0xd9a441, plume:0xffffff, horse:0xe3ddcf, speed:16.1, sigma:0.058, headAim:0.63, champ:true, quote:'A swan carried me to these lists. It has better manners than you — and it bites.', intro:'Lohengrin arrived at the tournament by swan boat, or so the song goes. However he came, he has not lost since — white, silent and exact as a drawn blade.' },
+      { name:'SIR LOHENGRIN', title:'the Swan',     main:0xd8d3c3, accent:0xd9a441, plume:0xffffff, horse:0xe3ddcf, speed:16.1, sigma:0.058, headAim:0.63, champ:true, house:'rosefield', quote:'A swan carried me to these lists. It has better manners than you — and it bites.', intro:'Lohengrin arrived at the tournament by swan boat, or so the song goes. However he came, he has not lost since — white, silent and exact as a drawn blade.' },
       // Round 9
       { name:'SIR URIEN',    title:'the Raven',     main:0x1c1c20, accent:0x5b3a8c, plume:0x232c4e, horse:0x1f1c1a, speed:15.1, sigma:0.105, headAim:0.52, intro:'Urien keeps a raven at his pavilion and consults it before matches. The raven, witnesses swear, nods.' },
       { name:'SIR VAUGHAN',  title:'the Vast',      main:0x8c5a2a, accent:0x274a73, plume:0xd9a441, horse:0x6b4a2f, speed:15.3, sigma:0.098, headAim:0.54, intro:'Vaughan fills the barrier lane the way a gate fills a doorway. Getting a lance past him is a problem of geography.' },
       { name:'SIR WALERAN',  title:'the Wolf',      main:0x5a5e52, accent:0x7a1f1f, plume:0x8a8d90, horse:0x3c4038, speed:15.5, sigma:0.092, headAim:0.56, intro:'Waleran circles. Waleran waits. Waleran strikes once. The pack tactics of one are somehow worse than a pack.' },
       { name:'SIR YVAIN',    title:'the Younger',   main:0x3d6b35, accent:0xd9a441, plume:0xe8a020, horse:0x7a6248, speed:15.7, sigma:0.085, headAim:0.57, intro:'Yvain is nineteen and has never been unhorsed in a match that counted. The herald says it with disbelief every single time.' },
-      { name:'SIR BRUNOR',   title:'the Shieldbreaker', main:0x571209, accent:0xd9a441, plume:0xd9a441, horse:0x2e2018, speed:16.2, sigma:0.055, headAim:0.64, champ:true, quote:'Lovely shield. There is already a nail over my stable door with its name on it.', intro:'Brunor does not aim around shields. He aims through them, and keeps the splinters of the famous ones nailed over his stable door. Yours would make a fine addition, he says.' },
+      { name:'SIR BRUNOR',   title:'the Shieldbreaker', main:0x571209, accent:0xd9a441, plume:0xd9a441, horse:0x2e2018, speed:16.2, sigma:0.055, headAim:0.64, champ:true, house:'stormcrown', quote:'Lovely shield. There is already a nail over my stable door with its name on it.', intro:'Brunor does not aim around shields. He aims through them, and keeps the splinters of the famous ones nailed over his stable door. Yours would make a fine addition, he says.' },
       // Round 10
       { name:'SIR ANSELM',   title:'the Ashen',     main:0x8a8d90, accent:0x3a3f4a, plume:0xd8d3c3, horse:0x6e6a62, speed:15.2, sigma:0.10, headAim:0.53, intro:'Anselm rode out of a burned town with nothing but his armour and his name. Both are grey now. Neither has bent since.' },
       { name:'SIR BALIN',    title:'the Wild',      main:0x9c352a, accent:0x2e2a26, plume:0xc8452f, horse:0x4a2c1e, speed:15.4, sigma:0.095, headAim:0.55, intro:'Balin is banned from three feast halls and one wedding. In the lists, though, wild is a discipline — and he is its master.' },
       { name:'SIR CORIN',    title:'the Crane',     main:0x7fa8c9, accent:0x571209, plume:0xe8dcc0, horse:0x8a8d90, speed:15.6, sigma:0.088, headAim:0.57, intro:'Corin is all arms and angles, folded into the saddle like his namesake. His lance unfolds at the last moment, from further away than seems fair.' },
       { name:'SIR DRUSTAN',  title:'the Deep',      main:0x14343e, accent:0xd9a441, plume:0x1f6f6b, horse:0x203038, speed:15.8, sigma:0.082, headAim:0.58, intro:'Nobody knows where Drustan trains, or with whom, or why his colours are the colour of deep water. His aim is the only thing about him that surfaces.' },
-      { name:'SIR AGRAVAIN', title:'the Hardhand',  main:0x6d1a12, accent:0xd9a441, plume:0xe8a020, horse:0x33231a, speed:16.3, sigma:0.052, headAim:0.65, champ:true, quote:'I hold a grudge even longer than a lance. Congratulations — you are now both.', intro:'Agravain grips a lance the way other men grip a grudge — personally, and to the end. A champion of the hardest school: no flourish, no mercy, no wasted motion.' },
+      { name:'SIR AGRAVAIN', title:'the Hardhand',  main:0x6d1a12, accent:0xd9a441, plume:0xe8a020, horse:0x33231a, speed:16.3, sigma:0.052, headAim:0.65, champ:true, house:'frostmere', quote:'I hold a grudge even longer than a lance. Congratulations — you are now both.', intro:'Agravain grips a lance the way other men grip a grudge — personally, and to the end. A champion of the hardest school: no flourish, no mercy, no wasted motion.' },
       // Round 11
       { name:'SIR ELAND',    title:'the Elder',     main:0x6e6258, accent:0xd9a441, plume:0xd8d3c3, horse:0x9a8d7a, speed:15.3, sigma:0.098, headAim:0.54, intro:'Eland has buried two kings and outlived three champions. Experience is just speed that has learned where to stand.' },
       { name:'SIR FOLKE',    title:'the Falconer',  main:0x2e6b34, accent:0xb08d57, plume:0x7fae4c, horse:0x5c4a32, speed:15.5, sigma:0.09, headAim:0.56, intro:'Folke trains hawks and reads a charge the way they read a field — from above, all at once, choosing the one moment to stoop.' },
       { name:'SIR GRIMBALD', title:'the Grey',      main:0x4c4850, accent:0xc9cfda, plume:0x8a8d90, horse:0x3a3e46, speed:15.7, sigma:0.085, headAim:0.58, intro:'Grey hair, grey steel, grey horse. Grimbald is the least colourful thing in the tournament and very nearly the most dangerous.' },
       { name:'SIR HUGH',     title:'the Hammer',    main:0x8c2f26, accent:0x3a2415, plume:0x3a2415, horse:0x4a3423, speed:15.9, sigma:0.08, headAim:0.59, intro:'Hugh does not fence with a lance. He falls on you with it, the whole horse behind the blow, like a hammer off a wall.' },
-      { name:'SIR MALLEOR',  title:'the Merciless', main:0x2a0a12, accent:0xd9a441, plume:0x7a1f1f, horse:0x1c1410, speed:16.4, sigma:0.05, headAim:0.66, champ:true, quote:'Mercy? I left it at home, next to my smile and my second chances.', intro:'Malleor has never once pulled a strike, spared a beaten man a second pass, or smiled at a herald. The crowd goes quiet when he rides in — champions do that to a place.' },
+      { name:'SIR MALLEOR',  title:'the Merciless', main:0x2a0a12, accent:0xd9a441, plume:0x7a1f1f, horse:0x1c1410, speed:16.4, sigma:0.05, headAim:0.66, champ:true, house:'nightmoor', quote:'Mercy? I left it at home, next to my smile and my second chances.', intro:'Malleor has never once pulled a strike, spared a beaten man a second pass, or smiled at a herald. The crowd goes quiet when he rides in — champions do that to a place.' },
       // Round 12
       { name:'SIR MARHAULT', title:'the Moor',      main:0x274a3a, accent:0xd9a441, plume:0xe8a020, horse:0x3c2e20, speed:15.4, sigma:0.095, headAim:0.55, intro:'Marhault crossed a sea and a desert to ride in this tournament. He did not come all that way to lose politely.' },
       { name:'SIR OWEN',     title:'the Oathbound', main:0x31456e, accent:0xe8dcc0, plume:0xd8d3c3, horse:0x5a5148, speed:15.6, sigma:0.088, headAim:0.57, intro:'Owen swore an oath on a winter road and has kept it through forty matches. Whatever it was, it is clearly working.' },
       { name:'SIR PELLEAS',  title:'the Pale',      main:0xd8d3c3, accent:0x274a73, plume:0x274a73, horse:0xc9c2ae, speed:15.8, sigma:0.082, headAim:0.59, intro:'Pelleas looks like a ghost story the north tells its squires. Then the ghost story takes up a lance, and stops being a story.' },
       { name:'SIR SAHER',    title:'the Scarred',   main:0x7a3a26, accent:0xd8d3c3, plume:0x8c2f26, horse:0x4a3423, speed:16.0, sigma:0.078, headAim:0.60, intro:'Every scar Saher carries came from a knight whose name the heralds still sing. He collects famous opponents the way other men collect favour.' },
-      { name:'SIR AURELIUS', title:'the Last Champion', main:0xd9a441, accent:0x571209, plume:0xd9a441, horse:0xe3ddcf, speed:16.6, sigma:0.045, headAim:0.68, champ:true, quote:'Everyone asks if the gold is heavy. Ask the sixty knights under it — oh. You cannot.', intro:'Aurelius, the Last Champion — clad all in gold and counted the mightiest of the ten champions. Sixty knights entered these lists and he stands among the very best of them: fastest, truest, hardest-hitting. Beat him, and his round is yours.' }
+      { name:'SIR AURELIUS', title:'the Last Champion', main:0xd9a441, accent:0x571209, plume:0xd9a441, horse:0xe3ddcf, speed:16.6, sigma:0.045, headAim:0.68, champ:true, house:'starfall', quote:'Everyone asks if the gold is heavy. Ask the sixty knights under it — oh. You cannot.', intro:'Aurelius, the Last Champion — clad all in gold and counted the mightiest of the ten champions. Sixty knights entered these lists and he stands among the very best of them: fastest, truest, hardest-hitting. Beat him, and his round is yours.' }
     ];
     var FIRST_LADDER = 5; // foes 0–4 are the original ladder; 5–9 the Champion's Ladder; 10–59 the ten new rounds of five (v2.10)
     function ladderPos(idx){ return idx % 5; }
@@ -1876,10 +1907,24 @@
       { id:'nightmoor', name:'House Nightmoor', a:0x232c4e, b:0xc9cfda, sigil:'☾', sigilName:'the Moon',     colName:'Midnight & Silver', motto:'Quiet, and watching.' },
       { id:'thornwall', name:'House Thornwall', a:0x2e6b34, b:0xe8dcc0, sigil:'♜', sigilName:'the Tower',    colName:'Emerald & Cream',   motto:'None shall pass.' },
       { id:'ironhold',  name:'House Ironhold',  a:0x1c1c20, b:0x7a1f1f, sigil:'♞', sigilName:'the Knight',   colName:'Onyx & Blood',      motto:'Iron does not bend.' },
-      { id:'rosefield', name:'House Rosefield', a:0xb04a6b, b:0xf0e6da, sigil:'⚜', sigilName:'the Fleur',    colName:'Rose & Pearl',      motto:'Grace, then glory.' }
+      { id:'rosefield', name:'House Rosefield', a:0xb04a6b, b:0xf0e6da, sigil:'⚜', sigilName:'the Fleur',    colName:'Rose & Pearl',      motto:'Grace, then glory.' },
+      { id:'stormcrown', name:'House Stormcrown', a:0x14555a, b:0xe07a2c, sigil:'⚡', sigilName:'the Lightning', colName:'Tempest Teal & Copper', motto:'The storm answers us.' },
+      { id:'frostmere', name:'House Frostmere', a:0x5b84a3, b:0xf4f8fa, sigil:'❄', sigilName:'the Snowflake', colName:'Frost Blue & Ice', motto:'Cold keeps its counsel.' },
+      { id:'starfall',  name:'House Starfall',  a:0x3d2a6b, b:0xe8c547, sigil:'★', sigilName:'the Star',     colName:'Violet & Star Gold',  motto:'Bright, even falling.' },
+      { id:'oakenshield', name:'House Oakenshield', a:0x5c3d1e, b:0xc9a227, sigil:'♣', sigilName:'the Oak',   colName:'Oak Brown & Brass',   motto:'Roots hold fast.' }
     ];
     function houseById(id){ for(var i=0;i<HOUSES.length;i++) if(HOUSES[i].id === id) return HOUSES[i]; return HOUSES[0]; }
     function currentHouse(){ return houseById(G.house); }
+    /* Champions and houses (v5.10): each of the ten ★ CHAMPIONS ★
+       rides for exactly one of the ten houses (his `house` field in
+       the roster), and each house has exactly one champion. Shown
+       wherever a champion is shown — the Practice picker, his
+       pre-match intro card, the cinematic caption — and named on
+       his house's tile in the house picker. Pageantry only: no
+       house or champion-house pairing touches any rule. */
+    function champHouse(K){ return (K && K.champ && K.house) ? houseById(K.house) : null; }
+    function champHouseSuffix(K){ var H = champHouse(K); return H ? ' · ' + H.name : ''; }
+    function houseChampion(H){ for(var i=0;i<FOES.length;i++) if(FOES[i].champ && FOES[i].house === H.id) return FOES[i]; return null; }
 
     /* ================= STATE ================= */
     var G = {
@@ -3819,7 +3864,7 @@
     var el = {};
     ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','shopXBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','endlessExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow','cardXBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '5.8';
+    var CURRENT_VERSION = '5.10';
     /* v4.7: the version is written from this one source everywhere
        it shows — the version pill, the log's "You are on" line and
        the preload splash — so a bump here updates all three and
@@ -4488,16 +4533,20 @@
       var clip = ['polygon(0 0,100% 0,100% 64%,50% 100%,0 64%)','polygon(0 0,100% 0,100% 52%,50% 100%,0 52%)','circle(50% at 50% 50%)','polygon(0 0,100% 0,100% 86%,50% 100%,0 86%)'][foe.shieldShape|0] || 'polygon(0 0,100% 0,100% 64%,50% 100%,0 64%)';
       return '<div class="herald' + (foe.champ ? ' champHerald' : '') + '" style="background:' + bg + ';clip-path:' + clip + '"><span>' + foeLetter(foe) + '</span></div>';
     }
-    /* ---------- house picker (v1.17, one-page grid v2.5) ----------
+    /* ---------- house picker (v1.17, grid v2.5, paged v5.10) ----------
        Shown on first entry, before the title card, and again from the
-       title screen's CHANGE HOUSE button. All six premade houses fit
-       on one single page with no scrolling: a compact two-column grid
-       (three rows) where each house still shows its shield (colours +
-       sigil), its flag, its name, motto and colours, and the whole
-       tile — as well as its CHOOSE button — taps to pick it. The
-       current house keeps its YOUR HOUSE marking (and a gold frame).
-       Choosing a house dresses you in it at once — house shield and
-       house caparison equipped, flag, banner and sigil repainted by
+       title screen's CHANGE HOUSE button. Ten houses since v5.10:
+       the grid pages six at a time (two compact columns, three rows —
+       the exact measure the six-house picker always used) with
+       PREV / NEXT, so the card never scrolls and no tile is squeezed
+       or overlapped at any phone size. Each house still shows its
+       shield (colours + sigil), its flag, its name, motto and
+       colours — and now its ★ CHAMPION ★, one per house — and the
+       whole tile, as well as its CHOOSE button, taps to pick it. The
+       current house keeps its YOUR HOUSE marking (and a gold frame),
+       and CHANGE HOUSE opens on the page that holds it. Choosing a
+       house dresses you in it at once — house shield and house
+       caparison equipped, flag, banner and sigil repainted by
        applyHouse() — and saves the pick on this device with the rest
        of your progress. */
     function chooseHouse(id){
@@ -4506,47 +4555,81 @@
       G.shieldSkin = 'house'; G.caparisonSkin = 'house';
       applyHouse(); saveProgress(); titleCard();
     }
+    var HOUSE_PAGE_SIZE = 6; // two columns × three rows — the six-house measure (v5.10)
     function housePickerCard(isChange){
       G.state = 'title';
       G.practice = false;
       if(el.practiceExitBtn) el.practiceExitBtn.classList.add('hidden');
-      var cards = HOUSES.map(function(H){
+      function houseTileHtml(H){
         var cur = isChange && H.id === G.house && G.houseChosen;
+        var HC = houseChampion(H);
         return '<div class="houseCard' + (cur ? ' cur' : '') + '"' + (cur ? '' : ' data-pick="' + H.id + '" role="button" tabindex="0" aria-label="Choose ' + H.name + '"') + '>' +
           '<div class="hTop"><div class="hShield" style="background:linear-gradient(180deg,' + hexCss(H.a) + ' 0 40%,' + hexCss(H.b) + ' 40% 60%,' + hexCss(H.a) + ' 60% 100%)"><span>' + H.sigil + '</span></div>' +
           '<div class="hFlag"><i></i><span class="cloth" style="background:linear-gradient(90deg,' + hexCss(H.a) + ' 0 64%,' + hexCss(H.b) + ' 64% 100%)">' + H.sigil + '</span></div></div>' +
           '<div class="hName">' + H.name + '</div>' +
           '<div class="hMotto">“' + H.motto + '”</div>' +
           '<div class="hCols">' + H.colName + ' · Sigil: ' + H.sigilName + '</div>' +
+          (HC ? '<div class="hChamp">★ ' + HC.name + ' ' + HC.title + '</div>' : '') +
           (cur ? '<button class="btn small" type="button" disabled>YOUR HOUSE</button>'
                : '<button class="btn small" type="button" data-house="' + H.id + '">CHOOSE</button>') +
           '</div>';
-      }).join('');
+      }
+      // CHANGE HOUSE opens on the page holding the current house, so
+      // its YOUR HOUSE tile is the first thing seen; first entry
+      // starts at page one.
+      var housePage = 0;
+      if(isChange && G.houseChosen){
+        for(var hpi=0; hpi<HOUSES.length; hpi++){ if(HOUSES[hpi].id === G.house){ housePage = Math.floor(hpi / HOUSE_PAGE_SIZE); break; } }
+      }
+      var housePages = Math.max(1, Math.ceil(HOUSES.length / HOUSE_PAGE_SIZE));
       showCard(
         '<div class="kick">BEFORE YOU RIDE</div>' +
         '<h1 style="font-size:clamp(23px,5.6vw,32px)">' + (isChange ? 'CHANGE YOUR HOUSE' : 'CHOOSE YOUR HOUSE') + '</h1><div class="rule" style="margin:6px auto;"></div>' +
         '<p class="houseIntro">Your house flies on your flag, shield and caparison, and is named on the title screen and before every match. Pick the house you ride for.</p>' +
-        '<div class="houseGrid">' + cards + '</div>' +
+        '<div class="houseGrid" id="houseGridBox"></div>' +
+        '<div class="pickPager">' +
+        '<button class="arenaBtn" type="button" id="housePrevBtn" aria-label="Previous page of houses">‹ PREV</button>' +
+        '<span class="pickPageLabel" id="housePageLabel"></span>' +
+        '<button class="arenaBtn" type="button" id="houseNextBtn" aria-label="Next page of houses">NEXT ›</button>' +
+        '</div>' +
         (isChange ? '<button class="btn ghost houseBackBtn" id="houseBackBtn" type="button">BACK</button>'
                   : '<p class="small houseFoot" style="font-size:12px;">You can change your house later from the title screen.</p>')
       );
-      var hBtns = el.cardBox.querySelectorAll('[data-house]');
-      for(var hbi=0; hbi<hBtns.length; hbi++){
-        hBtns[hbi].addEventListener('click', function(){ audio(); chooseHouse(this.getAttribute('data-house')); });
+      // The paged house grid: renderHousePage() fills the grid with
+      // the current page's six houses and wires their taps. Paging
+      // wraps at both ends, like the Practice champion picker.
+      function renderHousePage(){
+        var box = document.getElementById('houseGridBox');
+        if(!box) return;
+        housePage = Math.max(0, Math.min(housePages - 1, housePage));
+        var start = housePage * HOUSE_PAGE_SIZE, html = '';
+        for(var gi=start; gi<Math.min(start + HOUSE_PAGE_SIZE, HOUSES.length); gi++) html += houseTileHtml(HOUSES[gi]);
+        box.innerHTML = html;
+        var lbl = document.getElementById('housePageLabel');
+        if(lbl) lbl.textContent = 'PAGE ' + (housePage + 1) + ' / ' + housePages;
+        var hBtns = box.querySelectorAll('[data-house]');
+        for(var hbi=0; hbi<hBtns.length; hbi++){
+          hBtns[hbi].addEventListener('click', function(){ audio(); chooseHouse(this.getAttribute('data-house')); });
+        }
+        // The whole tile picks its house too (v2.5) — the CHOOSE
+        // button inside it keeps its own handler above, so ignore
+        // button taps here to avoid choosing twice.
+        var hTiles = box.querySelectorAll('[data-pick]');
+        for(var hti=0; hti<hTiles.length; hti++){
+          hTiles[hti].addEventListener('click', function(e){
+            if(e.target && e.target.closest && e.target.closest('button')) return;
+            audio(); chooseHouse(this.getAttribute('data-pick'));
+          });
+          hTiles[hti].addEventListener('keydown', function(e){
+            if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); audio(); chooseHouse(this.getAttribute('data-pick')); }
+          });
+        }
       }
-      // The whole tile picks its house too (v2.5) — the CHOOSE button
-      // inside it keeps its own handler above, so ignore button taps
-      // here to avoid choosing twice.
-      var hTiles = el.cardBox.querySelectorAll('[data-pick]');
-      for(var hti=0; hti<hTiles.length; hti++){
-        hTiles[hti].addEventListener('click', function(e){
-          if(e.target && e.target.closest && e.target.closest('button')) return;
-          audio(); chooseHouse(this.getAttribute('data-pick'));
-        });
-        hTiles[hti].addEventListener('keydown', function(e){
-          if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); audio(); chooseHouse(this.getAttribute('data-pick')); }
-        });
-      }
+      renderHousePage();
+      var housePrev = document.getElementById('housePrevBtn');
+      if(housePrev) housePrev.addEventListener('click', function(){ audio(); housePage = (housePage - 1 + housePages) % housePages; renderHousePage(); });
+      var houseNext = document.getElementById('houseNextBtn');
+      if(houseNext) houseNext.addEventListener('click', function(){ audio(); housePage = (housePage + 1) % housePages; renderHousePage(); });
       var backBtn = document.getElementById('houseBackBtn');
       if(backBtn) backBtn.addEventListener('click', function(){ audio(); titleCard(); });
     }
@@ -4854,6 +4937,7 @@
     function pickRowHtml(K, i){
       return '<button class="pickRow" type="button" role="option" data-foeidx="' + i + '">' +
         '<span class="nm">' + K.name + '</span><span class="tt">' + K.title + '</span>' +
+        (champHouse(K) ? '<span class="hs">' + champHouse(K).name + '</span>' : '') +
         (K.champ ? '<span class="ch">★ CHAMPION ★</span>' : '') + '</button>';
     }
     function paintPracticePick(){
@@ -4870,9 +4954,9 @@
       if(rn) rn.textContent = 'RANK ' + (pickRank + 1);
       var sum = document.getElementById('pickSummary');
       if(sum){
-        var who = pickSrc === 'current' ? 'Current foe — ' + FOES[G.foeIndex].name + ', ' + FOES[G.foeIndex].title + (FOES[G.foeIndex].champ ? ' · ★ CHAMPION ★' : '')
+        var who = pickSrc === 'current' ? 'Current foe — ' + FOES[G.foeIndex].name + ', ' + FOES[G.foeIndex].title + (FOES[G.foeIndex].champ ? ' · ★ CHAMPION ★' : '') + champHouseSuffix(FOES[G.foeIndex])
           : pickSrc === 'random' ? 'Surprise foe — a random knight drawn when you ride, never a champion'
-          : pickSrc.name + ', ' + pickSrc.title + (pickSrc.champ ? ' · ★ CHAMPION ★' : '');
+          : pickSrc.name + ', ' + pickSrc.title + (pickSrc.champ ? ' · ★ CHAMPION ★' : '') + champHouseSuffix(pickSrc);
         sum.innerHTML = 'Facing: <b style="color:#ffe9a8;">' + who + '</b><br />Riding at <b style="color:#ffe9a8;">Rank ' + (pickRank + 1) + '</b> — ' + rankDesc(pickRank);
       }
     }
@@ -5020,6 +5104,7 @@
         (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
         foeHeraldHtml(foe) +
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
+        champHouseHtml(foe) +
         champQuoteHtml(foe) +
         (practicePicked() ? '<p>' + foe.intro + '</p>' : '') +
         '<p>Unlimited passes to work on your aim — same lance, same shield, same scoring: shield 1 · breast 2 · helm 3. Winning a pass pays 5 coin; no Renown, no ladder bonus, no tournament progress, and an unhorsing either way just means fresh lances for the next pass.</p>' +
@@ -5101,6 +5186,7 @@
         (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
         foeHeraldHtml(foe) +
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
+        champHouseHtml(foe) +
         champQuoteHtml(foe) +
         '<p>' + foe.intro + '</p>' +
         (first
@@ -5198,7 +5284,7 @@
       var foe = FOES[G.foeIndex];
       if(el.cineKicker) el.cineKicker.textContent = ladderLabel(G.foeIndex) + ' · ' + currentHouse().name + ' rides';
       if(el.cineName) el.cineName.textContent = 'YOUR KNIGHT';
-      if(el.cineSub) el.cineSub.innerHTML = 'vs ' + foe.name + ', ' + foe.title + (foe.champ ? ' — ★ CHAMPION ★' : '') + ((foe.champ && foe.quote) ? '<div class="cineQuote">&ldquo;' + foe.quote + '&rdquo;</div>' : '');
+      if(el.cineSub) el.cineSub.innerHTML = 'vs ' + foe.name + ', ' + foe.title + (foe.champ ? ' — ★ CHAMPION ★' : '') + (champHouse(foe) ? '<div class="cineQuote" style="font-style:normal;">of ' + champHouse(foe).name + '</div>' : '') + ((foe.champ && foe.quote) ? '<div class="cineQuote">&ldquo;' + foe.quote + '&rdquo;</div>' : '');
       // first-person gear rides on the camera — hide it for the orbit
       fpHorse.visible = false; fpShield.visible = false; fpLancePivot.visible = false; lanceShadow.visible = false;
       sfxNeigh();
@@ -5254,6 +5340,7 @@
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
         (foe.champ ? '<p class="champNote">This is a <b>CHAMPION</b> — the last knight of Round ' + roundNo(G.foeIndex) + '. You beat four knights to reach him; beat him to clear the round. Champions ride faster, aim truer and hit harder than any knight before them.</p>' : '') +
         '<div class="foeLine">You ride for <b style="color:#ffe9a8">' + currentHouse().name + '</b> — ' + currentHouse().colName + ', sigil: ' + currentHouse().sigilName + '.</div>' +
+        champHouseHtml(foe) +
         champQuoteHtml(foe) +
         '<p>' + foeIntroText(G.foeIndex) + '</p>' +
         '<button class="btn" id="chargeBtn" type="button">TO THE CHARGE</button>' +
@@ -5269,6 +5356,14 @@
     function champQuoteHtml(foe){
       if(!foe || !foe.champ || !foe.quote) return '';
       return '<div class="champQuote">&ldquo;' + foe.quote + '&rdquo;<span class="champQuoteBy">— ' + foe.name + ' ' + foe.title + '</span></div>';
+    }
+    // v5.10: a champion's house, named on his intro card in every
+    // mode that faces him — he rides for one of the ten houses,
+    // just as you ride for yours.
+    function champHouseHtml(foe){
+      var H = champHouse(foe);
+      if(!H) return '';
+      return '<div class="foeLine">Rides for <b style="color:#ffe9a8">' + H.name + '</b> — ' + H.colName + ', sigil: ' + H.sigilName + '</div>';
     }
     function foeIntroText(i){
       if(FOES[i] && FOES[i].intro) return FOES[i].intro;
