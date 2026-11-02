@@ -688,6 +688,21 @@
         .lanFit .lanBigCode{ font-size:26px; }
         .lanFit .lanCodeInput{ font-size:20px; }
       }
+      /* ---------- LAN cards scroll when they must (v5.6) ----------
+         The v5.0 one-screen fit still holds for Practice and
+         Endless, but the LAN room cards outgrew it: the connected
+         room card — your friend's gear list, three paragraphs, the
+         host's series and arena pickers, READY and LEAVE ROOM —
+         is taller than a phone screen, so with the card's overflow
+         hidden the READY — TO THE CHARGE button sat below the
+         card's cut edge: impossible to press, and the card could
+         not be scrolled to reach it. LAN cards now scroll inside
+         the card when their content runs taller than the screen
+         (momentum touch scrolling, like every other card in the
+         game). When the content fits, nothing scrolls and the
+         card looks exactly as it did — every LAN button is
+         reachable either way. */
+      .card:has(.lanFit){ overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; touch-action:pan-y; overscroll-behavior:contain; }
       /* ---------- Pre-match cinematic ---------- */
       #cineWrap{ position:fixed; inset:0; z-index:20; pointer-events:none; }
       #cineWrap.hidden{ display:none; }
@@ -833,7 +848,7 @@
 
     <button id="cardXBtn" class="hidden" type="button" aria-label="Close this page and go back">✕</button>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 5.5 — tap to see update history">v5.5 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 5.6 — tap to see update history">v5.6 <span class="vdot">· Updates</span></button>
 
     <button id="settingsBtn" class="hidden" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
@@ -866,8 +881,9 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v5.5</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v5.6</b></p>
         <ul class="logList">
+          <li><span class="vtag">v5.6</span><span class="vtext"><b>LAN room fixed.</b> When a friend joins, the connected room card now scrolls, so READY — TO THE CHARGE is always in reach — on phone screens it was cut off at the card's bottom edge, un-pressable.</span></li>
           <li><span class="vtag">v5.5</span><span class="vtext"><b>✕ in the corner.</b> The ✕ on every tab now sits in the top-right corner, where the Settings gear was. In Play, Practice, LAN 1v1 and Endless the gear shifts left beside it, so both stay in reach.</span></li>
           <li><span class="vtag">v5.4</span><span class="vtext"><b>Gear only in the lists.</b> The Settings gear is gone from the title menu and every other tab — it now shows only in Play, Practice, LAN 1v1 and Endless. SETTINGS in the menu still opens Settings from the title screen.</span></li>
           <li><span class="vtag">v5.3</span><span class="vtext"><b>✕ on every tab, Settings in the menu.</b> Every page you open — Practice, LAN 1v1, Endless, Career, TIPS, Settings, PLAY setup, the house picker and the rest — now has a ✕ at the top to close it and go back. SETTINGS is in the main menu too, in case the corner gear is ever covered.</span></li>
@@ -3784,7 +3800,7 @@
     var el = {};
     ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','shopXBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','endlessExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow','cardXBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '5.5';
+    var CURRENT_VERSION = '5.6';
     /* v4.7: the version is written from this one source everywhere
        it shows — the version pill, the log's "You are on" line and
        the preload splash — so a bump here updates all three and
