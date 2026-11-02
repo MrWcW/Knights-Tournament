@@ -482,6 +482,22 @@
         box-shadow:0 3px 12px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.5); }
       .champNote{ color:#ffe9a8 !important; }
       .champNote b{ color:#fff3d6; letter-spacing:.06em; }
+      /* ---------- Champion quotes (v5.8) ----------
+         Every ★ CHAMPION ★ speaks before the match: his quote or
+         taunt in a gold-ruled panel on his intro card — tournament,
+         Practice and Endless alike — big enough to read on a phone. */
+      .champQuote{ margin:8px auto 2px; max-width:400px; padding:9px 12px; text-align:center;
+        font-family:Georgia,"Palatino Linotype",Palatino,serif; font-style:italic;
+        font-size:clamp(16px,4.4vw,20px); line-height:1.35; color:#ffe9a8;
+        background:rgba(20,14,4,.55); border:1px solid rgba(217,164,65,.7); border-radius:6px;
+        box-shadow:inset 0 0 14px rgba(0,0,0,.45); }
+      .champQuoteBy{ display:block; margin-top:4px; font-style:normal;
+        font-family:"Cinzel","Palatino Linotype",Palatino,Georgia,serif; font-weight:700;
+        font-size:11px; letter-spacing:.18em; color:#d9c391; }
+      .oneScreen .champQuote{ font-size:14px; padding:5px 8px; margin:4px auto 0; }
+      .oneScreen .champQuoteBy{ font-size:10px; margin-top:2px; }
+      #cineSub .cineQuote{ margin-top:5px; font-family:Georgia,"Palatino Linotype",Palatino,serif; font-style:italic;
+        font-size:clamp(16px,4.4vw,20px); color:#ffe9a8; text-shadow:0 1px 5px #000; }
       .herald.champHerald{ box-shadow:inset 0 0 0 3px #d9a441, inset 0 0 0 5px rgba(0,0,0,.5), 0 0 16px rgba(217,164,65,.5); }
       #champBadge{ margin-top:7px; padding:5px 4px 1px; border-top:1px solid rgba(217,164,65,.55);
         font-family:"Cinzel","Palatino Linotype", Palatino, Georgia, serif; font-weight:900; font-size:12.5px;
@@ -634,10 +650,11 @@
       .oneScreen .herald span{ font-size:21px; }
       .oneScreen .champBanner{ font-size:14px; padding:5px 8px; margin:4px auto 0; }
       .oneScreen .foeLine{ font-size:14px; }
-      /* Practice picker (v5.0): a paged grid, never a scrolling list.
-         Six foes at a time — the ★ CHAMPIONS ★ first, Sir Jaren the
-         Slim and Sir Mih the Goldfih the first two cells — with
-         PREV / NEXT paging through every knight and champion. */
+      /* Practice picker (v5.0 · v5.7): a paged grid, never a
+         scrolling list. Six at a time — and since v5.7 the grid
+         holds only the ★ CHAMPIONS ★, Sir Jaren the Slim and Sir
+         Mih the Goldfih the first two cells — with PREV / NEXT
+         paging through all ten champions. */
       .practiceFit .pickList{ max-height:none; overflow:hidden; display:grid; grid-template-columns:1fr 1fr; gap:5px; padding:5px; margin:6px 0 0; touch-action:manipulation; }
       .practiceFit .pickRow{ flex-direction:column; align-items:flex-start; justify-content:center; gap:1px; padding:6px 7px; border:1px solid rgba(217,164,65,.14); min-height:47px; }
       .practiceFit .pickRow .nm{ font-size:12px; white-space:normal; line-height:1.15; }
@@ -848,7 +865,7 @@
 
     <button id="cardXBtn" class="hidden" type="button" aria-label="Close this page and go back">✕</button>
 
-    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 5.6 — tap to see update history">v5.6 <span class="vdot">· Updates</span></button>
+    <button id="versionBtn" type="button" aria-haspopup="dialog" aria-label="Game version 5.8 — tap to see update history">v5.8 <span class="vdot">· Updates</span></button>
 
     <button id="settingsBtn" class="hidden" type="button" aria-haspopup="dialog" aria-label="Settings — graphics quality and frame rate"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g fill="#f2d492"><rect x="11" y="1.6" width="2" height="4.4" rx="1"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(45 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(90 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(135 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(180 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(225 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(270 12 12)"/><rect x="11" y="1.6" width="2" height="4.4" rx="1" transform="rotate(315 12 12)"/></g><circle cx="12" cy="12" r="6.4" fill="#f2d492"/><circle cx="12" cy="12" r="2.7" fill="#241a0c"/></svg></button>
 
@@ -881,8 +898,10 @@
         <div class="kick">VERSION HISTORY</div>
         <h2 id="logTitle">What's New</h2>
         <div class="rule"></div>
-        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v5.6</b></p>
+        <p class="small" style="text-align:center;">Minor updates add 0.1 · Major updates add 1.0<br />You are on <b id="youAreOnVer" style="color:#ffe9a8;">v5.8</b></p>
         <ul class="logList">
+          <li><span class="vtag">v5.8</span><span class="vtext"><b>Champions speak first.</b> Every ★ CHAMPION ★ now shows a quote or taunt before the match — on his intro card in the tournament, Practice and Endless. Sir Mih: "life is how you make it" · Sir Jaren: "here is a long one" · Sir Dingus: "sup dingus it's joe".</span></li>
+          <li><span class="vtag">v5.7</span><span class="vtext"><b>Practice: surprise or a champion.</b> Regular knights can no longer be picked by name in Practice — SURPRISE ME draws a random knight instead, never a champion. The ★ CHAMPIONS ★ can still be picked by name, and the rank choice is unchanged.</span></li>
           <li><span class="vtag">v5.6</span><span class="vtext"><b>LAN room fixed.</b> When a friend joins, the connected room card now scrolls, so READY — TO THE CHARGE is always in reach — on phone screens it was cut off at the card's bottom edge, un-pressable.</span></li>
           <li><span class="vtag">v5.5</span><span class="vtext"><b>✕ in the corner.</b> The ✕ on every tab now sits in the top-right corner, where the Settings gear was. In Play, Practice, LAN 1v1 and Endless the gear shifts left beside it, so both stay in reach.</span></li>
           <li><span class="vtag">v5.4</span><span class="vtext"><b>Gear only in the lists.</b> The Settings gear is gone from the title menu and every other tab — it now shows only in Play, Practice, LAN 1v1 and Endless. SETTINGS in the menu still opens Settings from the title screen.</span></li>
@@ -1100,61 +1119,61 @@
       { name:'SIR BEDWYN',   title:'the Quiet',     main:0x4a5d23, accent:0xd8d3c3, plume:0xd8d3c3, horse:0x3c3226, speed:14.3, sigma:0.125, headAim:0.44, intro:'Bedwyn says nothing before a charge and little after. His point, though, speaks plainly enough.' },
       { name:'SIR CARADOC',  title:'the Tall',      main:0x33506e, accent:0xd9a441, plume:0xd9a441, horse:0x6e6258, speed:14.5, sigma:0.12, headAim:0.46, intro:'Caradoc is tall enough that his helm rides high over the barrier — and his lance hunts just as high.' },
       { name:'SIR HUW',      title:'the Fox',       main:0xc25e1e, accent:0x2e2a26, plume:0xe8a020, horse:0x7a4a26, speed:14.7, sigma:0.11, headAim:0.48, intro:'Huw changes his guard the way a fox changes direction — late, and all at once. Watch his shield, not his eyes.' },
-      { name:'SIR JAREN',    title:'the Slim',      main:0x6d1a12, accent:0xd9a441, plume:0xd9a441, horse:0x2e2a26, speed:15.2, sigma:0.075, headAim:0.56, champ:true, intro:'Sir Jaren the Slim — thin as a lance shaft and twice as hard to catch. A champion of the new rounds: he reads your shield early, strikes near-true, and hits far above his weight.' },
+      { name:'SIR JAREN',    title:'the Slim',      main:0x6d1a12, accent:0xd9a441, plume:0xd9a441, horse:0x2e2a26, speed:15.2, sigma:0.075, headAim:0.56, champ:true, quote:'here is a long one', intro:'Sir Jaren the Slim — thin as a lance shaft and twice as hard to catch. A champion of the new rounds: he reads your shield early, strikes near-true, and hits far above his weight.' },
       // Round 4
       { name:'SIR ALARIC',   title:'the Grim',      main:0x3a3f4a, accent:0x8c2f26, plume:0x8c2f26, horse:0x24202a, speed:14.3, sigma:0.13, headAim:0.44, intro:'Alaric has ridden in forty tournaments and smiled at none of them. His aim is as cheerful as he is.' },
       { name:'SIR BEVIS',    title:'the Boar',      main:0x5d4030, accent:0xd9a441, plume:0x3a2415, horse:0x4a3423, speed:14.5, sigma:0.12, headAim:0.46, intro:'Bevis charges head-down like his namesake. Against him a blocked pass is a won pass — his whole weight rides behind every blow.' },
       { name:'SIR COL',      title:'the Shepherd',  main:0x687f3c, accent:0xe8dcc0, plume:0xe8dcc0, horse:0x8a7a5c, speed:14.7, sigma:0.115, headAim:0.48, intro:'Col herded sheep before he herded squires. Patient, unhurried, and suddenly exactly where you did not want him.' },
       { name:'SIR DAFYDD',   title:'the Bard',      main:0x7a4a8c, accent:0xd9a441, plume:0xd9a441, horse:0x5c4a6e, speed:14.9, sigma:0.105, headAim:0.50, intro:'Dafydd sings his own victories on the ride home. Give him nothing to sing about.' },
-      { name:'SIR MIH',      title:'the Goldfih',  main:0x1f3a5f, accent:0xd9a441, plume:0xe8a020, horse:0x1c1c20, speed:15.4, sigma:0.07, headAim:0.58, champ:true, intro:'Sir Mih the Goldfih — nobody at court can say why they call him the Goldfih, and nobody who has faced him asks twice. A champion in deep blue and gold: faster than Jaren, truer than Jaren, and hungrier.' },
+      { name:'SIR MIH',      title:'the Goldfih',  main:0x1f3a5f, accent:0xd9a441, plume:0xe8a020, horse:0x1c1c20, speed:15.4, sigma:0.07, headAim:0.58, champ:true, quote:'life is how you make it', intro:'Sir Mih the Goldfih — nobody at court can say why they call him the Goldfih, and nobody who has faced him asks twice. A champion in deep blue and gold: faster than Jaren, truer than Jaren, and hungrier.' },
       // Round 5
       { name:'SIR ELIAS',    title:'the Monk',      main:0x6e6258, accent:0x274a73, plume:0xd8d3c3, horse:0x9a958c, speed:14.5, sigma:0.125, headAim:0.46, intro:'Elias prays before every pass — for your soul, he says. His lance arrives like an answered prayer: quickly.' },
       { name:'SIR FARAMOND', title:'the Proud',     main:0x8c2f26, accent:0xd9a441, plume:0xf2e3ac, horse:0xe3ddcf, speed:14.7, sigma:0.115, headAim:0.48, intro:'Faramond will not ride against a knight he calls beneath him. You are here, so take that as a compliment — and a warning.' },
       { name:'SIR GARETH',   title:'the Gentle',    main:0x2e6b34, accent:0xe8dcc0, plume:0x7fae4c, horse:0x6b4a2f, speed:14.9, sigma:0.11, headAim:0.50, intro:'Gareth apologises to every knight he unhorses. He has had a great deal of practice at apologising.' },
       { name:'SIR HOB',      title:'the Miller',    main:0xb08d57, accent:0x571209, plume:0xe8dcc0, horse:0x7a5c3e, speed:15.1, sigma:0.10, headAim:0.52, intro:'Hob ground corn for twenty years before he picked up a lance. His arms remember the millstones.' },
-      { name:'SIR DINGUS',   title:'the Tall',      main:0x704214, accent:0xd9a441, plume:0xd9a441, horse:0x8a7a5c, speed:15.6, sigma:0.068, headAim:0.59, champ:true, intro:'Sir Dingus the Tall — the tallest knight in all the lists, a head above every other champion here, with the reach to match. Do not let the name fool you: his point arrives early, high and true, and it has put better knights than you in the sand.' },
+      { name:'SIR DINGUS',   title:'the Tall',      main:0x704214, accent:0xd9a441, plume:0xd9a441, horse:0x8a7a5c, speed:15.6, sigma:0.068, headAim:0.59, champ:true, quote:'sup dingus it\'s joe', intro:'Sir Dingus the Tall — the tallest knight in all the lists, a head above every other champion here, with the reach to match. Do not let the name fool you: his point arrives early, high and true, and it has put better knights than you in the sand.' },
       // Round 6
       { name:'SIR IVO',      title:'the Lean',      main:0x274a73, accent:0xc9cfda, plume:0xc9cfda, horse:0x4a4e57, speed:14.7, sigma:0.12, headAim:0.48, intro:'Ivo eats like a sparrow and rides like a hawk. There is nothing spare on him to hit but helm and shield.' },
       { name:'SIR JOSCELIN', title:'the Fair',      main:0xd8b84a, accent:0x8c2f26, plume:0xf2e3ac, horse:0xcbb489, speed:14.9, sigma:0.11, headAim:0.50, intro:'The stands sigh for Joscelin. His lance, sadly for you, is as handsome as he is — and twice as straight.' },
       { name:'SIR KIT',      title:'the Cutpurse',  main:0x2c4024, accent:0xb08d57, plume:0x3d6b35, horse:0x2e2a26, speed:15.1, sigma:0.105, headAim:0.52, intro:'Kit came to the lists from the road, and the road taught him to strike where a guard is not. Keep your shield honest.' },
       { name:'SIR LIONEL',   title:'the Loud',      main:0xc78f2a, accent:0x571209, plume:0xe8a020, horse:0x8a5a2a, speed:15.3, sigma:0.095, headAim:0.54, intro:'Lionel roars down the whole charge. It is not courage or madness — it is timing, and it works.' },
-      { name:'SIR MORHOLT',  title:'the Giant',     main:0x3a2415, accent:0xd9a441, plume:0xd9a441, horse:0x1f1c1a, speed:15.8, sigma:0.065, headAim:0.60, champ:true, intro:'Morholt stands near seven feet in the saddle and his horse is a siege engine with hooves. Even his shield hits land like tree trunks. Unhorse him if you can — nobody lately has.' },
+      { name:'SIR MORHOLT',  title:'the Giant',     main:0x3a2415, accent:0xd9a441, plume:0xd9a441, horse:0x1f1c1a, speed:15.8, sigma:0.065, headAim:0.60, champ:true, quote:'I have never ducked in my life. Doorways duck for me.', intro:'Morholt stands near seven feet in the saddle and his horse is a siege engine with hooves. Even his shield hits land like tree trunks. Unhorse him if you can — nobody lately has.' },
       // Round 7
       { name:'SIR MAEL',     title:'the Salt',      main:0x5a6ea6, accent:0xe8dcc0, plume:0xd8d3c3, horse:0x6e6258, speed:14.9, sigma:0.115, headAim:0.50, intro:'Mael sailed the narrow sea before he ever saw a tilt-yard. He rides a charge like a deck in a gale — loose, rolling, and hard to read.' },
       { name:'SIR NIGEL',    title:'the Ninth',     main:0x4a2c5a, accent:0xd9a441, plume:0xb04a6b, horse:0x34283e, speed:15.1, sigma:0.105, headAim:0.52, intro:'Eight elder brothers fell in the lists before him. Nigel rides with eight ghosts on his shoulders and something to prove to all of them.' },
       { name:'SIR OSRIC',    title:'the One-Eyed',  main:0x1c1c20, accent:0xd8d3c3, plume:0x7a1f1f, horse:0x24202a, speed:15.3, sigma:0.10, headAim:0.54, intro:'Osric lost an eye to a lance and kept the lance. What his sight lost, his seat and his timing more than repaid.' },
       { name:'SIR PEREDUR',  title:'the Piper',     main:0x1f6f6b, accent:0xe8dcc0, plume:0xd9a441, horse:0x5a4632, speed:15.5, sigma:0.09, headAim:0.55, intro:'Peredur plays the pipes at feast and plays the fool at market — then rides like this. The fooling ends at the barrier.' },
-      { name:'SIR ANGOR',    title:'the Ironhand',  main:0x4c4850, accent:0xd9a441, plume:0xd9a441, horse:0x3a3e46, speed:16.0, sigma:0.06, headAim:0.62, champ:true, intro:'Angor lost his left hand to a portcullis and had the smiths forge him one of iron. It has never once loosened on the reins — or on a lance.' },
+      { name:'SIR ANGOR',    title:'the Ironhand',  main:0x4c4850, accent:0xd9a441, plume:0xd9a441, horse:0x3a3e46, speed:16.0, sigma:0.06, headAim:0.62, champ:true, quote:'The iron hand has never fumbled a lance. The other hand is just along for the ride.', intro:'Angor lost his left hand to a portcullis and had the smiths forge him one of iron. It has never once loosened on the reins — or on a lance.' },
       // Round 8
       { name:'SIR QUENTIN',  title:'the Quarrel',   main:0x7a1f1f, accent:0xe8dcc0, plume:0x8c2f26, horse:0x5c3226, speed:15.0, sigma:0.11, headAim:0.51, intro:'Quentin has quarrelled with every knight at court, half the heralds and one bishop. The lance is where he settles them all.' },
       { name:'SIR ROLAND',   title:'the Rook',      main:0x232c4e, accent:0xc9cfda, plume:0x232c4e, horse:0x2a3040, speed:15.2, sigma:0.10, headAim:0.53, intro:'Roland rides as straight as a rook flies and about as mercifully. There is no feint in him — only arrival.' },
       { name:'SIR SEGER',    title:'the Smith',     main:0x6d5a33, accent:0xe8a020, plume:0xc25e1e, horse:0x4a3423, speed:15.4, sigma:0.095, headAim:0.55, intro:'Seger forged half the armour in this tournament, his own first. He knows where every plate is weak — because he put the strength there.' },
       { name:'SIR TALIESIN', title:'the Dreamer',   main:0x8a9a5b, accent:0x274a73, plume:0xf2e3ac, horse:0x9a958c, speed:15.6, sigma:0.088, headAim:0.56, intro:'Taliesin claims he dreams each match the night before. The unnerving part is how often the dreams are right.' },
-      { name:'SIR LOHENGRIN', title:'the Swan',     main:0xd8d3c3, accent:0xd9a441, plume:0xffffff, horse:0xe3ddcf, speed:16.1, sigma:0.058, headAim:0.63, champ:true, intro:'Lohengrin arrived at the tournament by swan boat, or so the song goes. However he came, he has not lost since — white, silent and exact as a drawn blade.' },
+      { name:'SIR LOHENGRIN', title:'the Swan',     main:0xd8d3c3, accent:0xd9a441, plume:0xffffff, horse:0xe3ddcf, speed:16.1, sigma:0.058, headAim:0.63, champ:true, quote:'A swan carried me to these lists. It has better manners than you — and it bites.', intro:'Lohengrin arrived at the tournament by swan boat, or so the song goes. However he came, he has not lost since — white, silent and exact as a drawn blade.' },
       // Round 9
       { name:'SIR URIEN',    title:'the Raven',     main:0x1c1c20, accent:0x5b3a8c, plume:0x232c4e, horse:0x1f1c1a, speed:15.1, sigma:0.105, headAim:0.52, intro:'Urien keeps a raven at his pavilion and consults it before matches. The raven, witnesses swear, nods.' },
       { name:'SIR VAUGHAN',  title:'the Vast',      main:0x8c5a2a, accent:0x274a73, plume:0xd9a441, horse:0x6b4a2f, speed:15.3, sigma:0.098, headAim:0.54, intro:'Vaughan fills the barrier lane the way a gate fills a doorway. Getting a lance past him is a problem of geography.' },
       { name:'SIR WALERAN',  title:'the Wolf',      main:0x5a5e52, accent:0x7a1f1f, plume:0x8a8d90, horse:0x3c4038, speed:15.5, sigma:0.092, headAim:0.56, intro:'Waleran circles. Waleran waits. Waleran strikes once. The pack tactics of one are somehow worse than a pack.' },
       { name:'SIR YVAIN',    title:'the Younger',   main:0x3d6b35, accent:0xd9a441, plume:0xe8a020, horse:0x7a6248, speed:15.7, sigma:0.085, headAim:0.57, intro:'Yvain is nineteen and has never been unhorsed in a match that counted. The herald says it with disbelief every single time.' },
-      { name:'SIR BRUNOR',   title:'the Shieldbreaker', main:0x571209, accent:0xd9a441, plume:0xd9a441, horse:0x2e2018, speed:16.2, sigma:0.055, headAim:0.64, champ:true, intro:'Brunor does not aim around shields. He aims through them, and keeps the splinters of the famous ones nailed over his stable door. Yours would make a fine addition, he says.' },
+      { name:'SIR BRUNOR',   title:'the Shieldbreaker', main:0x571209, accent:0xd9a441, plume:0xd9a441, horse:0x2e2018, speed:16.2, sigma:0.055, headAim:0.64, champ:true, quote:'Lovely shield. There is already a nail over my stable door with its name on it.', intro:'Brunor does not aim around shields. He aims through them, and keeps the splinters of the famous ones nailed over his stable door. Yours would make a fine addition, he says.' },
       // Round 10
       { name:'SIR ANSELM',   title:'the Ashen',     main:0x8a8d90, accent:0x3a3f4a, plume:0xd8d3c3, horse:0x6e6a62, speed:15.2, sigma:0.10, headAim:0.53, intro:'Anselm rode out of a burned town with nothing but his armour and his name. Both are grey now. Neither has bent since.' },
       { name:'SIR BALIN',    title:'the Wild',      main:0x9c352a, accent:0x2e2a26, plume:0xc8452f, horse:0x4a2c1e, speed:15.4, sigma:0.095, headAim:0.55, intro:'Balin is banned from three feast halls and one wedding. In the lists, though, wild is a discipline — and he is its master.' },
       { name:'SIR CORIN',    title:'the Crane',     main:0x7fa8c9, accent:0x571209, plume:0xe8dcc0, horse:0x8a8d90, speed:15.6, sigma:0.088, headAim:0.57, intro:'Corin is all arms and angles, folded into the saddle like his namesake. His lance unfolds at the last moment, from further away than seems fair.' },
       { name:'SIR DRUSTAN',  title:'the Deep',      main:0x14343e, accent:0xd9a441, plume:0x1f6f6b, horse:0x203038, speed:15.8, sigma:0.082, headAim:0.58, intro:'Nobody knows where Drustan trains, or with whom, or why his colours are the colour of deep water. His aim is the only thing about him that surfaces.' },
-      { name:'SIR AGRAVAIN', title:'the Hardhand',  main:0x6d1a12, accent:0xd9a441, plume:0xe8a020, horse:0x33231a, speed:16.3, sigma:0.052, headAim:0.65, champ:true, intro:'Agravain grips a lance the way other men grip a grudge — personally, and to the end. A champion of the hardest school: no flourish, no mercy, no wasted motion.' },
+      { name:'SIR AGRAVAIN', title:'the Hardhand',  main:0x6d1a12, accent:0xd9a441, plume:0xe8a020, horse:0x33231a, speed:16.3, sigma:0.052, headAim:0.65, champ:true, quote:'I hold a grudge even longer than a lance. Congratulations — you are now both.', intro:'Agravain grips a lance the way other men grip a grudge — personally, and to the end. A champion of the hardest school: no flourish, no mercy, no wasted motion.' },
       // Round 11
       { name:'SIR ELAND',    title:'the Elder',     main:0x6e6258, accent:0xd9a441, plume:0xd8d3c3, horse:0x9a8d7a, speed:15.3, sigma:0.098, headAim:0.54, intro:'Eland has buried two kings and outlived three champions. Experience is just speed that has learned where to stand.' },
       { name:'SIR FOLKE',    title:'the Falconer',  main:0x2e6b34, accent:0xb08d57, plume:0x7fae4c, horse:0x5c4a32, speed:15.5, sigma:0.09, headAim:0.56, intro:'Folke trains hawks and reads a charge the way they read a field — from above, all at once, choosing the one moment to stoop.' },
       { name:'SIR GRIMBALD', title:'the Grey',      main:0x4c4850, accent:0xc9cfda, plume:0x8a8d90, horse:0x3a3e46, speed:15.7, sigma:0.085, headAim:0.58, intro:'Grey hair, grey steel, grey horse. Grimbald is the least colourful thing in the tournament and very nearly the most dangerous.' },
       { name:'SIR HUGH',     title:'the Hammer',    main:0x8c2f26, accent:0x3a2415, plume:0x3a2415, horse:0x4a3423, speed:15.9, sigma:0.08, headAim:0.59, intro:'Hugh does not fence with a lance. He falls on you with it, the whole horse behind the blow, like a hammer off a wall.' },
-      { name:'SIR MALLEOR',  title:'the Merciless', main:0x2a0a12, accent:0xd9a441, plume:0x7a1f1f, horse:0x1c1410, speed:16.4, sigma:0.05, headAim:0.66, champ:true, intro:'Malleor has never once pulled a strike, spared a beaten man a second pass, or smiled at a herald. The crowd goes quiet when he rides in — champions do that to a place.' },
+      { name:'SIR MALLEOR',  title:'the Merciless', main:0x2a0a12, accent:0xd9a441, plume:0x7a1f1f, horse:0x1c1410, speed:16.4, sigma:0.05, headAim:0.66, champ:true, quote:'Mercy? I left it at home, next to my smile and my second chances.', intro:'Malleor has never once pulled a strike, spared a beaten man a second pass, or smiled at a herald. The crowd goes quiet when he rides in — champions do that to a place.' },
       // Round 12
       { name:'SIR MARHAULT', title:'the Moor',      main:0x274a3a, accent:0xd9a441, plume:0xe8a020, horse:0x3c2e20, speed:15.4, sigma:0.095, headAim:0.55, intro:'Marhault crossed a sea and a desert to ride in this tournament. He did not come all that way to lose politely.' },
       { name:'SIR OWEN',     title:'the Oathbound', main:0x31456e, accent:0xe8dcc0, plume:0xd8d3c3, horse:0x5a5148, speed:15.6, sigma:0.088, headAim:0.57, intro:'Owen swore an oath on a winter road and has kept it through forty matches. Whatever it was, it is clearly working.' },
       { name:'SIR PELLEAS',  title:'the Pale',      main:0xd8d3c3, accent:0x274a73, plume:0x274a73, horse:0xc9c2ae, speed:15.8, sigma:0.082, headAim:0.59, intro:'Pelleas looks like a ghost story the north tells its squires. Then the ghost story takes up a lance, and stops being a story.' },
       { name:'SIR SAHER',    title:'the Scarred',   main:0x7a3a26, accent:0xd8d3c3, plume:0x8c2f26, horse:0x4a3423, speed:16.0, sigma:0.078, headAim:0.60, intro:'Every scar Saher carries came from a knight whose name the heralds still sing. He collects famous opponents the way other men collect favour.' },
-      { name:'SIR AURELIUS', title:'the Last Champion', main:0xd9a441, accent:0x571209, plume:0xd9a441, horse:0xe3ddcf, speed:16.6, sigma:0.045, headAim:0.68, champ:true, intro:'Aurelius, the Last Champion — clad all in gold and counted the mightiest of the ten champions. Sixty knights entered these lists and he stands among the very best of them: fastest, truest, hardest-hitting. Beat him, and his round is yours.' }
+      { name:'SIR AURELIUS', title:'the Last Champion', main:0xd9a441, accent:0x571209, plume:0xd9a441, horse:0xe3ddcf, speed:16.6, sigma:0.045, headAim:0.68, champ:true, quote:'Everyone asks if the gold is heavy. Ask the sixty knights under it — oh. You cannot.', intro:'Aurelius, the Last Champion — clad all in gold and counted the mightiest of the ten champions. Sixty knights entered these lists and he stands among the very best of them: fastest, truest, hardest-hitting. Beat him, and his round is yours.' }
     ];
     var FIRST_LADDER = 5; // foes 0–4 are the original ladder; 5–9 the Champion's Ladder; 10–59 the ten new rounds of five (v2.10)
     function ladderPos(idx){ return idx % 5; }
@@ -3800,7 +3819,7 @@
     var el = {};
     ['hud','foeName','scoreNum','passLabel','yourLances','foeLances','renownNum','champBadge','tourShields','dotYou','dotFoe','speedNum','speedFill','joystick','joyKnob','banner','bannerBig','bannerSub','cardWrap','cardBox','vignette','aimHint','shieldSlider','ssTrack','ssThumb','shieldPosLabel','shieldGuardLabel','versionBtn','logWrap','logCloseBtn','logXBtn','coinNum','shopWrap','shopList','shieldShopList','caparisonShopList','horseShopList','plumeShopList','shopCoins','shopTrophies','renownLanceList','renownShieldList','honourList','shopCloseBtn','shopXBtn','cineWrap','cineName','cineSub','cineKicker','skipCineBtn','practiceExitBtn','endlessExitBtn','lanExitBtn','menuExitBtn','settingsBtn','settingsWrap','settingsCloseBtn','settingsXBtn','gfxDesc','fpsRange','fpsVal','fpsNow','cardXBtn'].forEach(function(id){ el[id] = document.getElementById(id); });
     /* ---- version log ---- */
-    var CURRENT_VERSION = '5.6';
+    var CURRENT_VERSION = '5.8';
     /* v4.7: the version is written from this one source everywhere
        it shows — the version pill, the log's "You are on" line and
        the preload splash — so a bump here updates all three and
@@ -4656,7 +4675,7 @@
         '<li><b>Helm shots</b> — his helm rides just above your saddle line, near the middle of your view, not up at the top of the stick. Aim a touch above centre and hold it there: pushing all the way up overshoots the helm — and a high point invites his shield up to cover it.</li>' +
         '<li><b>Unhorsing</b> — a solid scoring strike can knock a rider clean off his horse, and that ends the match at a stroke — yours on him, or his on you. When a rider falls, the crowd roars.</li>' +
         '<li><b>Tournament</b> — sixty knights ride in twelve rounds of five: the first two rounds are the original ladders, then ten more rounds of new knights. Every round ends with a champion — the fifth knight, marked ★ CHAMPION ★ in gold — who rides faster, aims truer and hits harder. Clear all twelve rounds to take the wreath.</li>' +
-        '<li><b>Practice</b> — unlimited passes against a foe you pick: any knight or champion by name, at any rank from 1 to 60 — or the knight you face, or a surprise foe. The ★ CHAMPIONS ★ sit at the top of the list. Winning a pass pays 5 coin, but no Renown and no tournament progress, and an unhorsing just means fresh lances. Leave any time with END PRACTICE.</li>' +
+        '<li><b>Practice</b> — unlimited passes: SURPRISE ME draws a random knight for you (never a champion), a ★ CHAMPION ★ can still be picked by name, or ride against the foe you currently face — at any rank from 1 to 60. Winning a pass pays 5 coin, but no Renown and no tournament progress, and an unhorsing just means fresh lances. Leave any time with END PRACTICE.</li>' +
         '<li><b>Endless</b> — ride foe after foe from Rank 1: beat a foe and the rank climbs and the next foe rides harder; lose on points and you ride on at the same rank. The run ends only when you are unhorsed. Winning a pass pays 5 coin, no Renown, no tournament progress. Leave any time with END ENDLESS.</li>' +
         '<li><b>LAN 1v1</b> — joust a friend on the same WiFi: create a room, share the 6-digit code, and ride best-of-five passes with the same scoring and controls, each in your own real gear and colours. Whoever created the room picks the arena and the series length — best of three or best of five matches — and both phones ride in it; the first to 2 (or 3) match wins takes the series. The winner of each match takes 3× coin and 3× Renown; tournament progress is untouched.</li>' +
         '<li><b>Difficulty</b> — Easy, Normal, Hard or Nightmare, picked in Play setup when you press PLAY. Harder foes read your shield faster, aim truer and hit harder; Nightmare never stops shifting guard and aim. Your pick is remembered.</li>' +
@@ -4766,13 +4785,14 @@
        throughout every pass — returns to the title screen, and because
        G.foeIndex is untouched, ENTER THE LISTS then resumes the
        tournament exactly where it was. */
-    /* ---------- pick-your-foe Practice (v4.2) ----------
-       PRACTICE on the title screen now opens a picker first: any
-       knight or champion by name from the home roster (the regular
-       pool and the champion pool — identity only; the run's shuffled
-       order is never touched), the current tournament foe, or a
-       surprise foe drawn at ride time — plus the rank he rides at,
-       any slot from Rank 1 to Rank 60. The pick lives in
+    /* ---------- pick-your-foe Practice (v4.2 · v5.7) ----------
+       PRACTICE on the title screen opens a picker first. Since
+       v5.7 regular knights can no longer be picked by name: the
+       only named picks are the ★ CHAMPIONS ★ (identity only; the
+       run's shuffled order is never touched), alongside the current
+       tournament foe, or SURPRISE ME — a random knight drawn from
+       REG_POOL at ride time, never a champion — plus the rank he
+       rides at, any slot from Rank 1 to Rank 60. The pick lives in
        G.practiceKnight / G.practiceRank for the length of the
        Practice visit only: never saved, and every combat read that
        used to go through G.foeIndex goes through statSlot() /
@@ -4810,23 +4830,23 @@
       if(!PICK_ALL) PICK_ALL = REG_POOL.concat(CHAMP_POOL);
       return PICK_ALL;
     }
-    /* Paged roster (v5.0): the picker no longer scrolls through
-       sixty rows. The roster is ordered champions first (the v4.3
-       order — Sir Jaren the Slim and Sir Mih the Goldfih the first
-       two cells), then every knight, and is shown six at a time in
-       a two-column grid; PREV / NEXT page through the whole roster,
-       wrapping at the ends, so every knight and champion is still
-       reachable by name with no scrolling anywhere. Each entry
-       carries its index into pickAll(), which is what data-foeidx
-       and pickSrc have always used. */
+    /* Paged roster (v5.0 · v5.7): the picker no longer scrolls
+       through sixty rows. Since v5.7 the grid holds ONLY the
+       ★ CHAMPIONS ★ — regular knights can no longer be picked by
+       name in Practice; a regular foe comes only from SURPRISE ME,
+       which draws from REG_POOL (never a champion). The champions
+       are shown six at a time in a two-column grid; PREV / NEXT
+       page through them, wrapping at the ends, with no scrolling
+       anywhere. Each entry carries its index into pickAll(), which
+       is what data-foeidx and pickSrc have always used. pickAll()
+       itself is unchanged — Endless still draws from everyone. */
     var PICK_PAGE_SIZE = 6;
-    var pickPage = 0;        // which page of the roster grid is showing
-    var PICK_ORDER = null;   // [{ K:knight, idx:pickAll index }], champions first
+    var pickPage = 0;        // which page of the champion grid is showing
+    var PICK_ORDER = null;   // [{ K:champion, idx:pickAll index }], champions only (v5.7)
     function pickOrdered(){
       if(!PICK_ORDER){
         PICK_ORDER = [];
         for(var j=0;j<CHAMP_POOL.length;j++) PICK_ORDER.push({ K:CHAMP_POOL[j], idx:REG_POOL.length + j });
-        for(var i=0;i<REG_POOL.length;i++) PICK_ORDER.push({ K:REG_POOL[i], idx:i });
       }
       return PICK_ORDER;
     }
@@ -4851,7 +4871,7 @@
       var sum = document.getElementById('pickSummary');
       if(sum){
         var who = pickSrc === 'current' ? 'Current foe — ' + FOES[G.foeIndex].name + ', ' + FOES[G.foeIndex].title + (FOES[G.foeIndex].champ ? ' · ★ CHAMPION ★' : '')
-          : pickSrc === 'random' ? 'Surprise foe — a knight or champion drawn when you ride'
+          : pickSrc === 'random' ? 'Surprise foe — a random knight drawn when you ride, never a champion'
           : pickSrc.name + ', ' + pickSrc.title + (pickSrc.champ ? ' · ★ CHAMPION ★' : '');
         sum.innerHTML = 'Facing: <b style="color:#ffe9a8;">' + who + '</b><br />Riding at <b style="color:#ffe9a8;">Rank ' + (pickRank + 1) + '</b> — ' + rankDesc(pickRank);
       }
@@ -4870,14 +4890,18 @@
       G.state = 'title'; G.started = false;
       el.hud.classList.add('hidden');
       mountFoe(G.foeIndex); resetPositions(); refreshHUD();
+      // v5.7: a regular knight picked by name on an earlier visit
+      // to this picker (same session) is no longer a legal pick —
+      // only a champion object may carry over; anything else falls
+      // back to SURPRISE ME, which never draws a champion.
+      if(typeof pickSrc === 'object' && pickSrc && CHAMP_POOL.indexOf(pickSrc) === -1) pickSrc = 'random';
       if(pickRank === null || pickSrc === 'current') pickRank = G.foeIndex;
-      // v4.3 fix, kept: the ★ CHAMPIONS ★ ride at the TOP of the
-      // roster — Sir Jaren the Slim and Sir Mih the Goldfih are the
-      // first two cells the picker shows, with every champion's full
-      // name and title on his own tappable cell. v5.0: the roster is
-      // a paged grid, not a scrolling list — six foes at a time, the
-      // knights following the champions in the same order as ever,
-      // PREV / NEXT paging through all of them (see pickOrdered).
+      // v5.7: the grid below holds ONLY the ★ CHAMPIONS ★ — Sir
+      // Jaren the Slim, Sir Mih the Goldfih and the rest, each with
+      // his full name and title on his own tappable cell, six at a
+      // time with PREV / NEXT paging (see pickOrdered). Regular
+      // knights are not listed at all: SURPRISE ME is the only way
+      // to face one, and it draws from REG_POOL only.
       var ORDER = pickOrdered();
       if(typeof pickSrc === 'object' && pickSrc){
         for(var oi=0; oi<ORDER.length; oi++){ if(ORDER[oi].K === pickSrc){ pickPage = Math.floor(oi / PICK_PAGE_SIZE); break; } }
@@ -4886,13 +4910,13 @@
         '<div class="oneScreen practiceFit">' +
         '<div class="kick">PRACTICE · PICK YOUR FOE</div>' +
         '<h2>Choose your foe</h2><div class="rule"></div>' +
-        '<p>Pick any knight or champion by name — or ride against the foe you currently face, or a surprise foe — and choose the rank he rides at. The same knight is a gentle ride at Rank 1 and a terror at Rank 60. The ★ CHAMPIONS ★ sit at the top of the list: Sir Jaren the Slim, Sir Mih the Goldfih and the rest, all pickable.</p>' +
-        '<div class="arenaPicker" role="group" aria-label="Quick foe choices">' +
+        '<p>SURPRISE ME draws a random knight when you ride — never a champion; regular knights can no longer be picked by name. The ★ CHAMPIONS ★ below can still be picked by name, and CURRENT FOE is the knight you face in the tournament. Choose the rank he rides at: a gentle ride at Rank 1, a terror at Rank 60.</p>' +
+        '<div class="arenaPicker" role="group" aria-label="Quick foe choices" style="grid-template-columns:1fr 1fr;">' +
         '<button class="arenaBtn" type="button" data-picksrc="current">CURRENT FOE</button>' +
         '<button class="arenaBtn" type="button" data-picksrc="random">SURPRISE ME</button>' +
-        '<button class="arenaBtn" type="button" id="champJumpBtn">★ CHAMPIONS ★</button>' +
         '</div>' +
-        '<div class="pickList" id="pickGridBox" role="listbox" aria-label="Choose a knight or champion"></div>' +
+        '<div class="menuLabel">★ CHAMPIONS ★ — PICK BY NAME</div>' +
+        '<div class="pickList" id="pickGridBox" role="listbox" aria-label="Choose a champion"></div>' +
         '<div class="pickPager">' +
         '<button class="arenaBtn" type="button" id="pickPrevBtn" aria-label="Previous page of foes">‹ PREV</button>' +
         '<span class="pickPageLabel" id="pickPageLabel"></span>' +
@@ -4917,10 +4941,11 @@
         '<button class="btn ghost" id="pickBackBtn" type="button">BACK</button>' +
         '</div>'
       );
-      // The paged roster: renderPickPage() fills the grid with the
-      // current page's six foes, wires their taps and labels the
-      // pager. Paging wraps at both ends, so the last page is one
-      // PREV tap from the first and the first one NEXT from the last.
+      // The paged champion grid: renderPickPage() fills the grid
+      // with the current page's six champions, wires their taps and
+      // labels the pager. Paging wraps at both ends, so the last
+      // page is one PREV tap from the first and the first one NEXT
+      // from the last.
       function renderPickPage(){
         var box = document.getElementById('pickGridBox');
         if(!box) return;
@@ -4938,13 +4963,6 @@
         paintPracticePick();
       }
       renderPickPage();
-      // The ★ CHAMPIONS ★ quick button: the champions head the
-      // roster, so this brings the grid back to its first page,
-      // where Sir Jaren, Sir Mih and the rest are waiting.
-      var champJump = document.getElementById('champJumpBtn');
-      if(champJump) champJump.addEventListener('click', function(){
-        audio(); pickPage = 0; renderPickPage();
-      });
       var pickPrev = document.getElementById('pickPrevBtn');
       if(pickPrev) pickPrev.addEventListener('click', function(){
         audio(); pickPage = (pickPage - 1 + pickPageCount()) % pickPageCount(); renderPickPage();
@@ -4973,7 +4991,7 @@
         audio();
         if(drawChampionFor(G.foeIndex)) saveProgress();
         var knight;
-        if(pickSrc === 'random'){ var ALL2 = pickAll(); knight = ALL2[(Math.random()*ALL2.length)|0]; }
+        if(pickSrc === 'random'){ knight = REG_POOL[(Math.random()*REG_POOL.length)|0]; } // v5.7: SURPRISE ME draws a regular knight only — never a champion
         else if(pickSrc === 'current') knight = FOES[G.foeIndex];
         else knight = pickSrc;
         // The current foe at your own rank is Practice exactly as it
@@ -5002,6 +5020,7 @@
         (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
         foeHeraldHtml(foe) +
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
+        champQuoteHtml(foe) +
         (practicePicked() ? '<p>' + foe.intro + '</p>' : '') +
         '<p>Unlimited passes to work on your aim — same lance, same shield, same scoring: shield 1 · breast 2 · helm 3. Winning a pass pays 5 coin; no Renown, no ladder bonus, no tournament progress, and an unhorsing either way just means fresh lances for the next pass.</p>' +
         (practicePicked() ? '<p class="small" style="color:#ffe9a8;">Your pick — he rides at <b>Rank ' + (G.practiceRank + 1) + '</b> strength: ' + rankDesc(G.practiceRank) + '</p>' : '') +
@@ -5082,6 +5101,7 @@
         (foe.champ ? '<div class="champBanner">♛ ★ CHAMPION ★ ♛</div>' : '') +
         foeHeraldHtml(foe) +
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
+        champQuoteHtml(foe) +
         '<p>' + foe.intro + '</p>' +
         (first
           ? '<p>Keep riding until you are unhorsed. Beat this foe — unhorse him, or outscore him over five passes — and the rank climbs and a harder foe rides in. Lose on points and you ride on at the same rank; only an unhorsing ends the run.</p>'
@@ -5178,7 +5198,7 @@
       var foe = FOES[G.foeIndex];
       if(el.cineKicker) el.cineKicker.textContent = ladderLabel(G.foeIndex) + ' · ' + currentHouse().name + ' rides';
       if(el.cineName) el.cineName.textContent = 'YOUR KNIGHT';
-      if(el.cineSub) el.cineSub.textContent = 'vs ' + foe.name + ', ' + foe.title + (foe.champ ? ' — ★ CHAMPION ★' : '');
+      if(el.cineSub) el.cineSub.innerHTML = 'vs ' + foe.name + ', ' + foe.title + (foe.champ ? ' — ★ CHAMPION ★' : '') + ((foe.champ && foe.quote) ? '<div class="cineQuote">&ldquo;' + foe.quote + '&rdquo;</div>' : '');
       // first-person gear rides on the camera — hide it for the orbit
       fpHorse.visible = false; fpShield.visible = false; fpLancePivot.visible = false; lanceShadow.visible = false;
       sfxNeigh();
@@ -5234,11 +5254,21 @@
         '<h2>' + foe.name + '</h2><div class="foeLine">' + foe.title + (foe.champ ? ' · <b style="color:#ffe9a8">CHAMPION</b>' : '') + '</div><div class="rule"></div>' +
         (foe.champ ? '<p class="champNote">This is a <b>CHAMPION</b> — the last knight of Round ' + roundNo(G.foeIndex) + '. You beat four knights to reach him; beat him to clear the round. Champions ride faster, aim truer and hit harder than any knight before them.</p>' : '') +
         '<div class="foeLine">You ride for <b style="color:#ffe9a8">' + currentHouse().name + '</b> — ' + currentHouse().colName + ', sigil: ' + currentHouse().sigilName + '.</div>' +
+        champQuoteHtml(foe) +
         '<p>' + foeIntroText(G.foeIndex) + '</p>' +
         '<button class="btn" id="chargeBtn" type="button">TO THE CHARGE</button>' +
         '<button class="btn ghost" data-exitmenu type="button">EXIT TO MENU</button>'
       );
       document.getElementById('chargeBtn').addEventListener('click', function(){ audio(); startPass(); });
+    }
+    // v5.8: a champion's quote/taunt, spoken before the match —
+    // shown on his intro card in every mode that faces him
+    // (tournament, a Practice champion pick, an Endless champion
+    // draw). A LAN foe is a friend, not a champion, so no quote
+    // rides there.
+    function champQuoteHtml(foe){
+      if(!foe || !foe.champ || !foe.quote) return '';
+      return '<div class="champQuote">&ldquo;' + foe.quote + '&rdquo;<span class="champQuoteBy">— ' + foe.name + ' ' + foe.title + '</span></div>';
     }
     function foeIntroText(i){
       if(FOES[i] && FOES[i].intro) return FOES[i].intro;
